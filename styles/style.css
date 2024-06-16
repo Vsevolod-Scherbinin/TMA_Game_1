@@ -1,0 +1,16 @@
+@import url(../vendor/normalize.css);
+@import url(../vendor/fonts/fonts.css);
+
+@import url(../blocks/page/page.css);
+@import url(../blocks/page/__overlay/page__overlay.css);
+
+@import url(../blocks/mainScreen/mainScreen.css);
+@import url(../blocks/mainScreen/__name/mainScreen__name.css);
+@import url(../blocks/mainScreen/__score/mainScreen__score.css);
+@import url(../blocks/mainScreen/__button/mainScreen__button.css);
+
+@import url(../blocks/navigation/navigation.css);
+@import url(../blocks/navigation/__mainScreen/navigation__mainScreen.css);
+@import url(../blocks/navigation/__boosters/navigation__boosters.css);
+@import url(../blocks/navigation/__tasks/navigation__tasks.css);
+@import url(../blocks/navigation/__achievement/navigation__achievement.css);

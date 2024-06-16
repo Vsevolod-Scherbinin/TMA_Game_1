@@ -1,0 +1,13 @@
+.page__overlay {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /* background: -webkit-gradient(linear, left top, left bottom, color-stop(16.32%, #593DAB), color-stop(88.87%, #1F133B));
+  background: -o-linear-gradient(top, #593DAB 16.32%, #1F133B 88.87%); */
+  background: linear-gradient(180deg, #593DAB 50%, #1F133B 50%);
+}
