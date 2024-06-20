@@ -5,5 +5,6 @@ function clickCounter () {
 
 btnMain.addEventListener('click', clickCounter);
 
-nameField.textContent = TMA.initDataUnsafe.user.username;
+nameField.textContent = TMA.initDataUnsafe.user.first_name;
+testField.textContent = TMA.initData;
 console.log(TMA);
