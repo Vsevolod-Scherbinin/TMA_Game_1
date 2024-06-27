@@ -6,11 +6,14 @@
 
 @import url(../blocks/mainScreen/mainScreen.css);
 @import url(../blocks/mainScreen/__name/mainScreen__name.css);
+@import url(../blocks/mainScreen/__test/mainScreen__test.css);
 @import url(../blocks/mainScreen/__score/mainScreen__score.css);
 @import url(../blocks/mainScreen/__button/mainScreen__button.css);
 
 @import url(../blocks/navigation/navigation.css);
-@import url(../blocks/navigation/__mainScreen/navigation__mainScreen.css);
-@import url(../blocks/navigation/__boosters/navigation__boosters.css);
-@import url(../blocks/navigation/__tasks/navigation__tasks.css);
-@import url(../blocks/navigation/__achievement/navigation__achievement.css);
+@import url(../blocks/navigation/__button/navigation__button.css);
+@import url(../blocks/navigation/__button/_type/navigation__button_type_mainScreen.css);
+@import url(../blocks/navigation/__button/_type/navigation__button_type_boosters.css);
+@import url(../blocks/navigation/__button/_type/navigation__button_type_tasks.css);
+@import url(../blocks/navigation/__button/_type/navigation__button_type_achievement.css);
+@import url(../blocks/navigation/__btnName/navigation__btnName.css);
