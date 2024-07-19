@@ -4,13 +4,27 @@
 @import url(../blocks/page/page.css);
 @import url(../blocks/page/__overlay/page__overlay.css);
 
+@import url(../blocks/screen/screen.css);
+@import url(../blocks/screen/_active/screen_active.css);
+
 @import url(../blocks/mainScreen/mainScreen.css);
+@import url(../blocks/mainScreen/__title/mainScreen__title.css);
 @import url(../blocks/mainScreen/__name/mainScreen__name.css);
 @import url(../blocks/mainScreen/__test/mainScreen__test.css);
 @import url(../blocks/mainScreen/__score/mainScreen__score.css);
 @import url(../blocks/mainScreen/__button/mainScreen__button.css);
 
+@import url(../blocks/boostersScreen/boostersScreen.css);
+@import url(../blocks/boostersScreen/__title/boostersScreen__title.css);
+
+@import url(../blocks/tasksScreen/tasksScreen.css);
+@import url(../blocks/tasksScreen/__title/tasksScreen__title.css);
+
+@import url(../blocks/achievementsScreen/achievementsScreen.css);
+@import url(../blocks/achievementsScreen/__title/achievementsScreen__title.css);
+
 @import url(../blocks/navigation/navigation.css);
+@import url(../blocks/navigation/__input/navigation__input.css);
 @import url(../blocks/navigation/__button/navigation__button.css);
 @import url(../blocks/navigation/__button/_type/navigation__button_type_mainScreen.css);
 @import url(../blocks/navigation/__button/_type/navigation__button_type_boosters.css);

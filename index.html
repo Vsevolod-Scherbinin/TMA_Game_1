@@ -3,29 +3,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles/style.css">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- <script src="https://telegram.org/js/telegram-web-app.js"></script> -->
   <title>Game</title>
 </head>
 <body class="page">
-  <section class="mainScreen">
-    <h1 class="mainScreen__name"></h1>
+  <!-- <p class="mainScreen__test">Test</p> -->
+  <section class="screen mainScreen screen_active">
+    <h1 class="mainScreen__title">MainScreen</h1>
+    <h2 class="mainScreen__name"></h2>
     <p class="mainScreen__test">Test</p>
     <div class="mainScreen__score">0</div>
     <div class="mainScreen__button"></div>
   </section>
+  <section class="screen boostersScreen ">
+    <h1 class="boostersScreen__title">Boosters</h1>
+  </section>
+  <section class="screen tasksScreen">
+    <h1 class="tasksScreen__title">Tasks</h1>
+  </section>
+  <section class="screen achievementsScreen">
+    <h1 class="achievementsScreen__title">Achievements</h1>
+  </section>
   <section class="navigation">
-    <div class="navigation__button navigation__button_type_mainScreen">
-      <p class="navigation__btnName">Main</p>
-    </div>
-    <div class="navigation__button navigation__button_type_boosters">
-      <p class="navigation__btnName">Boosters</p>
-    </div>
-    <div class="navigation__button navigation__button_type_tasks">
-      <p class="navigation__btnName">Tasks</p>
-    </div>
-    <div class="navigation__button navigation__button_type_achievement">
-      <p class="navigation__btnName">Achievements</p>
-    </div>
+    <label class="navigation__button">
+      <input class="navigation__input navigation__button_type_mainScreen" type="radio" id="main" name="screen" value="main" />
+      <span class="navigation__btnName">Main</span>
+    </label>
+    <label class="navigation__button">
+      <input class="navigation__input navigation__button_type_boosters" type="radio" id="boosters" name="screen" value="boosters" />
+      <span class="navigation__btnName">Boosters</span>
+    </label>
+    <label class="navigation__button">
+      <input class="navigation__input navigation__button_type_tasks" type="radio" id="tasks" name="screen" value="tasks" />
+      <span class="navigation__btnName">Tasks</span>
+    </label>
+    <label class="navigation__button">
+      <input class="navigation__input navigation__button_type_achievement" type="radio" id="achievement" name="screen" value="achievement" />
+      <span class="navigation__btnName">Achievements</span>
+    </label>
   </section>
   <script src="./constants/constants.js"></script>
   <script src="./scripts/index.js"></script>

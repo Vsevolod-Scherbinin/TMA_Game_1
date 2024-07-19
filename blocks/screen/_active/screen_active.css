@@ -1,0 +1,5 @@
+.screen_active {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
