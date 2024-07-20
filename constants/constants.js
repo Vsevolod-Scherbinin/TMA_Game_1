@@ -12,8 +12,14 @@ const btnAchievements = document.querySelector('.navigation__button_type_achieve
 // const activeScreen = document.querySelector('.screen_active');
 const mainScreen = document.querySelector('.mainScreen');
 const boostersScreen = document.querySelector('.boostersScreen');
+const boostersField = document.querySelector('.boostersScreen__boostersField');
 const tasksScreen = document.querySelector('.tasksScreen');
 const achievementsScreen = document.querySelector('.achievementsScreen');
+
+const testBtn = document.querySelector('.test');
+const boosterCardTemplate = document.querySelector('#boosterCard').content;
+
+const currentBoosters = [];
 
 let score = 0;  // make condition of loaded data
 let delta = 1;  // make condition of loaded data

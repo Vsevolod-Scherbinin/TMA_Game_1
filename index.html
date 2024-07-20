@@ -8,15 +8,17 @@
 </head>
 <body class="page">
   <!-- <p class="mainScreen__test">Test</p> -->
-  <section class="screen mainScreen screen_active">
+  <section class="screen mainScreen ">
     <h1 class="mainScreen__title">MainScreen</h1>
     <h2 class="mainScreen__name"></h2>
     <p class="mainScreen__test">Test</p>
     <div class="mainScreen__score">0</div>
     <div class="mainScreen__button"></div>
   </section>
-  <section class="screen boostersScreen ">
+  <section class="screen boostersScreen screen_active">
     <h1 class="boostersScreen__title">Boosters</h1>
+    <button class="test">Test</button>
+    <div class="boostersScreen__boostersField"></div>
   </section>
   <section class="screen tasksScreen">
     <h1 class="tasksScreen__title">Tasks</h1>
@@ -42,7 +44,17 @@
       <span class="navigation__btnName">Achievements</span>
     </label>
   </section>
+  <template id="boosterCard">
+    <!-- <button class="boosterCard"></button> -->
+    <div class="boosterCard">
+      <h3 class="boosterCard__name"></h3>
+      <p class="boosterCard__level"></p>
+      <p class="boosterCard__cost"></p>
+      <p class="boosterCard__income"></p>
+    </div>
+  </template>
   <script src="./constants/constants.js"></script>
+  <script src="./constants/boosters.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
 </html>
