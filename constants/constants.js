@@ -2,7 +2,7 @@
 const nameField = document.querySelector('.mainScreen__name');
 const testField = document.querySelector('.mainScreen__test');
 const btnMain = document.querySelector('.mainScreen__button');
-const scoreField = document.querySelector('.mainScreen__score');
+const scoreField = document.querySelectorAll('.score');
 const navSection = document.querySelector('.navigation');
 const btnMainScreen = document.querySelector('.navigation__button_type_mainScreen');
 const btnBoosters = document.querySelector('.navigation__button_type_boosters');
@@ -21,5 +21,5 @@ const boosterCardTemplate = document.querySelector('#boosterCard').content;
 
 const currentBoosters = [];
 
-let score = 0;  // make condition of loaded data
-let delta = 1;  // make condition of loaded data
+// let score = 0;  // make condition of loaded data
+// let delta = 1;  // make condition of loaded data

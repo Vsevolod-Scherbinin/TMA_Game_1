@@ -36,8 +36,8 @@ const boosters = [
     levels: [
       {
         level: 1,
-        cost: 10,
-        income: 15,
+        cost: 12,
+        income: 16,
       },
       {
         level: 2,

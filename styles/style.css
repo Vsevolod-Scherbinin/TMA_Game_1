@@ -38,3 +38,5 @@
 @import url(../blocks/boosterCard/__level/boosterCard__level.css);
 @import url(../blocks/boosterCard/__cost/boosterCard__cost.css);
 @import url(../blocks/boosterCard/__income/boosterCard__income.css);
+
+@import url(../blocks/score/score.css);
