@@ -5,14 +5,15 @@ function scoreRenderer() {
 }
 
 // --------------- User-Start ---------------
+const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
+
 function userDataLoad() {
-  const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
   if(localUserData === null) {
     boosters.forEach((booster) => {
       userData.boosters.push({
         name: booster.name,
         level: 0,
-        // income: 0
+        income: 0
       })
     })
     localStorage.setItem('TMAGameUserData', JSON.stringify(userData));
@@ -28,23 +29,54 @@ function userDataLoad() {
   console.log(userData);
 }
 
-window.onload = (event) => {
-  console.log("Page is loaded");
-  userDataLoad();
-};
-
 function saveUserData() {
   localStorage.setItem('TMAGameUserData', JSON.stringify(userData));
 }
 // --------------- User-End ---------------
 
-function clickCounter () {
+// --------------- Income-Start ---------------
+function clickCounter() {
   userData.score = userData.score + userData.delta;
   scoreRenderer();
   saveUserData();
 }
-
 btnMain.addEventListener('click', clickCounter);
+
+let timer = 0;
+
+const now = new Date();
+console.log(now);
+
+function passiveIncomeCounter() {
+  console.log('Try');
+  if(timer > 5) {
+    // timeCounter();
+    return
+  }
+  userData.score = userData.score + userData.passiveIncome / 60;
+  scoreRenderer();
+  saveUserData();
+  timer++;
+  console.log(timer);
+}
+
+// let passiveIncomeTimer = setInterval(() => {
+//   passiveIncomeCounter();
+//   if(timer > 5) {
+//     clearInterval(passiveIncomeTimer);
+//   }
+// },  1000);
+
+// function timeCounter() {
+//   if(timer > 5) {
+//     clearInterval(passiveIncomeTimer);
+//   }
+// }
+// if(timer > 5) {
+//   clearInterval(passiveIncomeTimer);
+// }
+// --------------- Income-End ---------------
+
 
 // --------------- Purchase-Start ---------------
 // function purchaseBooster(obj) {
@@ -58,8 +90,8 @@ btnMain.addEventListener('click', clickCounter);
 // --------------- Purchase-End ---------------
 
 // --------------- Boosters-Start ---------------
-function boosterFinder(booster, name) {
-  return booster.name === name;
+function boosterCardRenderer(card, level) {
+
 }
 
 // Refresh Card Data and Make Passive Income
@@ -68,53 +100,53 @@ function addBooster(evt) {
   const currentBoosterName = currentBoosterCard.querySelector('.boosterCard__name').textContent;
   const currentBoosterLevels = boosters.find(booster => booster.name === currentBoosterName).levels;
 
-  const userBooster = userData.boosters.find(booster => booster.name === currentBoosterName)
+  const userBooster = userData.boosters.find(booster => booster.name === currentBoosterName);
 
   const currentBooster = currentBoosterLevels.find(level => level.level === userBooster.level+1);
+  const nextBooster = currentBoosterLevels.find(level => level.level === currentBooster.level+1);
+  console.log(currentBooster);
 
   // Refresh Card Data
   if(userData.score > currentBooster.cost) {
     userData.score = userData.score - currentBooster.cost;
     scoreRenderer();
     userBooster.income = currentBooster.income;
+    userData.passiveIncome = userData.passiveIncome + currentBooster.income;
     userBooster.level++;
-    currentBoosterCard.querySelector('.boosterCard__level').textContent = userBooster.level+1;
-
+    currentBoosterCard.querySelector('.boosterCard__level').textContent = `${nextBooster.level} lvl`;
+    currentBoosterCard.querySelector('.boosterCard__cost').textContent = `Cost ${nextBooster.cost}`;
+    currentBoosterCard.querySelector('.boosterCard__income').textContent = `Income ${nextBooster.income}`;
     saveUserData();
   } else {
     console.log('Недостаточно средств');
   }
-  console.log(currentBoosterName);
-  console.log(currentBoosterLevels);
-  console.log(currentBooster.cost);
-
-  console.log(userBooster.level);
-
-
-
-
-  // const boosterCost = boosters.find(booster => booster.name === currentBoosterName).levels
-  // purchase();
 }
 
 function createBoosterCard(elem) {
   const boosterCardElement = boosterCardTemplate.cloneNode(true);
   boosterCardElement.querySelector('.boosterCard__name').textContent = elem.name;
-  boosterCardElement.querySelector('.boosterCard__level').textContent = `${elem.levels[0].level} lvl`;
-  boosterCardElement.querySelector('.boosterCard__cost').textContent = elem.levels[0].cost;
-  boosterCardElement.querySelector('.boosterCard__income').textContent = elem.levels[0].income;
-  // boosterCardElement.querySelector('.boosterCard__image').src = elem.url;
+
+  const userBooster = userData.boosters.find(booster => booster.name === elem.name);
+  const currentBooster = elem.levels.find(level => level.level === userBooster.level+1);
+
+  if(userBooster.level === 0) {
+    boosterCardElement.querySelector('.boosterCard__level').textContent = `${elem.levels[0].level} lvl`;
+    boosterCardElement.querySelector('.boosterCard__cost').textContent = `Cost ${elem.levels[0].cost}`;
+    boosterCardElement.querySelector('.boosterCard__income').textContent = `Income ${elem.levels[0].income}`;
+    // boosterCardElement.querySelector('.boosterCard__image').src = elem.url;
+  } else {
+    boosterCardElement.querySelector('.boosterCard__level').textContent = `${currentBooster.level} lvl`;
+    boosterCardElement.querySelector('.boosterCard__cost').textContent = `Cost ${currentBooster.cost}`;
+    boosterCardElement.querySelector('.boosterCard__income').textContent = `Income ${currentBooster.income}`;
+  }
+
+
   boosterCardElement.querySelector('.boosterCard').addEventListener('click', addBooster);
 
   return boosterCardElement;
 };
 
-boosters.forEach((elem) => {
-  boostersField.append(createBoosterCard(elem));
-});
-
 function test() {
-  console.log(boosters.find(boosterFinder));
 }
 
 testBtn.addEventListener('click', test);
@@ -150,6 +182,16 @@ btnBoosters.addEventListener('click', screenSwitcher);
 btnTasks.addEventListener('click', screenSwitcher);
 btnAchievements.addEventListener('click', screenSwitcher);
 // --------------- Navigation-End ---------------
+
+window.onload = (event) => {
+  console.log("Page is loaded");
+  userDataLoad();
+  boosters.forEach((elem) => {
+    boostersField.append(createBoosterCard(elem));
+  });
+};
+
+console.log(!window.closed);
 
 // testField.textContent = ``;
 // nameField.textContent = TMA.initDataUnsafe.user.first_name;
