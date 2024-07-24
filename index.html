@@ -8,14 +8,30 @@
 </head>
 <body class="page">
   <!-- <p class="mainScreen__test">Test</p> -->
-  <section class="screen mainScreen ">
-    <h1 class="mainScreen__title">MainScreen</h1>
+  <section class="screen mainScreen screen_active">
+    <!-- <h1 class="mainScreen__title">MainScreen</h1> -->
+    <div class="mainScreen__userBar userBar">
+      <div class="userBar__userProfile">
+        <img src="./images/avatar.png" alt="Аватар" class="userBar__userAvatar">
+        <div class="userBar__text">
+          <h2 class="userBar__userName">Vsevolod</h2>
+          <p class="userBar__userStatus">Status</p>
+        </div>
+      </div>
+      <div class="userBar__userLevel">
+        <p class="userBar__levelTitle">Level</p>
+        <p class="userBar__levelScore"></p>
+        <div class="userBar__progressBar">
+          <div class="userBar__progressBarInner"></div>
+        </div>
+      </div>
+    </div>
     <h2 class="mainScreen__name"></h2>
-    <p class="mainScreen__test">Test</p>
+    <!-- <p class="mainScreen__test">Test</p> -->
     <div class="score mainScreen__score"></div>
-    <div class="mainScreen__button"></div>
+    <img src="./images/main-button.png" alt="Кнопка" class="mainScreen__button">
   </section>
-  <section class="screen boostersScreen screen_active">
+  <section class="screen boostersScreen ">
     <h2 class="boostersScreen__title">Boosters</h2>
     <div class="score boostersScreen__score"></div>
     <button class="test">Test</button>

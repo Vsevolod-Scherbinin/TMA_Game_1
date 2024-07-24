@@ -1,0 +1,5 @@
+.userBar__userProfile {
+  max-height: 48px;
+  display: flex;
+  justify-content: space-between;
+}

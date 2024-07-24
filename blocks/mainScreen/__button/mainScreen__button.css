@@ -1,8 +1,6 @@
 .mainScreen__button {
   margin: 0;
   padding: 0;
-  width: 200px;
-  height: 200px;
-  border: 2px solid black;
-  border-radius: 50%;
+  width: 320px;
+  height: 320px;
 }

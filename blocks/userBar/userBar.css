@@ -1,0 +1,11 @@
+.userBar {
+  margin: 0;
+  padding: 4px;
+  width: 95%;
+  height: 56px;
+  background: #F5F3F433;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
