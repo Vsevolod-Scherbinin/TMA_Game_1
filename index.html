@@ -84,10 +84,24 @@
   <template id="upgradeCard">
     <!-- <button class="upgradeCard"></button> -->
     <div class="upgradeCard">
-      <h3 class="upgradeCard__name"></h3>
-      <p class="upgradeCard__level"></p>
-      <p class="upgradeCard__cost"></p>
-      <p class="upgradeCard__income"></p>
+      <div class="upgradeCard__topArea">
+        <img src="" alt="icon" class="upgradeCard__icon">
+        <div class="upgradeCard__info">
+          <h3 class="upgradeCard__name"></h3>
+          <p class="upgradeCard__text">Effect</p>
+          <div class="upgradeCard__effectArea">
+            <img src="./images/passive-income-icon.png" alt="icon" class="upgradeCard__effectIcon">
+            <p class="upgradeCard__income"></p>
+          </div>
+        </div>
+      </div>
+      <div class="upgradeCard__bottomArea">
+        <p class="upgradeCard__level"></p>
+        <div class="upgradeCard__costArea">
+          <img src="./images/coin.png" alt="Coin" class="upgradeCard__coinIcon">
+          <p class="upgradeCard__cost"></p>
+        </div>
+      </div>
     </div>
   </template>
   <script src="./constants/constants.js"></script>

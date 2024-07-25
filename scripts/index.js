@@ -122,9 +122,9 @@ function addUpgrade(evt) {
     userPassiveUpgrades.income = currentUpgrade.income;
     userData.passiveIncome = userData.passiveIncome + currentUpgrade.income;
     userPassiveUpgrades.level++;
-    currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `${nextUpgrade.level} lvl`;
-    currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `Cost ${nextUpgrade.cost}`;
-    currentUpgradeCard.querySelector('.upgradeCard__income').textContent = `Income ${nextUpgrade.income}`;
+    currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `lvl ${nextUpgrade.level}`;
+    currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `${nextUpgrade.cost}`;
+    currentUpgradeCard.querySelector('.upgradeCard__income').textContent = `+${nextUpgrade.income}`;
     saveUserData();
   } else {
     console.log('Недостаточно средств');
@@ -139,12 +139,12 @@ function addUpgrade(evt) {
 //   const currentUpgrade = elem.levels.find(level => level.level === userPassiveUpgrades.level+1);
 
 //   if(userPassiveUpgrades.level === 0) {
-//     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `${elem.levels[0].level} lvl`;
+//     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${elem.levels[0].level} `;
 //     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${elem.levels[0].cost}`;
 //     upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${elem.levels[0].income}`;
 //     // upgradeCardElement.querySelector('.upgradeCard__image').src = elem.url;
 //   } else {
-//     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `${currentUpgrade.level} lvl`;
+//     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${currentUpgrade.level} `;
 //     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${currentUpgrade.cost}`;
 //     upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${currentUpgrade.income}`;
 //   }
@@ -172,14 +172,14 @@ function createUpgradeCard(elem, upgradesArray) {
   const currentUpgrade = elem.levels.find(level => level.level === userUpgradesArray.level+1);
 
   if(userUpgradesArray.level === 0) {
-    upgradeCardElement.querySelector('.upgradeCard__level').textContent = `${elem.levels[0].level} lvl`;
-    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${elem.levels[0].cost}`;
-    upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${elem.levels[0].income}`;
+    upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${elem.levels[0].level}`;
+    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `${elem.levels[0].cost}`;
+    upgradeCardElement.querySelector('.upgradeCard__income').textContent = `+${elem.levels[0].income}`;
     // upgradeCardElement.querySelector('.upgradeCard__image').src = elem.url;
   } else {
-    upgradeCardElement.querySelector('.upgradeCard__level').textContent = `${currentUpgrade.level} lvl`;
-    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${currentUpgrade.cost}`;
-    upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${currentUpgrade.income}`;
+    upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${currentUpgrade.level}`;
+    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `${currentUpgrade.cost}`;
+    upgradeCardElement.querySelector('.upgradeCard__income').textContent = `+${currentUpgrade.income}`;
   }
   upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', addUpgrade);
   return upgradeCardElement;

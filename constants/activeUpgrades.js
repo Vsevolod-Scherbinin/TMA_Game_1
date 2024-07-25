@@ -1,7 +1,7 @@
 const activeUpgrades = [
   {
     number: 1,
-    name: "Delta upgrade",
+    name: "Delta up",
     levels: [
       {
         level: 1,
@@ -32,7 +32,7 @@ const activeUpgrades = [
   },
   {
     number: 2,
-    name: "Energy upgrade",
+    name: "Energy up",
     levels: [
       {
         level: 1,

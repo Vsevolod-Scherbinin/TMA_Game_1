@@ -2,8 +2,11 @@
   margin: 0;
   padding: 16px;
   height: 367px;
+  box-sizing: border-box;
   visibility: hidden;
   display: none;
   opacity: 0;
   overflow: scroll;
+  scrollbar-width: none;
+  gap: 8px;
 }

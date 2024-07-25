@@ -2,7 +2,6 @@
 @import url(../vendor/fonts/fonts.css);
 
 @import url(../blocks/page/page.css);
-@import url(../blocks/page/__overlay/page__overlay.css);
 
 @import url(../blocks/screen/screen.css);
 @import url(../blocks/screen/_active/screen_active.css);
@@ -31,10 +30,19 @@
 @import url(../blocks/navigation/__btnName/navigation__btnName.css);
 
 @import url(../blocks/upgradeCard/upgradeCard.css);
+@import url(../blocks/upgradeCard/__topArea/upgradeCard__topArea.css);
+@import url(../blocks/upgradeCard/__icon/upgradeCard__icon.css);
+@import url(../blocks/upgradeCard/__info/upgradeCard__info.css);
 @import url(../blocks/upgradeCard/__name/upgradeCard__name.css);
-@import url(../blocks/upgradeCard/__level/upgradeCard__level.css);
-@import url(../blocks/upgradeCard/__cost/upgradeCard__cost.css);
+@import url(../blocks/upgradeCard/__text/upgradeCard__text.css);
+@import url(../blocks/upgradeCard/__effectArea/upgradeCard__effectArea.css);
+@import url(../blocks/upgradeCard/__effectIcon/upgradeCard__effectIcon.css);
 @import url(../blocks/upgradeCard/__income/upgradeCard__income.css);
+@import url(../blocks/upgradeCard/__bottomArea/upgradeCard__bottomArea.css);
+@import url(../blocks/upgradeCard/__level/upgradeCard__level.css);
+@import url(../blocks/upgradeCard/__costArea/upgradeCard__costArea.css);
+@import url(../blocks/upgradeCard/__coinIcon/upgradeCard__coinIcon.css);
+@import url(../blocks/upgradeCard/__cost/upgradeCard__cost.css);
 
 @import url(../blocks/userBar/userBar.css);
 @import url(../blocks/userBar/__progressBar/userBar__progressBar.css);
