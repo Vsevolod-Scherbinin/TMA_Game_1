@@ -61,4 +61,97 @@ const boosters = [
       },
     ],
   },
+  {
+    number: 3,
+    name: "Booster 3",
+    levels: [
+      {
+        level: 1,
+        cost: 12,
+        income: 16,
+      },
+      {
+        level: 2,
+        cost: 20,
+        income: 30,
+      },
+      {
+        level: 3,
+        cost: 30,
+        income: 45,
+      },
+      {
+        level: 4,
+        cost: 40,
+        income: 60,
+      },
+      {
+        level: 5,
+        cost: 50,
+        income: 100,
+      },
+    ],
+  },
+  {
+    number: 4,
+    name: "Booster 4",
+    levels: [
+      {
+        level: 1,
+        cost: 12,
+        income: 16,
+      },
+      {
+        level: 2,
+        cost: 20,
+        income: 30,
+      },
+      {
+        level: 3,
+        cost: 30,
+        income: 45,
+      },
+      {
+        level: 4,
+        cost: 40,
+        income: 60,
+      },
+      {
+        level: 5,
+        cost: 50,
+        income: 100,
+      },
+    ],
+  },
+  {
+    number: 5,
+    name: "Booster 5",
+    levels: [
+      {
+        level: 1,
+        cost: 12,
+        income: 16,
+      },
+      {
+        level: 2,
+        cost: 20,
+        income: 30,
+      },
+      {
+        level: 3,
+        cost: 30,
+        income: 45,
+      },
+      {
+        level: 4,
+        cost: 40,
+        income: 60,
+      },
+      {
+        level: 5,
+        cost: 50,
+        income: 100,
+      },
+    ],
+  },
 ];

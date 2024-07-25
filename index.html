@@ -1,4 +1,4 @@
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,33 +7,48 @@
   <title>Game</title>
 </head>
 <body class="page">
-  <!-- <p class="mainScreen__test">Test</p> -->
-  <section class="screen mainScreen screen_active">
-    <!-- <h1 class="mainScreen__title">MainScreen</h1> -->
-    <div class="mainScreen__userBar userBar">
-      <div class="userBar__userProfile">
-        <img src="./images/avatar.png" alt="Аватар" class="userBar__userAvatar">
-        <div class="userBar__text">
-          <h2 class="userBar__userName">Vsevolod</h2>
-          <p class="userBar__userStatus">Status</p>
-        </div>
-      </div>
-      <div class="userBar__userLevel">
-        <p class="userBar__levelTitle">Level</p>
-        <p class="userBar__levelScore"></p>
-        <div class="userBar__progressBar">
-          <div class="userBar__progressBarInner"></div>
-        </div>
+  <div class="userBar">
+    <div class="userBar__userProfile">
+      <img src="./images/avatar.png" alt="Аватар" class="userBar__userAvatar">
+      <div class="userBar__text">
+        <h2 class="userBar__userName">Username</h2>
+        <p class="userBar__userStatus">Status</p>
       </div>
     </div>
-    <h2 class="mainScreen__name"></h2>
-    <!-- <p class="mainScreen__test">Test</p> -->
-    <div class="score mainScreen__score"></div>
-    <img src="./images/main-button.png" alt="Кнопка" class="mainScreen__button">
+    <div class="userBar__userLevel">
+      <div class="userBar__userLevelScoreArea">
+        <p class="userBar__levelTitle">Level</p>
+        <p class="userBar__levelScore">2/10</p>
+      </div>
+      <div class="userBar__progressBar">
+        <div class="userBar__progressBarInner"></div>
+      </div>
+    </div>
+  </div>
+  <!-- <section class="mainScreen screen_active"> -->
+
+    <!-- <h2 class="mainScreen__name"></h2> -->
+  <div class="scoreArea">
+    <img src="./images/coin.png" alt="Coin" class="scoreArea__icon">
+    <div class="scoreArea__score"></div>
+  </div>
+  <div class="passiveIncome">
+    <p class="passiveIncome__text">Income/hour</p>
+    <img src="./images/coin.png" alt="Coin" class="passiveIncome__icon">
+    <div class="passiveIncome__score">+100</div>
+  </div>
+  <section class="screen mainScreen screen_active">
+    <img src="./images/main-button.png" alt="Button" class="mainScreen__button">
+    <div class="energyArea">
+      <img src="./images/energy-icon.png" alt="Energy" class="energyArea__icon">
+      <p class="energyArea__score">1900</p>
+      <p class="energyArea__slash">/</p>
+      <p class="energyArea__max">2000</p>
+    </div>
   </section>
+  <!-- </section> -->
   <section class="screen boostersScreen ">
     <h2 class="boostersScreen__title">Boosters</h2>
-    <div class="score boostersScreen__score"></div>
     <button class="test">Test</button>
     <div class="boostersScreen__boostersField"></div>
   </section>
@@ -45,19 +60,23 @@
   </section>
   <section class="navigation">
     <label class="navigation__button">
-      <input class="navigation__input navigation__button_type_mainScreen" type="radio" id="main" name="screen" value="main" />
+      <input class="navigation__input navigation__button_type_main" type="radio" id="main" name="screen" value="main" checked/>
+      <img src="./images/mainscreen-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_main">
       <span class="navigation__btnName">Main</span>
     </label>
     <label class="navigation__button">
       <input class="navigation__input navigation__button_type_boosters" type="radio" id="boosters" name="screen" value="boosters" />
+      <img src="./images/upgrade-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_boosters">
       <span class="navigation__btnName">Boosters</span>
     </label>
     <label class="navigation__button">
       <input class="navigation__input navigation__button_type_tasks" type="radio" id="tasks" name="screen" value="tasks" />
-      <span class="navigation__btnName">Tasks</span>
+      <img src="./images/friends-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_tasks">
+      <span class="navigation__btnName">Friends</span>
     </label>
     <label class="navigation__button">
       <input class="navigation__input navigation__button_type_achievement" type="radio" id="achievement" name="screen" value="achievement" />
+      <img src="./images/achievements-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_achievements">
       <span class="navigation__btnName">Achievements</span>
     </label>
   </section>

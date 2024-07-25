@@ -127,6 +127,17 @@ function createBoosterCard(elem) {
   boosterCardElement.querySelector('.boosterCard__name').textContent = elem.name;
 
   const userBooster = userData.boosters.find(booster => booster.name === elem.name);
+  if(userBooster === undefined) {
+    // Add new booster to user object
+
+    // boosters.forEach((booster) => {
+    //   userData.boosters.push({
+    //     name: booster.name,
+    //     level: 0,
+    //     income: 0
+    //   })
+    // })
+  }
   const currentBooster = elem.levels.find(level => level.level === userBooster.level+1);
 
   if(userBooster.level === 0) {
@@ -155,24 +166,36 @@ testBtn.addEventListener('click', test);
 // --------------- Navigation-Start ---------------
 function screenSwitcher() {
   if(btnMainScreen.checked) {
-    console.log('Main');
-    testField.textContent = btnMainScreen.parentElement.querySelector('.navigation__btnName').textContent;
+    // console.log('Main');
     document.querySelector('.screen_active').classList.remove('screen_active');
+    btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-active.png';
+    btnBoosters.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
+    btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-inactive.png';
+    btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-inactive.png';
     mainScreen.classList.add('screen_active');
   } else if (btnBoosters.checked) {
-    console.log('Boosters');
-    testField.textContent = btnBoosters.parentElement.querySelector('.navigation__btnName').textContent;
+    // console.log('Boosters');
     document.querySelector('.screen_active').classList.remove('screen_active');
+    btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
+    btnBoosters.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-active.png';
+    btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-inactive.png';
+    btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-inactive.png';
     boostersScreen.classList.add('screen_active');
   } else if (btnTasks.checked) {
-    console.log('Tasks');
-    testField.textContent = btnTasks.parentElement.querySelector('.navigation__btnName').textContent;
+    // console.log('Tasks');
     document.querySelector('.screen_active').classList.remove('screen_active');
+    btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
+    btnBoosters.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
+    btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-active.png';
+    btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-inactive.png';
     tasksScreen.classList.add('screen_active');
   } else if (btnAchievements.checked) {
-    console.log('Achieve');
-    testField.textContent = btnAchievements.parentElement.querySelector('.navigation__btnName').textContent;
+    // console.log('Achieve');
     document.querySelector('.screen_active').classList.remove('screen_active');
+    btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
+    btnBoosters.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
+    btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-inactive.png';
+    btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-active.png';
     achievementsScreen.classList.add('screen_active');
   }
 }
@@ -193,7 +216,5 @@ window.onload = (event) => {
 
 console.log(!window.closed);
 
-// testField.textContent = ``;
 // nameField.textContent = TMA.initDataUnsafe.user.first_name;
-// testField.textContent = TMA.initData;
 // console.log(TMA);

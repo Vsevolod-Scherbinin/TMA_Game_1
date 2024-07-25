@@ -1,10 +1,9 @@
 // const TMA = window.Telegram.WebApp;
-const nameField = document.querySelector('.mainScreen__name');
-const testField = document.querySelector('.mainScreen__test');
+const nameField = document.querySelector('.userBar__userName');
 const btnMain = document.querySelector('.mainScreen__button');
-const scoreField = document.querySelectorAll('.score');
+const scoreField = document.querySelectorAll('.scoreArea__score');
 const navSection = document.querySelector('.navigation');
-const btnMainScreen = document.querySelector('.navigation__button_type_mainScreen');
+const btnMainScreen = document.querySelector('.navigation__button_type_main');
 const btnBoosters = document.querySelector('.navigation__button_type_boosters');
 const btnTasks = document.querySelector('.navigation__button_type_tasks');
 const btnAchievements = document.querySelector('.navigation__button_type_achievement');

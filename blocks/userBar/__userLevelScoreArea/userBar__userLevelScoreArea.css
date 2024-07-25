@@ -1,7 +1,7 @@
-.userBar__userProfile {
+.userBar__userLevelScoreArea {
   margin: 0;
   padding: 0;
-  max-height: 48px;
   display: flex;
   justify-content: space-between;
+  gap: 4px;
 }

@@ -1,12 +1,7 @@
 .screen {
   margin: 0;
   padding: 16px;
-  height: 80%;
-  width: 90%;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
+  height: 367px;
   visibility: hidden;
   display: none;
   opacity: 0;

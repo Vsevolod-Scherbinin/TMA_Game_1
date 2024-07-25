@@ -8,9 +8,6 @@
 @import url(../blocks/screen/_active/screen_active.css);
 
 @import url(../blocks/mainScreen/mainScreen.css);
-@import url(../blocks/mainScreen/__title/mainScreen__title.css);
-@import url(../blocks/mainScreen/__name/mainScreen__name.css);
-@import url(../blocks/mainScreen/__test/mainScreen__test.css);
 @import url(../blocks/mainScreen/__score/mainScreen__score.css);
 @import url(../blocks/mainScreen/__button/mainScreen__button.css);
 
@@ -27,10 +24,10 @@
 @import url(../blocks/navigation/navigation.css);
 @import url(../blocks/navigation/__input/navigation__input.css);
 @import url(../blocks/navigation/__button/navigation__button.css);
-@import url(../blocks/navigation/__button/_type/navigation__button_type_mainScreen.css);
+@import url(../blocks/navigation/__button/_type/navigation__button_type_main.css);
 @import url(../blocks/navigation/__button/_type/navigation__button_type_boosters.css);
 @import url(../blocks/navigation/__button/_type/navigation__button_type_tasks.css);
-@import url(../blocks/navigation/__button/_type/navigation__button_type_achievement.css);
+@import url(../blocks/navigation/__button/_type/navigation__button_type_achievements.css);
 @import url(../blocks/navigation/__btnName/navigation__btnName.css);
 
 @import url(../blocks/boosterCard/boosterCard.css);
@@ -39,12 +36,11 @@
 @import url(../blocks/boosterCard/__cost/boosterCard__cost.css);
 @import url(../blocks/boosterCard/__income/boosterCard__income.css);
 
-@import url(../blocks/score/score.css);
-
 @import url(../blocks/userBar/userBar.css);
 @import url(../blocks/userBar/__progressBar/userBar__progressBar.css);
 @import url(../blocks/userBar/__progressBarInner/userBar__progressBarInner.css);
 @import url(../blocks/userBar/__userLevel/userBar__userLevel.css);
+@import url(../blocks/userBar/__userLevelScoreArea/userBar__userLevelScoreArea.css);
 @import url(../blocks/userBar/__levelScore/userBar__levelScore.css);
 @import url(../blocks/userBar/__userStatus/userBar__userStatus.css);
 @import url(../blocks/userBar/__userName/userBar__userName.css);
@@ -52,3 +48,18 @@
 @import url(../blocks/userBar/__userProfile/userBar__userProfile.css);
 @import url(../blocks/userBar/__levelTitle/userBar__levelTitle.css);
 @import url(../blocks/userBar/__text/userBar__text.css);
+
+@import url(../blocks/scoreArea/scoreArea.css);
+@import url(../blocks/scoreArea/__icon/scoreArea__icon.css);
+@import url(../blocks/scoreArea/__score/scoreArea__score.css);
+
+@import url(../blocks/passiveIncome/passiveIncome.css);
+@import url(../blocks/passiveIncome/__text/passiveIncome__text.css);
+@import url(../blocks/passiveIncome/__icon/passiveIncome__icon.css);
+@import url(../blocks/passiveIncome/__score/passiveIncome__score.css);
+
+@import url(../blocks/energyArea/energyArea.css);
+@import url(../blocks/energyArea/__icon/energyArea__icon.css);
+@import url(../blocks/energyArea/__score/energyArea__score.css);
+@import url(../blocks/energyArea/__slash/energyArea__slash.css);
+@import url(../blocks/energyArea/__max/energyArea__max.css);
