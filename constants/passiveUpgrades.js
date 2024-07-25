@@ -1,4 +1,4 @@
-const upgrades = [
+const passiveUpgrades = [
   {
     number: 1,
     name: "Upgrade 1",

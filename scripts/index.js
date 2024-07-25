@@ -10,8 +10,16 @@ const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
 function userDataLoad() {
   if(localUserData === null) {
 
-    upgrades.forEach((upgrade) => {
-      userData.upgrades.push({
+    activeUpgrades.forEach((upgrade) => {
+      userData.activeUpgrades.push({
+        name: upgrade.name,
+        level: 0,
+        income: 0
+      })
+    })
+
+    passiveUpgrades.forEach((upgrade) => {
+      userData.passiveUpgrades.push({
         name: upgrade.name,
         level: 0,
         income: 0
@@ -99,11 +107,11 @@ function upgradeCardRenderer(card, level) {
 function addUpgrade(evt) {
   const currentUpgradeCard = evt.target.closest('.upgradeCard');
   const currentUpgradeName = currentUpgradeCard.querySelector('.upgradeCard__name').textContent;
-  const currentUpgradeLevels = upgrades.find(upgrade => upgrade.name === currentUpgradeName).levels;
+  const currentUpgradeLevels = passiveUpgrades.find(upgrade => upgrade.name === currentUpgradeName).levels;
 
-  const userUpgrade = userData.upgrades.find(upgrade => upgrade.name === currentUpgradeName);
+  const userPassiveUpgrades = userData.passiveUpgrades.find(upgrade => upgrade.name === currentUpgradeName);
 
-  const currentUpgrade = currentUpgradeLevels.find(level => level.level === userUpgrade.level+1);
+  const currentUpgrade = currentUpgradeLevels.find(level => level.level === userPassiveUpgrades.level+1);
   const nextUpgrade = currentUpgradeLevels.find(level => level.level === currentUpgrade.level+1);
   console.log(currentUpgrade);
 
@@ -111,9 +119,9 @@ function addUpgrade(evt) {
   if(userData.score > currentUpgrade.cost) {
     userData.score = userData.score - currentUpgrade.cost;
     scoreRenderer();
-    userUpgrade.income = currentUpgrade.income;
+    userPassiveUpgrades.income = currentUpgrade.income;
     userData.passiveIncome = userData.passiveIncome + currentUpgrade.income;
-    userUpgrade.level++;
+    userPassiveUpgrades.level++;
     currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `${nextUpgrade.level} lvl`;
     currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `Cost ${nextUpgrade.cost}`;
     currentUpgradeCard.querySelector('.upgradeCard__income').textContent = `Income ${nextUpgrade.income}`;
@@ -123,25 +131,47 @@ function addUpgrade(evt) {
   }
 }
 
-function createUpgradeCard(elem) {
+// function createUpgradeCard(elem) {
+//   const upgradeCardElement = upgradeCardTemplate.cloneNode(true);
+//   upgradeCardElement.querySelector('.upgradeCard__name').textContent = elem.name;
+//   const userPassiveUpgrades = userData.passiveUpgrades.find(upgrade => upgrade.name === elem.name);
+
+//   const currentUpgrade = elem.levels.find(level => level.level === userPassiveUpgrades.level+1);
+
+//   if(userPassiveUpgrades.level === 0) {
+//     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `${elem.levels[0].level} lvl`;
+//     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${elem.levels[0].cost}`;
+//     upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${elem.levels[0].income}`;
+//     // upgradeCardElement.querySelector('.upgradeCard__image').src = elem.url;
+//   } else {
+//     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `${currentUpgrade.level} lvl`;
+//     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${currentUpgrade.cost}`;
+//     upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${currentUpgrade.income}`;
+//   }
+//   upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', addUpgrade);
+//   return upgradeCardElement;
+// };
+
+  // if(userPassiveUpgrades === undefined) {
+  //   // Add new upgrade to user object
+
+  //   // passiveUpgrades.forEach((upgrade) => {
+  //   //   userData.passiveUpgrades.push({
+  //   //     name: upgrade.name,
+  //   //     level: 0,
+  //   //     income: 0
+  //   //   })
+  //   // })
+  // }
+
+function createUpgradeCard(elem, upgradesArray) {
   const upgradeCardElement = upgradeCardTemplate.cloneNode(true);
   upgradeCardElement.querySelector('.upgradeCard__name').textContent = elem.name;
-  console.log(userData.upgrades);
-  const userUpgrade = userData.upgrades.find(upgrade => upgrade.name === elem.name);
-  if(userUpgrade === undefined) {
-    // Add new upgrade to user object
+  const userUpgradesArray = userData[upgradesArray].find(upgrade => upgrade.name === elem.name);
 
-    // upgrades.forEach((upgrade) => {
-    //   userData.upgrades.push({
-    //     name: upgrade.name,
-    //     level: 0,
-    //     income: 0
-    //   })
-    // })
-  }
-  const currentUpgrade = elem.levels.find(level => level.level === userUpgrade.level+1);
+  const currentUpgrade = elem.levels.find(level => level.level === userUpgradesArray.level+1);
 
-  if(userUpgrade.level === 0) {
+  if(userUpgradesArray.level === 0) {
     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `${elem.levels[0].level} lvl`;
     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${elem.levels[0].cost}`;
     upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${elem.levels[0].income}`;
@@ -151,10 +181,7 @@ function createUpgradeCard(elem) {
     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${currentUpgrade.cost}`;
     upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${currentUpgrade.income}`;
   }
-
-
   upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', addUpgrade);
-
   return upgradeCardElement;
 };
 
@@ -209,9 +236,13 @@ window.onload = (event) => {
   console.log("Page is loaded");
   screenSwitcher();
   userDataLoad();
-  upgrades.forEach((elem) => {
-    upgradesField.append(createUpgradeCard(elem));
+  activeUpgrades.forEach((elem) => {
+    activeUpgradesField.append(createUpgradeCard(elem, 'activeUpgrades'));
   });
+  passiveUpgrades.forEach((elem) => {
+    passiveUpgradesField.append(createUpgradeCard(elem, 'passiveUpgrades'));
+  });
+
 };
 
 console.log(!window.closed);

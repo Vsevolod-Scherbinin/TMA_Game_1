@@ -11,7 +11,10 @@ const btnAchievements = document.querySelector('.navigation__button_type_achieve
 // const activeScreen = document.querySelector('.screen_active');
 const mainScreen = document.querySelector('.mainScreen');
 const upgradesScreen = document.querySelector('.upgradesScreen');
-const upgradesField = document.querySelector('.upgradesScreen__upgradesField');
+const passiveUpgradesField = document.querySelector('.upgradesScreen__upgradesField_type_passive');
+const activeUpgradesField = document.querySelector('.upgradesScreen__upgradesField_type_active')
+
+
 const tasksScreen = document.querySelector('.tasksScreen');
 const achievementsScreen = document.querySelector('.achievementsScreen');
 

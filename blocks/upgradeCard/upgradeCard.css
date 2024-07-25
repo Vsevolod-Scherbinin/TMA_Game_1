@@ -1,9 +1,9 @@
 .upgradeCard {
   margin: 0;
-  padding: 0;
-  width: 150px;
-  height: 100px;
-  border: 1px solid black;
+  padding: 4px;
+  width: 172px;
+  height: 96px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
