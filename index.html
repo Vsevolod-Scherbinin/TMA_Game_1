@@ -47,10 +47,11 @@
     </div>
   </section>
   <!-- </section> -->
-  <section class="screen boostersScreen ">
-    <h2 class="boostersScreen__title">Boosters</h2>
-    <button class="test">Test</button>
-    <div class="boostersScreen__boostersField"></div>
+  <section class="screen upgradesScreen ">
+    <h2 class="upgradesScreen__title upgradesScreen__title_type_active">Active income</h2>
+    <div class="upgradesScreen__upgradesField upgradesScreen__upgradesField_type_active"></div>
+    <h2 class="upgradesScreen__title upgradesScreen__title_type_passive">Passive income</h2>
+    <div class="upgradesScreen__upgradesField upgradesScreen__upgradesField_type_passive"></div>
   </section>
   <section class="screen tasksScreen">
     <h1 class="tasksScreen__title">Tasks</h1>
@@ -65,9 +66,9 @@
       <span class="navigation__btnName">Main</span>
     </label>
     <label class="navigation__button">
-      <input class="navigation__input navigation__button_type_boosters" type="radio" id="boosters" name="screen" value="boosters" />
-      <img src="./images/upgrade-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_boosters">
-      <span class="navigation__btnName">Boosters</span>
+      <input class="navigation__input navigation__button_type_upgrades" type="radio" id="upgrades" name="screen" value="upgrades" />
+      <img src="./images/upgrade-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_upgrades">
+      <span class="navigation__btnName">Upgrades</span>
     </label>
     <label class="navigation__button">
       <input class="navigation__input navigation__button_type_tasks" type="radio" id="tasks" name="screen" value="tasks" />
@@ -80,18 +81,18 @@
       <span class="navigation__btnName">Achievements</span>
     </label>
   </section>
-  <template id="boosterCard">
-    <!-- <button class="boosterCard"></button> -->
-    <div class="boosterCard">
-      <h3 class="boosterCard__name"></h3>
-      <p class="boosterCard__level"></p>
-      <p class="boosterCard__cost"></p>
-      <p class="boosterCard__income"></p>
+  <template id="upgradeCard">
+    <!-- <button class="upgradeCard"></button> -->
+    <div class="upgradeCard">
+      <h3 class="upgradeCard__name"></h3>
+      <p class="upgradeCard__level"></p>
+      <p class="upgradeCard__cost"></p>
+      <p class="upgradeCard__income"></p>
     </div>
   </template>
   <script src="./constants/constants.js"></script>
   <script src="./constants/userData.js"></script>
-  <script src="./constants/boosters.js"></script>
+  <script src="./constants/upgrades.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
 </html>

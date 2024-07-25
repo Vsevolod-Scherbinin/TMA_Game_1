@@ -11,9 +11,9 @@
 @import url(../blocks/mainScreen/__score/mainScreen__score.css);
 @import url(../blocks/mainScreen/__button/mainScreen__button.css);
 
-@import url(../blocks/boostersScreen/boostersScreen.css);
-@import url(../blocks/boostersScreen/__title/boostersScreen__title.css);
-@import url(../blocks/boostersScreen/__boostersField/boostersScreen__boostersField.css);
+@import url(../blocks/upgradesScreen/upgradesScreen.css);
+@import url(../blocks/upgradesScreen/__title/upgradesScreen__title.css);
+@import url(../blocks/upgradesScreen/__upgradesField/upgradesScreen__upgradesField.css);
 
 @import url(../blocks/tasksScreen/tasksScreen.css);
 @import url(../blocks/tasksScreen/__title/tasksScreen__title.css);
@@ -25,16 +25,16 @@
 @import url(../blocks/navigation/__input/navigation__input.css);
 @import url(../blocks/navigation/__button/navigation__button.css);
 @import url(../blocks/navigation/__button/_type/navigation__button_type_main.css);
-@import url(../blocks/navigation/__button/_type/navigation__button_type_boosters.css);
+@import url(../blocks/navigation/__button/_type/navigation__button_type_upgrades.css);
 @import url(../blocks/navigation/__button/_type/navigation__button_type_tasks.css);
 @import url(../blocks/navigation/__button/_type/navigation__button_type_achievements.css);
 @import url(../blocks/navigation/__btnName/navigation__btnName.css);
 
-@import url(../blocks/boosterCard/boosterCard.css);
-@import url(../blocks/boosterCard/__name/boosterCard__name.css);
-@import url(../blocks/boosterCard/__level/boosterCard__level.css);
-@import url(../blocks/boosterCard/__cost/boosterCard__cost.css);
-@import url(../blocks/boosterCard/__income/boosterCard__income.css);
+@import url(../blocks/upgradeCard/upgradeCard.css);
+@import url(../blocks/upgradeCard/__name/upgradeCard__name.css);
+@import url(../blocks/upgradeCard/__level/upgradeCard__level.css);
+@import url(../blocks/upgradeCard/__cost/upgradeCard__cost.css);
+@import url(../blocks/upgradeCard/__income/upgradeCard__income.css);
 
 @import url(../blocks/userBar/userBar.css);
 @import url(../blocks/userBar/__progressBar/userBar__progressBar.css);

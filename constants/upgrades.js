@@ -1,7 +1,7 @@
-const boosters = [
+const upgrades = [
   {
     number: 1,
-    name: "Booster 1",
+    name: "Upgrade 1",
     levels: [
       {
         level: 1,
@@ -32,7 +32,7 @@ const boosters = [
   },
   {
     number: 2,
-    name: "Booster 2",
+    name: "Upgrade 2",
     levels: [
       {
         level: 1,
@@ -63,7 +63,7 @@ const boosters = [
   },
   {
     number: 3,
-    name: "Booster 3",
+    name: "Upgrade 3",
     levels: [
       {
         level: 1,
@@ -94,7 +94,7 @@ const boosters = [
   },
   {
     number: 4,
-    name: "Booster 4",
+    name: "Upgrade 4",
     levels: [
       {
         level: 1,
@@ -125,7 +125,7 @@ const boosters = [
   },
   {
     number: 5,
-    name: "Booster 5",
+    name: "Upgrade 5",
     levels: [
       {
         level: 1,

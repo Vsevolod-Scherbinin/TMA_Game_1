@@ -9,9 +9,10 @@ const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
 
 function userDataLoad() {
   if(localUserData === null) {
-    boosters.forEach((booster) => {
-      userData.boosters.push({
-        name: booster.name,
+
+    upgrades.forEach((upgrade) => {
+      userData.upgrades.push({
+        name: upgrade.name,
         level: 0,
         income: 0
       })
@@ -79,7 +80,7 @@ function passiveIncomeCounter() {
 
 
 // --------------- Purchase-Start ---------------
-// function purchaseBooster(obj) {
+// function purchaseUpgrade(obj) {
 //   if(score > obj.cost) {
 
 //     console.log('Purchase OK!');
@@ -89,79 +90,77 @@ function passiveIncomeCounter() {
 // }
 // --------------- Purchase-End ---------------
 
-// --------------- Boosters-Start ---------------
-function boosterCardRenderer(card, level) {
+// --------------- Upgrades-Start ---------------
+function upgradeCardRenderer(card, level) {
 
 }
 
 // Refresh Card Data and Make Passive Income
-function addBooster(evt) {
-  const currentBoosterCard = evt.target.closest('.boosterCard');
-  const currentBoosterName = currentBoosterCard.querySelector('.boosterCard__name').textContent;
-  const currentBoosterLevels = boosters.find(booster => booster.name === currentBoosterName).levels;
+function addUpgrade(evt) {
+  const currentUpgradeCard = evt.target.closest('.upgradeCard');
+  const currentUpgradeName = currentUpgradeCard.querySelector('.upgradeCard__name').textContent;
+  const currentUpgradeLevels = upgrades.find(upgrade => upgrade.name === currentUpgradeName).levels;
 
-  const userBooster = userData.boosters.find(booster => booster.name === currentBoosterName);
+  const userUpgrade = userData.upgrades.find(upgrade => upgrade.name === currentUpgradeName);
 
-  const currentBooster = currentBoosterLevels.find(level => level.level === userBooster.level+1);
-  const nextBooster = currentBoosterLevels.find(level => level.level === currentBooster.level+1);
-  console.log(currentBooster);
+  const currentUpgrade = currentUpgradeLevels.find(level => level.level === userUpgrade.level+1);
+  const nextUpgrade = currentUpgradeLevels.find(level => level.level === currentUpgrade.level+1);
+  console.log(currentUpgrade);
 
   // Refresh Card Data
-  if(userData.score > currentBooster.cost) {
-    userData.score = userData.score - currentBooster.cost;
+  if(userData.score > currentUpgrade.cost) {
+    userData.score = userData.score - currentUpgrade.cost;
     scoreRenderer();
-    userBooster.income = currentBooster.income;
-    userData.passiveIncome = userData.passiveIncome + currentBooster.income;
-    userBooster.level++;
-    currentBoosterCard.querySelector('.boosterCard__level').textContent = `${nextBooster.level} lvl`;
-    currentBoosterCard.querySelector('.boosterCard__cost').textContent = `Cost ${nextBooster.cost}`;
-    currentBoosterCard.querySelector('.boosterCard__income').textContent = `Income ${nextBooster.income}`;
+    userUpgrade.income = currentUpgrade.income;
+    userData.passiveIncome = userData.passiveIncome + currentUpgrade.income;
+    userUpgrade.level++;
+    currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `${nextUpgrade.level} lvl`;
+    currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `Cost ${nextUpgrade.cost}`;
+    currentUpgradeCard.querySelector('.upgradeCard__income').textContent = `Income ${nextUpgrade.income}`;
     saveUserData();
   } else {
     console.log('Недостаточно средств');
   }
 }
 
-function createBoosterCard(elem) {
-  const boosterCardElement = boosterCardTemplate.cloneNode(true);
-  boosterCardElement.querySelector('.boosterCard__name').textContent = elem.name;
+function createUpgradeCard(elem) {
+  const upgradeCardElement = upgradeCardTemplate.cloneNode(true);
+  upgradeCardElement.querySelector('.upgradeCard__name').textContent = elem.name;
+  console.log(userData.upgrades);
+  const userUpgrade = userData.upgrades.find(upgrade => upgrade.name === elem.name);
+  if(userUpgrade === undefined) {
+    // Add new upgrade to user object
 
-  const userBooster = userData.boosters.find(booster => booster.name === elem.name);
-  if(userBooster === undefined) {
-    // Add new booster to user object
-
-    // boosters.forEach((booster) => {
-    //   userData.boosters.push({
-    //     name: booster.name,
+    // upgrades.forEach((upgrade) => {
+    //   userData.upgrades.push({
+    //     name: upgrade.name,
     //     level: 0,
     //     income: 0
     //   })
     // })
   }
-  const currentBooster = elem.levels.find(level => level.level === userBooster.level+1);
+  const currentUpgrade = elem.levels.find(level => level.level === userUpgrade.level+1);
 
-  if(userBooster.level === 0) {
-    boosterCardElement.querySelector('.boosterCard__level').textContent = `${elem.levels[0].level} lvl`;
-    boosterCardElement.querySelector('.boosterCard__cost').textContent = `Cost ${elem.levels[0].cost}`;
-    boosterCardElement.querySelector('.boosterCard__income').textContent = `Income ${elem.levels[0].income}`;
-    // boosterCardElement.querySelector('.boosterCard__image').src = elem.url;
+  if(userUpgrade.level === 0) {
+    upgradeCardElement.querySelector('.upgradeCard__level').textContent = `${elem.levels[0].level} lvl`;
+    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${elem.levels[0].cost}`;
+    upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${elem.levels[0].income}`;
+    // upgradeCardElement.querySelector('.upgradeCard__image').src = elem.url;
   } else {
-    boosterCardElement.querySelector('.boosterCard__level').textContent = `${currentBooster.level} lvl`;
-    boosterCardElement.querySelector('.boosterCard__cost').textContent = `Cost ${currentBooster.cost}`;
-    boosterCardElement.querySelector('.boosterCard__income').textContent = `Income ${currentBooster.income}`;
+    upgradeCardElement.querySelector('.upgradeCard__level').textContent = `${currentUpgrade.level} lvl`;
+    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${currentUpgrade.cost}`;
+    upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${currentUpgrade.income}`;
   }
 
 
-  boosterCardElement.querySelector('.boosterCard').addEventListener('click', addBooster);
+  upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', addUpgrade);
 
-  return boosterCardElement;
+  return upgradeCardElement;
 };
 
 function test() {
 }
-
-testBtn.addEventListener('click', test);
-// --------------- Boosters-End ---------------
+// --------------- Upgrades-End ---------------
 
 // --------------- Navigation-Start ---------------
 function screenSwitcher() {
@@ -169,23 +168,23 @@ function screenSwitcher() {
     // console.log('Main');
     document.querySelector('.screen_active').classList.remove('screen_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-active.png';
-    btnBoosters.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
+    btnUpgrades.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
     btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-inactive.png';
     btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-inactive.png';
     mainScreen.classList.add('screen_active');
-  } else if (btnBoosters.checked) {
-    // console.log('Boosters');
+  } else if (btnUpgrades.checked) {
+    // console.log('Upgrades');
     document.querySelector('.screen_active').classList.remove('screen_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
-    btnBoosters.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-active.png';
+    btnUpgrades.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-active.png';
     btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-inactive.png';
     btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-inactive.png';
-    boostersScreen.classList.add('screen_active');
+    upgradesScreen.classList.add('screen_active');
   } else if (btnTasks.checked) {
     // console.log('Tasks');
     document.querySelector('.screen_active').classList.remove('screen_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
-    btnBoosters.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
+    btnUpgrades.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
     btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-active.png';
     btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-inactive.png';
     tasksScreen.classList.add('screen_active');
@@ -193,7 +192,7 @@ function screenSwitcher() {
     // console.log('Achieve');
     document.querySelector('.screen_active').classList.remove('screen_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
-    btnBoosters.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
+    btnUpgrades.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
     btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-inactive.png';
     btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-active.png';
     achievementsScreen.classList.add('screen_active');
@@ -201,16 +200,17 @@ function screenSwitcher() {
 }
 
 btnMainScreen.addEventListener('click', screenSwitcher);
-btnBoosters.addEventListener('click', screenSwitcher);
+btnUpgrades.addEventListener('click', screenSwitcher);
 btnTasks.addEventListener('click', screenSwitcher);
 btnAchievements.addEventListener('click', screenSwitcher);
 // --------------- Navigation-End ---------------
 
 window.onload = (event) => {
   console.log("Page is loaded");
+  screenSwitcher();
   userDataLoad();
-  boosters.forEach((elem) => {
-    boostersField.append(createBoosterCard(elem));
+  upgrades.forEach((elem) => {
+    upgradesField.append(createUpgradeCard(elem));
   });
 };
 
