@@ -37,27 +37,32 @@ const activeUpgrades = [
       {
         level: 1,
         cost: 12,
-        energyLimit: 16,
+        energyLimit: 750,
       },
       {
         level: 2,
         cost: 20,
-        energyLimit: 30,
+        energyLimit: 1000,
       },
       {
         level: 3,
         cost: 30,
-        energyLimit: 45,
+        energyLimit: 1250,
       },
       {
         level: 4,
         cost: 40,
-        energyLimit: 60,
+        energyLimit: 1500,
       },
       {
         level: 5,
         cost: 50,
-        energyLimit: 100,
+        energyLimit: 1750,
+      },
+      {
+        level: 6,
+        cost: 50,
+        energyLimit: 2000,
       },
     ],
   },

@@ -1,7 +1,7 @@
 // const TMA = window.Telegram.WebApp;
 const nameField = document.querySelector('.userBar__userName');
 const btnMain = document.querySelector('.mainScreen__button');
-const scoreField = document.querySelectorAll('.scoreArea__score');
+const scoreField = document.querySelector('.scoreArea__score');
 const navSection = document.querySelector('.navigation');
 const btnMainScreen = document.querySelector('.navigation__button_type_main');
 const btnUpgrades = document.querySelector('.navigation__button_type_upgrades');
@@ -11,10 +11,11 @@ const btnAchievements = document.querySelector('.navigation__button_type_achieve
 // const activeScreen = document.querySelector('.screen_active');
 const mainScreen = document.querySelector('.mainScreen');
 const passiveIncomeScore = document.querySelector('.passiveIncome__score');
+const energyScore = document.querySelector('.energyArea__score');
 
 const upgradesScreen = document.querySelector('.upgradesScreen');
 const passiveUpgradesField = document.querySelector('.upgradesScreen__upgradesField_type_passive');
-const activeUpgradesField = document.querySelector('.upgradesScreen__upgradesField_type_active')
+const activeUpgradesField = document.querySelector('.upgradesScreen__upgradesField_type_active');
 
 
 const tasksScreen = document.querySelector('.tasksScreen');

@@ -1,17 +1,17 @@
 // ToDo
-// Make a function which improves Energy Upgrade
-// Onload if energy array is old and consists income replace all energy incomes to energy limits
 // Pull this data to html layout
-// Basic energy ammount is 500
+// Don't save income and energy to userData storage. Find them from constants.
 
 function scoreRenderer() {
-  scoreField.forEach((item) => {
-    item.textContent = userData.score;
-  })
+  scoreField.textContent = userData.score;
 }
 
 function passiveIncomeRenderer() {
   passiveIncomeScore.textContent = `+${userData.passiveIncome}`;
+}
+
+function energyRenderer() {
+  energyScore.textContent = userData.activeUpgrades.find(upgrade => upgrade.name === 'Energy up');
 }
 
 // --------------- User-Start ---------------
@@ -24,20 +24,18 @@ function saveUserData() {
 
 function userDataLoad() {
   if(localUserData === null) {
-
     activeUpgrades.forEach((upgrade) => {
       upgrade.name === 'Energy up'
         ? userData.activeUpgrades.push({
           name: upgrade.name,
           level: 0,
-          energy: 0
+          energyLimit: 500,
         })
         : userData.activeUpgrades.push({
           name: upgrade.name,
           level: 0,
-          income: 0
+          income: 0,
         })
-
     })
 
     passiveUpgrades.forEach((upgrade) => {
@@ -55,13 +53,16 @@ function userDataLoad() {
     Object.keys(userData).forEach((key) => {
       userData[key] = localUserData[key];
     })
+    const userUpgrade = userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up");
+    console.log(activeUpgrades.find(upgrade => upgrade.name === "Energy up").levels.find(level => level.level === userUpgrade.level));
+    userUpgrade.energyLimit = activeUpgrades.find(upgrade => upgrade.name === "Energy up").levels.find(level => level.level === userUpgrade.level).energyLimit;
 
-    delete userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").income;
-    const userUpgradeLevel = userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").level;
-    console.log(userUpgradeLevel);
-    const effect = activeUpgrades.find(upgrade => upgrade.name === "Energy up").levels.find(upgrade => upgrade.level === userUpgradeLevel).energyLimit;
-    userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").energyLimit = effect;
-    saveUserData();
+    // delete userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").energy;
+    // const userUpgradeLevel = userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").level;
+    // console.log(userUpgradeLevel);
+    // const effect = activeUpgrades.find(upgrade => upgrade.name === "Energy up").levels.find(upgrade => upgrade.level === userUpgradeLevel).energyLimit;
+    // userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").energyLimit = effect;
+    // saveUserData();
   }
   scoreRenderer();
   passiveIncomeRenderer();
@@ -70,9 +71,8 @@ function userDataLoad() {
 // --------------- User-End ---------------
 
 // --------------- Energy-Start ---------------
+
 // --------------- Energy-End ---------------
-
-
 
 // --------------- Income-Start ---------------
 function clickCounter() {
