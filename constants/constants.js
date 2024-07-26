@@ -10,6 +10,8 @@ const btnAchievements = document.querySelector('.navigation__button_type_achieve
 
 // const activeScreen = document.querySelector('.screen_active');
 const mainScreen = document.querySelector('.mainScreen');
+const passiveIncomeScore = document.querySelector('.passiveIncome__score');
+
 const upgradesScreen = document.querySelector('.upgradesScreen');
 const passiveUpgradesField = document.querySelector('.upgradesScreen__upgradesField_type_passive');
 const activeUpgradesField = document.querySelector('.upgradesScreen__upgradesField_type_active')

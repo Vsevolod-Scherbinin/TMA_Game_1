@@ -1,21 +1,43 @@
+// ToDo
+// Make a function which improves Energy Upgrade
+// Onload if energy array is old and consists income replace all energy incomes to energy limits
+// Pull this data to html layout
+// Basic energy ammount is 500
+
 function scoreRenderer() {
   scoreField.forEach((item) => {
     item.textContent = userData.score;
   })
 }
 
+function passiveIncomeRenderer() {
+  passiveIncomeScore.textContent = `+${userData.passiveIncome}`;
+}
+
 // --------------- User-Start ---------------
-const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
+// const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
+const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData1'));
+
+function saveUserData() {
+  localStorage.setItem('TMAGameUserData1', JSON.stringify(userData));
+}
 
 function userDataLoad() {
   if(localUserData === null) {
 
     activeUpgrades.forEach((upgrade) => {
-      userData.activeUpgrades.push({
-        name: upgrade.name,
-        level: 0,
-        income: 0
-      })
+      upgrade.name === 'Energy up'
+        ? userData.activeUpgrades.push({
+          name: upgrade.name,
+          level: 0,
+          energy: 0
+        })
+        : userData.activeUpgrades.push({
+          name: upgrade.name,
+          level: 0,
+          income: 0
+        })
+
     })
 
     passiveUpgrades.forEach((upgrade) => {
@@ -25,7 +47,7 @@ function userDataLoad() {
         income: 0
       })
     })
-    localStorage.setItem('TMAGameUserData', JSON.stringify(userData));
+    localStorage.setItem('TMAGameUserData1', JSON.stringify(userData));
     console.log('New User Made');
   } else {
     console.log('Old User');
@@ -33,15 +55,24 @@ function userDataLoad() {
     Object.keys(userData).forEach((key) => {
       userData[key] = localUserData[key];
     })
+
+    delete userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").income;
+    const userUpgradeLevel = userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").level;
+    console.log(userUpgradeLevel);
+    const effect = activeUpgrades.find(upgrade => upgrade.name === "Energy up").levels.find(upgrade => upgrade.level === userUpgradeLevel).energyLimit;
+    userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").energyLimit = effect;
+    saveUserData();
   }
   scoreRenderer();
+  passiveIncomeRenderer();
   console.log(userData);
 }
-
-function saveUserData() {
-  localStorage.setItem('TMAGameUserData', JSON.stringify(userData));
-}
 // --------------- User-End ---------------
+
+// --------------- Energy-Start ---------------
+// --------------- Energy-End ---------------
+
+
 
 // --------------- Income-Start ---------------
 function clickCounter() {
@@ -104,14 +135,18 @@ function upgradeCardRenderer(card, level) {
 }
 
 // Refresh Card Data and Make Passive Income
-function addUpgrade(evt) {
+function addUpgrade(evt, upgradesArray) {
+  console.log(evt.target);
   const currentUpgradeCard = evt.target.closest('.upgradeCard');
   const currentUpgradeName = currentUpgradeCard.querySelector('.upgradeCard__name').textContent;
-  const currentUpgradeLevels = passiveUpgrades.find(upgrade => upgrade.name === currentUpgradeName).levels;
+  let currentUpgradeLevels;
+  upgradesArray == 'activeUpgrades'
+    ? currentUpgradeLevels = activeUpgrades.find(upgrade => upgrade.name === currentUpgradeName).levels
+    : currentUpgradeLevels = passiveUpgrades.find(upgrade => upgrade.name === currentUpgradeName).levels;
 
-  const userPassiveUpgrades = userData.passiveUpgrades.find(upgrade => upgrade.name === currentUpgradeName);
+  const userUpgrades = userData[upgradesArray].find(upgrade => upgrade.name === currentUpgradeName);
 
-  const currentUpgrade = currentUpgradeLevels.find(level => level.level === userPassiveUpgrades.level+1);
+  const currentUpgrade = currentUpgradeLevels.find(level => level.level === userUpgrades.level+1);
   const nextUpgrade = currentUpgradeLevels.find(level => level.level === currentUpgrade.level+1);
   console.log(currentUpgrade);
 
@@ -119,9 +154,10 @@ function addUpgrade(evt) {
   if(userData.score > currentUpgrade.cost) {
     userData.score = userData.score - currentUpgrade.cost;
     scoreRenderer();
-    userPassiveUpgrades.income = currentUpgrade.income;
+    userUpgrades.income = currentUpgrade.income;
     userData.passiveIncome = userData.passiveIncome + currentUpgrade.income;
-    userPassiveUpgrades.level++;
+    passiveIncomeRenderer();
+    userUpgrades.level++;
     currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `lvl ${nextUpgrade.level}`;
     currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `${nextUpgrade.cost}`;
     currentUpgradeCard.querySelector('.upgradeCard__income').textContent = `+${nextUpgrade.income}`;
@@ -130,39 +166,6 @@ function addUpgrade(evt) {
     console.log('Недостаточно средств');
   }
 }
-
-// function createUpgradeCard(elem) {
-//   const upgradeCardElement = upgradeCardTemplate.cloneNode(true);
-//   upgradeCardElement.querySelector('.upgradeCard__name').textContent = elem.name;
-//   const userPassiveUpgrades = userData.passiveUpgrades.find(upgrade => upgrade.name === elem.name);
-
-//   const currentUpgrade = elem.levels.find(level => level.level === userPassiveUpgrades.level+1);
-
-//   if(userPassiveUpgrades.level === 0) {
-//     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${elem.levels[0].level} `;
-//     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${elem.levels[0].cost}`;
-//     upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${elem.levels[0].income}`;
-//     // upgradeCardElement.querySelector('.upgradeCard__image').src = elem.url;
-//   } else {
-//     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${currentUpgrade.level} `;
-//     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `Cost ${currentUpgrade.cost}`;
-//     upgradeCardElement.querySelector('.upgradeCard__income').textContent = `Income ${currentUpgrade.income}`;
-//   }
-//   upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', addUpgrade);
-//   return upgradeCardElement;
-// };
-
-  // if(userPassiveUpgrades === undefined) {
-  //   // Add new upgrade to user object
-
-  //   // passiveUpgrades.forEach((upgrade) => {
-  //   //   userData.passiveUpgrades.push({
-  //   //     name: upgrade.name,
-  //   //     level: 0,
-  //   //     income: 0
-  //   //   })
-  //   // })
-  // }
 
 function createUpgradeCard(elem, upgradesArray) {
   const upgradeCardElement = upgradeCardTemplate.cloneNode(true);
@@ -181,7 +184,9 @@ function createUpgradeCard(elem, upgradesArray) {
     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `${currentUpgrade.cost}`;
     upgradeCardElement.querySelector('.upgradeCard__income').textContent = `+${currentUpgrade.income}`;
   }
-  upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', addUpgrade);
+  upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', (evt) => {
+    addUpgrade(evt, upgradesArray);
+  });
   return upgradeCardElement;
 };
 
