@@ -18,7 +18,7 @@ function energyRenderer() {
 
 // --------------- User-Start ---------------
 // const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
-const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData1'));
+const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
 
 function saveUserData() {
   localStorage.setItem('TMAGameUserData1', JSON.stringify(userData));
@@ -254,6 +254,7 @@ function allUpgradesRenderer() {
 }
 
 window.onload = (event) => {
+  localStorage.clear();
   console.log("Page is loaded");
   screenSwitcher();
   userDataLoad();
