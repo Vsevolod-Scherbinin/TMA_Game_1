@@ -1,6 +1,6 @@
 const passiveUpgrades = [
   {
-    number: 1,
+    id: 1,
     name: "Upgrade 1",
     levels: [
       {
@@ -31,7 +31,7 @@ const passiveUpgrades = [
     ],
   },
   {
-    number: 2,
+    id: 2,
     name: "Upgrade 2",
     levels: [
       {
@@ -62,7 +62,7 @@ const passiveUpgrades = [
     ],
   },
   {
-    number: 3,
+    id: 3,
     name: "Upgrade 3",
     levels: [
       {
@@ -93,7 +93,7 @@ const passiveUpgrades = [
     ],
   },
   {
-    number: 4,
+    id: 4,
     name: "Upgrade 4",
     levels: [
       {
@@ -124,7 +124,7 @@ const passiveUpgrades = [
     ],
   },
   {
-    number: 5,
+    id: 5,
     name: "Upgrade 5",
     levels: [
       {

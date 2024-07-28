@@ -1,6 +1,8 @@
 // ToDo
+// Don't use upgrade names. Use ID or number.
 // Pull this data to html layout
 // Don't save income and energy to userData storage. Find them from constants.
+// Load old localStorageUserObject, save vital data and rewrite new object
 
 function scoreRenderer() {
   scoreField.textContent = userData.score;
@@ -11,7 +13,7 @@ function passiveIncomeRenderer() {
 }
 
 function energyRenderer() {
-  energyScore.textContent = userData.activeUpgrades.find(upgrade => upgrade.name === 'Energy up');
+  energyScoreField.textContent = userData.activeUpgrades.find(upgrade => upgrade.id === 2);
 }
 
 // --------------- User-Start ---------------
@@ -25,24 +27,21 @@ function saveUserData() {
 function userDataLoad() {
   if(localUserData === null) {
     activeUpgrades.forEach((upgrade) => {
-      upgrade.name === 'Energy up'
+      upgrade.id === 2
         ? userData.activeUpgrades.push({
-          name: upgrade.name,
+          id: upgrade.id,
           level: 0,
-          energyLimit: 500,
         })
         : userData.activeUpgrades.push({
-          name: upgrade.name,
+          id: upgrade.id,
           level: 0,
-          income: 0,
         })
     })
 
     passiveUpgrades.forEach((upgrade) => {
       userData.passiveUpgrades.push({
-        name: upgrade.name,
+        id: upgrade.id,
         level: 0,
-        income: 0
       })
     })
     localStorage.setItem('TMAGameUserData1', JSON.stringify(userData));
@@ -53,9 +52,9 @@ function userDataLoad() {
     Object.keys(userData).forEach((key) => {
       userData[key] = localUserData[key];
     })
-    const userUpgrade = userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up");
-    console.log(activeUpgrades.find(upgrade => upgrade.name === "Energy up").levels.find(level => level.level === userUpgrade.level));
-    userUpgrade.energyLimit = activeUpgrades.find(upgrade => upgrade.name === "Energy up").levels.find(level => level.level === userUpgrade.level).energyLimit;
+    // const userUpgrade = userData.activeUpgrades.find(upgrade => upgrade.id === 2);
+    // console.log(activeUpgrades.find(upgrade => upgrade.id === 2).levels.find(level => level.level === userUpgrade.level));
+    // userUpgrade.energyLimit = activeUpgrades.find(upgrade => upgrade.id === 2).levels.find(level => level.level === userUpgrade.level).energyLimit;
 
     // delete userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").energy;
     // const userUpgradeLevel = userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").level;
@@ -139,18 +138,26 @@ function addUpgrade(evt, upgradesArray) {
   console.log(evt.target);
   const currentUpgradeCard = evt.target.closest('.upgradeCard');
   const currentUpgradeName = currentUpgradeCard.querySelector('.upgradeCard__name').textContent;
-  let currentUpgradeLevels;
-  upgradesArray == 'activeUpgrades'
-    ? currentUpgradeLevels = activeUpgrades.find(upgrade => upgrade.name === currentUpgradeName).levels
-    : currentUpgradeLevels = passiveUpgrades.find(upgrade => upgrade.name === currentUpgradeName).levels;
 
-  const userUpgrades = userData[upgradesArray].find(upgrade => upgrade.name === currentUpgradeName);
+  let foundUpgrade;
+  let currentUpgradeId;
+  let currentUpgradeLevels;
+  if(upgradesArray == 'activeUpgrades') {
+    foundUpgrade = activeUpgrades.find(upgrade => upgrade.name === currentUpgradeName);
+  } else {
+    foundUpgrade = passiveUpgrades.find(upgrade => upgrade.name === currentUpgradeName);
+  }
+  currentUpgradeId = foundUpgrade.id;
+  currentUpgradeLevels = foundUpgrade.levels;
+
+  const userUpgrades = userData[upgradesArray].find(upgrade => upgrade.id === currentUpgradeId);
 
   const currentUpgrade = currentUpgradeLevels.find(level => level.level === userUpgrades.level+1);
   const nextUpgrade = currentUpgradeLevels.find(level => level.level === currentUpgrade.level+1);
   console.log(currentUpgrade);
 
   // Refresh Card Data
+  // Make function purchase() {}
   if(userData.score > currentUpgrade.cost) {
     userData.score = userData.score - currentUpgrade.cost;
     scoreRenderer();
@@ -170,7 +177,7 @@ function addUpgrade(evt, upgradesArray) {
 function createUpgradeCard(elem, upgradesArray) {
   const upgradeCardElement = upgradeCardTemplate.cloneNode(true);
   upgradeCardElement.querySelector('.upgradeCard__name').textContent = elem.name;
-  const userUpgradesArray = userData[upgradesArray].find(upgrade => upgrade.name === elem.name);
+  const userUpgradesArray = userData[upgradesArray].find(upgrade => upgrade.id === elem.id);
 
   const currentUpgrade = elem.levels.find(level => level.level === userUpgradesArray.level+1);
 
@@ -237,17 +244,20 @@ btnTasks.addEventListener('click', screenSwitcher);
 btnAchievements.addEventListener('click', screenSwitcher);
 // --------------- Navigation-End ---------------
 
-window.onload = (event) => {
-  console.log("Page is loaded");
-  screenSwitcher();
-  userDataLoad();
+function allUpgradesRenderer() {
   activeUpgrades.forEach((elem) => {
     activeUpgradesField.append(createUpgradeCard(elem, 'activeUpgrades'));
   });
   passiveUpgrades.forEach((elem) => {
     passiveUpgradesField.append(createUpgradeCard(elem, 'passiveUpgrades'));
   });
+}
 
+window.onload = (event) => {
+  console.log("Page is loaded");
+  screenSwitcher();
+  userDataLoad();
+  allUpgradesRenderer();
 };
 
 console.log(!window.closed);
