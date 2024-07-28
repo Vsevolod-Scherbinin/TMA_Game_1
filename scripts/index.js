@@ -1,8 +1,6 @@
 // ToDo
-// Don't use upgrade names. Use ID or number.
 // Pull this data to html layout
 // Don't save income and energy to userData storage. Find them from constants.
-// Load old localStorageUserObject, save vital data and rewrite new object
 
 function scoreRenderer() {
   scoreField.textContent = userData.score;
@@ -21,7 +19,7 @@ function energyRenderer() {
 const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
 
 function saveUserData() {
-  localStorage.setItem('TMAGameUserData1', JSON.stringify(userData));
+  localStorage.setItem('TMAGameUserData', JSON.stringify(userData));
 }
 
 function userDataLoad() {
@@ -44,7 +42,7 @@ function userDataLoad() {
         level: 0,
       })
     })
-    localStorage.setItem('TMAGameUserData1', JSON.stringify(userData));
+    localStorage.setItem('TMAGameUserData', JSON.stringify(userData));
     console.log('New User Made');
   } else {
     console.log('Old User');
@@ -254,7 +252,7 @@ function allUpgradesRenderer() {
 }
 
 window.onload = (event) => {
-  localStorage.clear();
+  // localStorage.clear();
   console.log("Page is loaded");
   screenSwitcher();
   userDataLoad();
