@@ -1,7 +1,8 @@
 const userData = {
   score: 0,
   delta: 1,
-  // passiveIncome: 0,
+  cummulativeIncome: 0,
+  lvl: 1,
   activeUpgrades: [],
   passiveUpgrades: [],
   tasks: [],

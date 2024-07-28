@@ -35,6 +35,10 @@ const activeUpgrades = [
     name: "Energy up",
     levels: [
       {
+        level: 0,
+        energyLimit: 500,
+      },
+      {
         level: 1,
         cost: 12,
         energyLimit: 750,

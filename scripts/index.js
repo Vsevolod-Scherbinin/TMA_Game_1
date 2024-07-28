@@ -10,8 +10,8 @@ function passiveIncomeRenderer() {
   passiveIncomeScore.textContent = `+${userData.passiveIncome}`;
 }
 
-function energyRenderer() {
-  energyScoreField.textContent = userData.activeUpgrades.find(upgrade => upgrade.id === 2);
+function userEnergyUpgradeFinder() {
+  return userData.activeUpgrades.find(upgrade => upgrade.id === 2);
 }
 
 // --------------- User-Start ---------------
@@ -50,16 +50,6 @@ function userDataLoad() {
     Object.keys(userData).forEach((key) => {
       userData[key] = localUserData[key];
     })
-    // const userUpgrade = userData.activeUpgrades.find(upgrade => upgrade.id === 2);
-    // console.log(activeUpgrades.find(upgrade => upgrade.id === 2).levels.find(level => level.level === userUpgrade.level));
-    // userUpgrade.energyLimit = activeUpgrades.find(upgrade => upgrade.id === 2).levels.find(level => level.level === userUpgrade.level).energyLimit;
-
-    // delete userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").energy;
-    // const userUpgradeLevel = userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").level;
-    // console.log(userUpgradeLevel);
-    // const effect = activeUpgrades.find(upgrade => upgrade.name === "Energy up").levels.find(upgrade => upgrade.level === userUpgradeLevel).energyLimit;
-    // userData.activeUpgrades.find(upgrade => upgrade.name === "Energy up").energyLimit = effect;
-    // saveUserData();
   }
   scoreRenderer();
   passiveIncomeRenderer();
@@ -68,16 +58,39 @@ function userDataLoad() {
 // --------------- User-End ---------------
 
 // --------------- Energy-Start ---------------
+function energyLimitator() {
+  const currentEnergyLevel = energyUpgrade.levels.find(upgrade => upgrade.level === userEnergyUpgradeFinder().level);
+  const currentEnergyLimit = currentEnergyLevel.energyLimit;
+  console.log(currentEnergyLimit);
+  return currentEnergyLimit;
+}
+
+function energyRenderer() {
+  // energyScoreField.textContent = energyLimitator();
+}
+
+function energyLimitRenderer() {
+  energyLimitField.textContent = energyLimitator();
+}
 
 // --------------- Energy-End ---------------
 
 // --------------- Income-Start ---------------
-function clickCounter() {
+function cummulativeIncomeCounter() {
+  userData.cummulativeIncome = userData.cummulativeIncome + userData.delta;
+  saveUserData();
+}
+
+function scoreCounter() {
   userData.score = userData.score + userData.delta;
   scoreRenderer();
   saveUserData();
 }
-btnMain.addEventListener('click', clickCounter);
+btnMain.addEventListener('click', () => {
+  scoreCounter();
+  cummulativeIncomeCounter();
+});
+// btnMain.addEventListener('click', scoreCounter);
 
 let timer = 0;
 
@@ -127,9 +140,6 @@ function passiveIncomeCounter() {
 // --------------- Purchase-End ---------------
 
 // --------------- Upgrades-Start ---------------
-function upgradeCardRenderer(card, level) {
-
-}
 
 // Refresh Card Data and Make Passive Income
 function addUpgrade(evt, upgradesArray) {
@@ -252,10 +262,11 @@ function allUpgradesRenderer() {
 }
 
 window.onload = (event) => {
-  // localStorage.clear();
   console.log("Page is loaded");
   screenSwitcher();
   userDataLoad();
+  energyLimitator();
+  energyLimitRenderer();
   allUpgradesRenderer();
 };
 
