@@ -4,6 +4,10 @@ const passiveUpgrades = [
     name: "Upgrade 1",
     levels: [
       {
+        level: 0,
+        income: 0,
+      },
+      {
         level: 1,
         cost: 10,
         income: 15,
@@ -34,6 +38,10 @@ const passiveUpgrades = [
     id: 2,
     name: "Upgrade 2",
     levels: [
+      {
+        level: 0,
+        income: 0,
+      },
       {
         level: 1,
         cost: 12,
@@ -66,6 +74,10 @@ const passiveUpgrades = [
     name: "Upgrade 3",
     levels: [
       {
+        level: 0,
+        income: 0,
+      },
+      {
         level: 1,
         cost: 12,
         income: 16,
@@ -97,6 +109,10 @@ const passiveUpgrades = [
     name: "Upgrade 4",
     levels: [
       {
+        level: 0,
+        income: 0,
+      },
+      {
         level: 1,
         cost: 12,
         income: 16,
@@ -127,6 +143,10 @@ const passiveUpgrades = [
     id: 5,
     name: "Upgrade 5",
     levels: [
+      {
+        level: 0,
+        income: 0,
+      },
       {
         level: 1,
         cost: 12,

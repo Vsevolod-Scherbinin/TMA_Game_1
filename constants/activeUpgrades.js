@@ -6,27 +6,27 @@ const activeUpgrades = [
       {
         level: 1,
         cost: 10,
-        income: 15,
+        delta: 15,
       },
       {
         level: 2,
         cost: 20,
-        income: 30,
+        delta: 30,
       },
       {
         level: 3,
         cost: 30,
-        income: 45,
+        delta: 45,
       },
       {
         level: 4,
         cost: 40,
-        income: 60,
+        delta: 60,
       },
       {
         level: 5,
         cost: 50,
-        income: 100,
+        delta: 100,
       },
     ],
   },

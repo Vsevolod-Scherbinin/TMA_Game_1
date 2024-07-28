@@ -9,7 +9,7 @@ const btnTasks = document.querySelector('.navigation__button_type_tasks');
 const btnAchievements = document.querySelector('.navigation__button_type_achievement');
 
 const mainScreen = document.querySelector('.mainScreen');
-const passiveIncomeScore = document.querySelector('.passiveIncome__score');
+const passiveIncomeScoreField = document.querySelector('.passiveIncome__score');
 const energyScoreField = document.querySelector('.energyArea__score');
 const energyLimitField = document.querySelector('.energyArea__limit');
 

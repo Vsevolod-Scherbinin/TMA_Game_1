@@ -6,8 +6,19 @@ function scoreRenderer() {
   scoreField.textContent = userData.score;
 }
 
-function passiveIncomeRenderer() {
-  passiveIncomeScore.textContent = `+${userData.passiveIncome}`;
+// Optimise
+function passiveIncomeRenderer(income) {
+  passiveIncomeScoreField.textContent = `+${income}`;
+}
+
+function passiveIncomeCounter() {
+  let passiveIncome = 0;
+  userData.passiveUpgrades.forEach((item) => {
+    const upgradeFromConstant = passiveUpgrades.find(upgrade => upgrade.id === item.id);
+    const upgradeFromConstantLevel = upgradeFromConstant.levels.find(upgrade => upgrade.level === item.level);
+    passiveIncome = passiveIncome + upgradeFromConstantLevel.income;
+  })
+  return passiveIncome;
 }
 
 function userEnergyUpgradeFinder() {
@@ -52,7 +63,7 @@ function userDataLoad() {
     })
   }
   scoreRenderer();
-  passiveIncomeRenderer();
+  passiveIncomeRenderer(passiveIncomeCounter());
   console.log(userData);
 }
 // --------------- User-End ---------------
@@ -61,18 +72,16 @@ function userDataLoad() {
 function energyLimitator() {
   const currentEnergyLevel = energyUpgrade.levels.find(upgrade => upgrade.level === userEnergyUpgradeFinder().level);
   const currentEnergyLimit = currentEnergyLevel.energyLimit;
-  console.log(currentEnergyLimit);
   return currentEnergyLimit;
-}
-
-function energyRenderer() {
-  // energyScoreField.textContent = energyLimitator();
 }
 
 function energyLimitRenderer() {
   energyLimitField.textContent = energyLimitator();
 }
 
+function energyRenderer() {
+  // energyScoreField.textContent = energyLimitator();
+}
 // --------------- Energy-End ---------------
 
 // --------------- Income-Start ---------------
@@ -97,18 +106,18 @@ let timer = 0;
 const now = new Date();
 console.log(now);
 
-function passiveIncomeCounter() {
-  console.log('Try');
-  if(timer > 5) {
-    // timeCounter();
-    return
-  }
-  userData.score = userData.score + userData.passiveIncome / 60;
-  scoreRenderer();
-  saveUserData();
-  timer++;
-  console.log(timer);
-}
+// function passiveIncomeCounter() {
+//   console.log('Try');
+//   if(timer > 5) {
+//     // timeCounter();
+//     return
+//   }
+//   userData.score = userData.score + userData.passiveIncome / 60;
+//   scoreRenderer();
+//   saveUserData();
+//   timer++;
+//   console.log(timer);
+// }
 
 // let passiveIncomeTimer = setInterval(() => {
 //   passiveIncomeCounter();
@@ -147,6 +156,7 @@ function addUpgrade(evt, upgradesArray) {
   const currentUpgradeCard = evt.target.closest('.upgradeCard');
   const currentUpgradeName = currentUpgradeCard.querySelector('.upgradeCard__name').textContent;
 
+  // Define id and levelsArray of current upgrade - Start
   let foundUpgrade;
   let currentUpgradeId;
   let currentUpgradeLevels;
@@ -157,25 +167,36 @@ function addUpgrade(evt, upgradesArray) {
   }
   currentUpgradeId = foundUpgrade.id;
   currentUpgradeLevels = foundUpgrade.levels;
+  // Define id and levelsArray of current upgrade - End
 
-  const userUpgrades = userData[upgradesArray].find(upgrade => upgrade.id === currentUpgradeId);
+  // Define upgrade parameters - Start
+  const userUpgrade = userData[upgradesArray].find(upgrade => upgrade.id === currentUpgradeId);
+  const currentUpgradeLevel = currentUpgradeLevels.find(level => level.level === userUpgrade.level+1);
+  const nextUpgrade = currentUpgradeLevels.find(level => level.level === currentUpgradeLevel.level+1);
+  console.log(currentUpgradeLevel);
+  // Define upgrade parameters - End
 
-  const currentUpgrade = currentUpgradeLevels.find(level => level.level === userUpgrades.level+1);
-  const nextUpgrade = currentUpgradeLevels.find(level => level.level === currentUpgrade.level+1);
-  console.log(currentUpgrade);
-
-  // Refresh Card Data
   // Make function purchase() {}
-  if(userData.score > currentUpgrade.cost) {
-    userData.score = userData.score - currentUpgrade.cost;
+  if(userData.score > currentUpgradeLevel.cost) {
+    userData.score = userData.score - currentUpgradeLevel.cost;
     scoreRenderer();
-    userUpgrades.income = currentUpgrade.income;
-    userData.passiveIncome = userData.passiveIncome + currentUpgrade.income;
-    passiveIncomeRenderer();
-    userUpgrades.level++;
+    if(currentUpgradeLevel.income !== undefined) {
+      console.log('income');
+      const passiveIncome = passiveIncomeCounter() + currentUpgradeLevel.income;
+      passiveIncomeRenderer(passiveIncome);
+    }
+
+    userUpgrade.level++;
     currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `lvl ${nextUpgrade.level}`;
     currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `${nextUpgrade.cost}`;
-    currentUpgradeCard.querySelector('.upgradeCard__income').textContent = `+${nextUpgrade.income}`;
+    if(nextUpgrade.income !== undefined) {
+      currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgrade.income}`;
+    } else if(nextUpgrade.delta !== undefined) {
+      currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgrade.delta}`;
+    } else {
+      currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgrade.energyLimit}`;
+      energyLimitRenderer();
+    }
     saveUserData();
   } else {
     console.log('Недостаточно средств');
@@ -189,16 +210,17 @@ function createUpgradeCard(elem, upgradesArray) {
 
   const currentUpgrade = elem.levels.find(level => level.level === userUpgradesArray.level+1);
 
-  if(userUpgradesArray.level === 0) {
-    upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${elem.levels[0].level}`;
-    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `${elem.levels[0].cost}`;
-    upgradeCardElement.querySelector('.upgradeCard__income').textContent = `+${elem.levels[0].income}`;
-    // upgradeCardElement.querySelector('.upgradeCard__image').src = elem.url;
-  } else {
-    upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${currentUpgrade.level}`;
-    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `${currentUpgrade.cost}`;
-    upgradeCardElement.querySelector('.upgradeCard__income').textContent = `+${currentUpgrade.income}`;
-  }
+  upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${currentUpgrade.level}`;
+  upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `${currentUpgrade.cost}`;
+
+  // upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`;
+  currentUpgrade.income !== undefined
+      // ? console.log('income')
+      // : console.log('not income');
+      ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`
+      : currentUpgrade.delta !== undefined ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.delta}`
+        : upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `${currentUpgrade.energyLimit}`;
+
   upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', (evt) => {
     addUpgrade(evt, upgradesArray);
   });

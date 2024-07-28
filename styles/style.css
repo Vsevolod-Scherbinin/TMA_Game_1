@@ -37,7 +37,7 @@
 @import url(../blocks/upgradeCard/__text/upgradeCard__text.css);
 @import url(../blocks/upgradeCard/__effectArea/upgradeCard__effectArea.css);
 @import url(../blocks/upgradeCard/__effectIcon/upgradeCard__effectIcon.css);
-@import url(../blocks/upgradeCard/__income/upgradeCard__income.css);
+@import url(../blocks/upgradeCard/__effect/upgradeCard__effect.css);
 @import url(../blocks/upgradeCard/__bottomArea/upgradeCard__bottomArea.css);
 @import url(../blocks/upgradeCard/__level/upgradeCard__level.css);
 @import url(../blocks/upgradeCard/__costArea/upgradeCard__costArea.css);
