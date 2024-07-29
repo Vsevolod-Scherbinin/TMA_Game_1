@@ -330,6 +330,7 @@ window.onload = (event) => {
   allUpgradesRenderer();
   tasksRenderer();
   achievementsRenderer()
+  nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
 };
 
 console.log(!window.closed);
