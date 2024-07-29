@@ -328,8 +328,10 @@ window.onload = (event) => {
   energyLimitRenderer();
   allUpgradesRenderer();
   tasksRenderer();
-  achievementsRenderer()
-  nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+  achievementsRenderer();
+  if(window.Telegram.WebApp.initDataUnsafe.user.first_name !== undefined) {
+    nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+  }
 };
 
 console.log(!window.closed);
