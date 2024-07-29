@@ -315,13 +315,13 @@ function inviteFriends() {
 
   // Используем Telegram Web Apps API для открытия ссылки
   window.Telegram.WebApp.sendData(JSON.stringify({url: url, text: text}));
+  console.log('Invitation');
 }
 
 inviteFriendBtn.addEventListener('click', inviteFriends);
 
 
 window.onload = (event) => {
-  localStorage.clear();
   console.log("Page is loaded");
   screenSwitcher();
   userDataLoad();
