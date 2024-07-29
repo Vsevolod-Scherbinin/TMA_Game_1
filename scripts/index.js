@@ -320,7 +320,6 @@ function inviteFriends() {
 
 inviteFriendBtn.addEventListener('click', inviteFriends);
 
-
 window.onload = (event) => {
   console.log("Page is loaded");
   screenSwitcher();
