@@ -2,6 +2,7 @@
 const nameField = document.querySelector('.userBar__userName');
 const btnMain = document.querySelector('.mainScreen__button');
 const scoreField = document.querySelector('.scoreArea__score');
+
 const navSection = document.querySelector('.navigation');
 const btnMainScreen = document.querySelector('.navigation__button_type_main');
 const btnUpgrades = document.querySelector('.navigation__button_type_upgrades');
@@ -19,6 +20,7 @@ const activeUpgradesField = document.querySelector('.upgradesScreen__upgradesFie
 
 const tasksScreen = document.querySelector('.tasksScreen');
 const taskCardsField = document.querySelector('.tasksScreen__cardField');
+const inviteFriendBtn = document.querySelector('.tasksScreen__inviteBtn');
 
 const achievementsScreen = document.querySelector('.achievementsScreen');
 const achievementCardsField = document.querySelector('.achievementsScreen__cardField');

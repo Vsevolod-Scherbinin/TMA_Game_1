@@ -321,6 +321,7 @@ inviteFriendBtn.addEventListener('click', inviteFriends);
 
 
 window.onload = (event) => {
+  localStorage.clear();
   console.log("Page is loaded");
   screenSwitcher();
   userDataLoad();
