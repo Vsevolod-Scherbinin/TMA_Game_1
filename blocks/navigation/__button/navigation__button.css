@@ -1,6 +1,7 @@
 .navigation__button {
   margin: 0;
   padding: 4px;
+  box-sizing: border-box;
   width: 75px;
   height: 75px;
   border-radius: 16px;

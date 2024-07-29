@@ -154,16 +154,16 @@ console.log(now);
 function addUpgrade(evt, upgradesArray) {
   console.log(evt.target);
   const currentUpgradeCard = evt.target.closest('.upgradeCard');
-  const currentUpgradeName = currentUpgradeCard.querySelector('.upgradeCard__name').textContent;
+  const currentUpgradeName = currentUpgradeCard.querySelector('.upgradeCard__title').textContent;
 
   // Define id and levelsArray of current upgrade - Start
   let foundUpgrade;
   let currentUpgradeId;
   let currentUpgradeLevels;
   if(upgradesArray == 'activeUpgrades') {
-    foundUpgrade = activeUpgrades.find(upgrade => upgrade.name === currentUpgradeName);
+    foundUpgrade = activeUpgrades.find(upgrade => upgrade.title === currentUpgradeName);
   } else {
-    foundUpgrade = passiveUpgrades.find(upgrade => upgrade.name === currentUpgradeName);
+    foundUpgrade = passiveUpgrades.find(upgrade => upgrade.title === currentUpgradeName);
   }
   currentUpgradeId = foundUpgrade.id;
   currentUpgradeLevels = foundUpgrade.levels;
@@ -205,7 +205,7 @@ function addUpgrade(evt, upgradesArray) {
 
 function createUpgradeCard(elem, upgradesArray) {
   const upgradeCardElement = upgradeCardTemplate.cloneNode(true);
-  upgradeCardElement.querySelector('.upgradeCard__name').textContent = elem.name;
+  upgradeCardElement.querySelector('.upgradeCard__title').textContent = elem.title;
   const userUpgradesArray = userData[upgradesArray].find(upgrade => upgrade.id === elem.id);
 
   const currentUpgrade = elem.levels.find(level => level.level === userUpgradesArray.level+1);
@@ -215,8 +215,6 @@ function createUpgradeCard(elem, upgradesArray) {
 
   // upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`;
   currentUpgrade.income !== undefined
-      // ? console.log('income')
-      // : console.log('not income');
       ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`
       : currentUpgrade.delta !== undefined ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.delta}`
         : upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `${currentUpgrade.energyLimit}`;
@@ -227,6 +225,18 @@ function createUpgradeCard(elem, upgradesArray) {
   return upgradeCardElement;
 };
 
+function createTaskCards(elem) {
+  const taskCardElement = wideCardTemplate.cloneNode(true);
+  taskCardElement.querySelector('.wideCard__title').textContent = elem.title;
+  return taskCardElement;
+}
+
+function createAchievementCards(elem) {
+  const achievementCardElement = wideCardTemplate.cloneNode(true);
+  achievementCardElement.querySelector('.wideCard__title').textContent = elem.title;
+  return achievementCardElement;
+}
+
 function test() {
 }
 // --------------- Upgrades-End ---------------
@@ -234,36 +244,40 @@ function test() {
 // --------------- Navigation-Start ---------------
 function screenSwitcher() {
   if(btnMainScreen.checked) {
-    // console.log('Main');
     document.querySelector('.screen_active').classList.remove('screen_active');
+    document.querySelector('.navigation__btnName_active').classList.remove('navigation__btnName_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-active.png';
     btnUpgrades.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
     btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-inactive.png';
     btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-inactive.png';
+    btnMainScreen.parentElement.querySelector('.navigation__btnName').classList.add('navigation__btnName_active');
     mainScreen.classList.add('screen_active');
   } else if (btnUpgrades.checked) {
-    // console.log('Upgrades');
     document.querySelector('.screen_active').classList.remove('screen_active');
+    document.querySelector('.navigation__btnName_active').classList.remove('navigation__btnName_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
     btnUpgrades.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-active.png';
     btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-inactive.png';
     btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-inactive.png';
+    btnUpgrades.parentElement.querySelector('.navigation__btnName').classList.add('navigation__btnName_active');
     upgradesScreen.classList.add('screen_active');
   } else if (btnTasks.checked) {
-    // console.log('Tasks');
     document.querySelector('.screen_active').classList.remove('screen_active');
+    document.querySelector('.navigation__btnName_active').classList.remove('navigation__btnName_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
     btnUpgrades.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
     btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-active.png';
     btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-inactive.png';
+    btnTasks.parentElement.querySelector('.navigation__btnName').classList.add('navigation__btnName_active');
     tasksScreen.classList.add('screen_active');
   } else if (btnAchievements.checked) {
-    // console.log('Achieve');
     document.querySelector('.screen_active').classList.remove('screen_active');
+    document.querySelector('.navigation__btnName_active').classList.remove('navigation__btnName_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
     btnUpgrades.parentElement.querySelector('.navigation__buttonIcon').src = './images/upgrade-button-icon-inactive.png';
     btnTasks.parentElement.querySelector('.navigation__buttonIcon').src = './images/friends-button-icon-inactive.png';
     btnAchievements.parentElement.querySelector('.navigation__buttonIcon').src = './images/achievements-button-icon-active.png';
+    btnAchievements.parentElement.querySelector('.navigation__btnName').classList.add('navigation__btnName_active');
     achievementsScreen.classList.add('screen_active');
   }
 }
@@ -283,6 +297,18 @@ function allUpgradesRenderer() {
   });
 }
 
+function tasksRenderer() {
+  tasks.forEach((elem) => {
+    taskCardsField.append(createTaskCards(elem));
+  });
+}
+
+function achievementsRenderer() {
+  achievements.forEach((elem) => {
+    achievementCardsField.append(createAchievementCards(elem));
+  });
+}
+
 window.onload = (event) => {
   console.log("Page is loaded");
   screenSwitcher();
@@ -290,6 +316,8 @@ window.onload = (event) => {
   energyLimitator();
   energyLimitRenderer();
   allUpgradesRenderer();
+  tasksRenderer();
+  achievementsRenderer()
 };
 
 console.log(!window.closed);

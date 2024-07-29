@@ -5,6 +5,7 @@
 
 @import url(../blocks/screen/screen.css);
 @import url(../blocks/screen/_active/screen_active.css);
+@import url(../blocks/screen/__title/screen__title.css);
 
 @import url(../blocks/mainScreen/mainScreen.css);
 @import url(../blocks/mainScreen/__score/mainScreen__score.css);
@@ -16,9 +17,14 @@
 
 @import url(../blocks/tasksScreen/tasksScreen.css);
 @import url(../blocks/tasksScreen/__title/tasksScreen__title.css);
+@import url(../blocks/tasksScreen/__cardField/tasksScreen__cardField.css);
+@import url(../blocks/tasksScreen/__inviteBtn/tasksScreen__inviteBtn.css);
+@import url(../blocks/tasksScreen/__inviteBtnText/tasksScreen__inviteBtnText.css);
+@import url(../blocks/tasksScreen/__inviteBtnIcon/tasksScreen__inviteBtnIcon.css);
 
 @import url(../blocks/achievementsScreen/achievementsScreen.css);
 @import url(../blocks/achievementsScreen/__title/achievementsScreen__title.css);
+@import url(../blocks/achievementsScreen/__cardField/achievementsScreen__cardField.css);
 
 @import url(../blocks/navigation/navigation.css);
 @import url(../blocks/navigation/__input/navigation__input.css);
@@ -28,12 +34,13 @@
 @import url(../blocks/navigation/__button/_type/navigation__button_type_tasks.css);
 @import url(../blocks/navigation/__button/_type/navigation__button_type_achievements.css);
 @import url(../blocks/navigation/__btnName/navigation__btnName.css);
+@import url(../blocks/navigation/__btnName/_active/navigation__btnName_active.css);
 
 @import url(../blocks/upgradeCard/upgradeCard.css);
 @import url(../blocks/upgradeCard/__topArea/upgradeCard__topArea.css);
 @import url(../blocks/upgradeCard/__icon/upgradeCard__icon.css);
 @import url(../blocks/upgradeCard/__info/upgradeCard__info.css);
-@import url(../blocks/upgradeCard/__name/upgradeCard__name.css);
+@import url(../blocks/upgradeCard/__title/upgradeCard__title.css);
 @import url(../blocks/upgradeCard/__text/upgradeCard__text.css);
 @import url(../blocks/upgradeCard/__effectArea/upgradeCard__effectArea.css);
 @import url(../blocks/upgradeCard/__effectIcon/upgradeCard__effectIcon.css);
@@ -71,3 +78,8 @@
 @import url(../blocks/energyArea/__score/energyArea__score.css);
 @import url(../blocks/energyArea/__slash/energyArea__slash.css);
 @import url(../blocks/energyArea/__limit/energyArea__limit.css);
+
+@import url(../blocks/wideCard/wideCard.css);
+@import url(../blocks/wideCard/__icon/wideCard__icon.css);
+@import url(../blocks/wideCard/__title/wideCard__title.css);
+@import url(../blocks/wideCard/__info/wideCard__info.css);

@@ -1,6 +1,7 @@
 .upgradeCard {
   margin: 0;
   padding: 4px;
+  box-sizing: border-box;
   width: 172px;
   height: 96px;
   border-radius: 8px;

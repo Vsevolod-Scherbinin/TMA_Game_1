@@ -18,10 +18,17 @@ const passiveUpgradesField = document.querySelector('.upgradesScreen__upgradesFi
 const activeUpgradesField = document.querySelector('.upgradesScreen__upgradesField_type_active');
 
 const tasksScreen = document.querySelector('.tasksScreen');
+const taskCardsField = document.querySelector('.tasksScreen__cardField');
+
 const achievementsScreen = document.querySelector('.achievementsScreen');
+const achievementCardsField = document.querySelector('.achievementsScreen__cardField');
+
 
 const testBtn = document.querySelector('.test');
 const upgradeCardTemplate = document.querySelector('#upgradeCard').content;
+const wideCardTemplate = document.querySelector('#wideCard').content;
+// const taskCardTemplate = document.querySelector('#wideCard').content;
+// const achievementCardTemplate = document.querySelector('#wideCard').content;
 
 const currentUpgrades = [];
 

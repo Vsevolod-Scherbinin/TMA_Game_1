@@ -1,7 +1,7 @@
 const activeUpgrades = [
   {
     id: 1,
-    name: "Delta up",
+    title: "Delta up",
     levels: [
       {
         level: 1,
@@ -32,7 +32,7 @@ const activeUpgrades = [
   },
   {
     id: 2,
-    name: "Energy up",
+    title: "Energy up",
     levels: [
       {
         level: 0,

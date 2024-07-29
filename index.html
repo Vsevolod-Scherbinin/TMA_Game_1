@@ -25,9 +25,6 @@
       </div>
     </div>
   </div>
-  <!-- <section class="mainScreen screen_active"> -->
-
-    <!-- <h2 class="mainScreen__name"></h2> -->
   <div class="scoreArea">
     <img src="./images/coin.png" alt="Coin" class="scoreArea__icon">
     <div class="scoreArea__score"></div>
@@ -48,46 +45,51 @@
   </section>
   <!-- </section> -->
   <section class="screen upgradesScreen ">
-    <h2 class="upgradesScreen__title upgradesScreen__title_type_active">Active income</h2>
+    <h2 class="screen__title upgradesScreen__title upgradesScreen__title_type_active">Active income</h2>
     <div class="upgradesScreen__upgradesField upgradesScreen__upgradesField_type_active"></div>
-    <h2 class="upgradesScreen__title upgradesScreen__title_type_passive">Passive income</h2>
+    <h2 class="screen__title upgradesScreen__title upgradesScreen__title_type_passive">Passive income</h2>
     <div class="upgradesScreen__upgradesField upgradesScreen__upgradesField_type_passive"></div>
   </section>
   <section class="screen tasksScreen">
-    <h1 class="tasksScreen__title">Tasks</h1>
+    <h2 class="screen__title tasksScreen__title">Пригласи друзей</h2>
+    <div class="tasksScreen__cardField"></div>
+    <div class="tasksScreen__inviteBtn">
+      <p class="tasksScreen__inviteBtnText">Пригласить друга</p>
+      <img src="./images/invite-icon.svg" alt="InviteIcon" class="tasksScreen__inviteBtnIcon">
+    </div>
   </section>
   <section class="screen achievementsScreen">
-    <h1 class="achievementsScreen__title">Achievements</h1>
+    <h2 class="screen__title achievementsScreen__title">Достижения</h2>
+    <div class="achievementsScreen__cardField"></div>
   </section>
   <section class="navigation">
     <label class="navigation__button">
-      <input class="navigation__input navigation__button_type_main" type="radio" id="main" name="screen" value="main" checked/>
+      <input class="navigation__input navigation__button_type_main" type="radio" id="main" name="screen" value="main" />
       <img src="./images/mainscreen-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_main">
-      <span class="navigation__btnName">Main</span>
+      <span class="navigation__btnName navigation__btnName_active">Игра</span>
     </label>
     <label class="navigation__button">
       <input class="navigation__input navigation__button_type_upgrades" type="radio" id="upgrades" name="screen" value="upgrades" />
       <img src="./images/upgrade-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_upgrades">
-      <span class="navigation__btnName">Upgrades</span>
+      <span class="navigation__btnName">Апгрейды</span>
     </label>
     <label class="navigation__button">
       <input class="navigation__input navigation__button_type_tasks" type="radio" id="tasks" name="screen" value="tasks" />
       <img src="./images/friends-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_tasks">
-      <span class="navigation__btnName">Friends</span>
+      <span class="navigation__btnName">Задания</span>
     </label>
     <label class="navigation__button">
-      <input class="navigation__input navigation__button_type_achievement" type="radio" id="achievement" name="screen" value="achievement" />
+      <input class="navigation__input navigation__button_type_achievement" type="radio" id="achievement" name="screen" value="achievement" checked/>
       <img src="./images/achievements-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_achievements">
-      <span class="navigation__btnName">Achievements</span>
+      <span class="navigation__btnName">Награды</span>
     </label>
   </section>
   <template id="upgradeCard">
-    <!-- <button class="upgradeCard"></button> -->
     <div class="upgradeCard">
       <div class="upgradeCard__topArea">
         <img src="" alt="icon" class="upgradeCard__icon">
         <div class="upgradeCard__info">
-          <h3 class="upgradeCard__name"></h3>
+          <h3 class="upgradeCard__title"></h3>
           <p class="upgradeCard__text">Effect</p>
           <div class="upgradeCard__effectArea">
             <img src="./images/passive-income-icon.png" alt="icon" class="upgradeCard__effectIcon">
@@ -104,9 +106,23 @@
       </div>
     </div>
   </template>
+  <template id="wideCard">
+    <div class="wideCard">
+      <img src="" alt="icon" class="wideCard__icon">
+      <div class="wideCard__info">
+        <h3 class="wideCard__title"></h3>
+        <!-- <div class="wideCard__effectArea">
+          <img src="./images/passive-income-icon.png" alt="icon" class="wideCard__effectIcon">
+          <p class="wideCard__effect"></p>
+        </div> -->
+      </div>
+    </div>
+  </template>
   <script src="./constants/userData.js"></script>
   <script src="./constants/activeUpgrades.js"></script>
   <script src="./constants/passiveUpgrades.js"></script>
+  <script src="./constants/tasks.js"></script>
+  <script src="./constants/achievements.js"></script>
   <script src="./constants/constants.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
