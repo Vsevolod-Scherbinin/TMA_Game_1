@@ -309,6 +309,17 @@ function achievementsRenderer() {
   });
 }
 
+function inviteFriends() {
+  const url = 'https://t.me/FirstTGTest_bot';
+  const text = 'Привет! Я нашел этот классный канал/бота и хочу, чтобы ты тоже его посмотрел!';
+
+  // Используем Telegram Web Apps API для открытия ссылки
+  window.Telegram.WebApp.sendData(JSON.stringify({url: url, text: text}));
+}
+
+inviteFriendBtn.addEventListener('click', inviteFriends);
+
+
 window.onload = (event) => {
   console.log("Page is loaded");
   screenSwitcher();
