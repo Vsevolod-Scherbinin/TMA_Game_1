@@ -13,4 +13,5 @@
   justify-self: end;
   position: absolute;
   bottom: 0;
+  cursor: pointer;
 }
