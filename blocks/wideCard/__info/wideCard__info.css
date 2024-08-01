@@ -1,5 +1,10 @@
 .wideCard__info {
   margin: 0;
   padding: 0;
-  justify-self: start;
+  max-width: 230px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 8px;
 }

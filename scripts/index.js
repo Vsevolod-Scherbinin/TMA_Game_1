@@ -231,7 +231,8 @@ function createTaskCards(elem) {
   return taskCardElement;
 }
 
-function createAchievementCards(elem) {
+function createWideCards(elem) {
+  // function createAchievementCards(elem) {
   const achievementCardElement = wideCardTemplate.cloneNode(true);
   achievementCardElement.querySelector('.wideCard__icon').src = elem.mainIcon;
   achievementCardElement.querySelector('.wideCard__title').textContent = elem.title;
@@ -303,13 +304,15 @@ function allUpgradesRenderer() {
 
 function tasksRenderer() {
   tasks.forEach((elem) => {
-    taskCardsField.append(createTaskCards(elem));
+    taskCardsField.append(createWideCards(elem));
+    // taskCardsField.append(createTaskCards(elem));
   });
 }
 
 function achievementsRenderer() {
   achievements.forEach((elem) => {
-    achievementCardsField.append(createAchievementCards(elem));
+    achievementCardsField.append(createWideCards(elem));
+    // achievementCardsField.append(createAchievementCards(elem));
   });
 }
 

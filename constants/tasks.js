@@ -1,12 +1,18 @@
 const tasks = [
   {
     id: 1,
+    mainIcon: "./images/achievements-icon.png",
     title: "Пригласить друга",
-    text: "+2000 для Вас и Вашего друга",
+    description: "+2000 для Вас и Вашего друга",
+    effectIcon: "./images/coin.png",
+    effect: 2000,
   },
   {
     id: 2,
+    mainIcon: "./images/achievements-icon.png",
     title: "Пригласить друга с Telegram Premium",
-    text: "+20000 для Вас и Вашего друга",
+    description: "+20000 для Вас и Вашего друга",
+    effectIcon: "./images/coin.png",
+    effect: 20000,
   },
 ];
