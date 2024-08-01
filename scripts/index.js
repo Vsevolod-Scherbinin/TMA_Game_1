@@ -1,24 +1,17 @@
 // ToDo
-// Pull this data to html layout
-// Don't save income and energy to userData storage. Find them from constants.
+// Passive Income
+  // Online -- Done
+  // Offline
+// LevelUps
+// Unlocking Cards
+// Gathering rewards from cards
 
 function scoreRenderer() {
   scoreField.textContent = userData.score;
 }
 
-// Optimise
 function passiveIncomeRenderer(income) {
   passiveIncomeScoreField.textContent = `+${income}`;
-}
-
-function passiveIncomeCounter() {
-  let passiveIncome = 0;
-  userData.passiveUpgrades.forEach((item) => {
-    const upgradeFromConstant = passiveUpgrades.find(upgrade => upgrade.id === item.id);
-    const upgradeFromConstantLevel = upgradeFromConstant.levels.find(upgrade => upgrade.level === item.level);
-    passiveIncome = passiveIncome + upgradeFromConstantLevel.income;
-  })
-  return passiveIncome;
 }
 
 function userEnergyUpgradeFinder() {
@@ -85,6 +78,16 @@ function energyRenderer() {
 // --------------- Energy-End ---------------
 
 // --------------- Income-Start ---------------
+function passiveIncomeCounter() {
+  let passiveIncome = 0;
+  userData.passiveUpgrades.forEach((item) => {
+    const upgradeFromConstant = passiveUpgrades.find(upgrade => upgrade.id === item.id);
+    const upgradeFromConstantLevel = upgradeFromConstant.levels.find(upgrade => upgrade.level === item.level);
+    passiveIncome = passiveIncome + upgradeFromConstantLevel.income;
+  })
+  return passiveIncome;
+}
+
 function cummulativeIncomeCounter() {
   userData.cummulativeIncome = userData.cummulativeIncome + userData.delta;
   saveUserData();
@@ -106,7 +109,39 @@ let timer = 0;
 const now = new Date();
 console.log(now);
 
-// function passiveIncomeCounter() {
+const onlinePassiveTimeLimit = 3600 * 3;
+
+// Add online condition
+function passiveOnlineScoreCounter() {
+  if(timer < onlinePassiveTimeLimit) {
+    console.log(timer);
+    const passiveIncome = passiveIncomeCounter();
+    userData.score = userData.score + passiveIncome / 3600;
+    scoreRenderer();
+    saveUserData();
+    timer++;
+  }
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    console.log('Hidden');
+    // tab is changed
+  } else {
+    console.log('Visible');
+
+    // tab is active
+  }
+});
+
+let passiveIncomeTimer = setInterval(() => {
+  passiveOnlineScoreCounter();
+  if(timer == onlinePassiveTimeLimit) {
+    clearInterval(passiveIncomeTimer);
+  }
+},  1000);
+
+// function passiveScoreCounter() {
 //   console.log('Try');
 //   if(timer > 5) {
 //     // timeCounter();
@@ -336,6 +371,7 @@ window.onload = (event) => {
   allUpgradesRenderer();
   tasksRenderer();
   achievementsRenderer();
+  passiveOnlineScoreCounter();
   // if(window.Telegram.WebApp.initDataUnsafe.user.first_name !== undefined) {
   //   nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
   // }
