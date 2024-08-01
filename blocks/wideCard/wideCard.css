@@ -6,8 +6,8 @@
   height: 80px;
   border-radius: 8px;
   display: flex;
-  align-items: start;
-  justify-content: start;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
   background: #F4F3F480;
+  position: relative;
 }

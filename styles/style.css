@@ -79,7 +79,11 @@
 @import url(../blocks/energyArea/__slash/energyArea__slash.css);
 @import url(../blocks/energyArea/__limit/energyArea__limit.css);
 
+@import url(../blocks/wideCard/__effectArea/wideCard__effectArea.css);
+@import url(../blocks/wideCard/__effect/wideCard__effect.css);
 @import url(../blocks/wideCard/wideCard.css);
-@import url(../blocks/wideCard/__icon/wideCard__icon.css);
 @import url(../blocks/wideCard/__title/wideCard__title.css);
+@import url(../blocks/wideCard/__icon/wideCard__icon.css);
+@import url(../blocks/wideCard/__description/wideCard__description.css);
+@import url(../blocks/wideCard/__effectIcon/wideCard__effectIcon.css);
 @import url(../blocks/wideCard/__info/wideCard__info.css);

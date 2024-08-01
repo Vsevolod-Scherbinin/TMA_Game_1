@@ -233,7 +233,11 @@ function createTaskCards(elem) {
 
 function createAchievementCards(elem) {
   const achievementCardElement = wideCardTemplate.cloneNode(true);
+  achievementCardElement.querySelector('.wideCard__icon').src = elem.mainIcon;
   achievementCardElement.querySelector('.wideCard__title').textContent = elem.title;
+  achievementCardElement.querySelector('.wideCard__description').textContent = elem.description;
+  achievementCardElement.querySelector('.wideCard__effectIcon').src = elem.effectIcon;
+  achievementCardElement.querySelector('.wideCard__effect').textContent = `+${elem.effect}`;
   return achievementCardElement;
 }
 
@@ -329,9 +333,9 @@ window.onload = (event) => {
   allUpgradesRenderer();
   tasksRenderer();
   achievementsRenderer();
-  if(window.Telegram.WebApp.initDataUnsafe.user.first_name !== undefined) {
-    nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
-  }
+  // if(window.Telegram.WebApp.initDataUnsafe.user.first_name !== undefined) {
+  //   nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+  // }
 };
 
 console.log(!window.closed);

@@ -1,14 +1,18 @@
 const achievements = [
   {
     id: 1,
+    mainIcon: "./images/achievements-icon.png",
     title: "Миллионер",
-    effect: 10000,
-    text: "Заработайте свой первый миллион коинов",
+    description: "Заработайте свой первый миллион коинов",
+    effectIcon: "./images/coin.png",
+    effect: 100000,
   },
   {
-    id: 2,
+    id: 1,
+    mainIcon: "./images/achievements-icon.png",
     title: "Миллионер",
-    effect: 10000,
-    text: "Заработайте свой первый миллион коинов",
+    description: "Заработайте свой первый миллион коинов",
+    effectIcon: "./images/coin.png",
+    effect: 100000,
   },
 ];
