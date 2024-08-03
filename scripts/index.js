@@ -81,8 +81,6 @@ function passiveOfflineIncomeCounter(seconds) {
 // --------------- Income-End ---------------
 
 // --------------- Energy-Start ---------------
-let energyRecoveryTrigger = false;
-
 function energyLimiter() {
   const currentEnergyLevel = energyUpgrade.levels.find(upgrade => upgrade.level === userData.activeUpgrades.find(upgrade => upgrade.id === 2).level);
   const currentEnergyLimit = currentEnergyLevel.energyLimit;
@@ -100,19 +98,21 @@ function energyRenderer() {
 function energyCounter() {
   userData.energy = userData.energy - userData.delta;
 }
-let energyRecoveryInterval;
 
-function energyRecoveryLooper() {
-  if(energyRecoveryTrigger) {
+let energyRecoveryInterval;
+let energyRecoveryTimeout;
+
+function energyRecoveryLooper(start) {
+  if(start) {
     energyRecoveryInterval = setInterval(() => {
-    energyRecovery();
-    if(userData.energy >= energyLimiter()) {
-      clearInterval(energyRecoveryInterval);
-    }
+      energyRecovery();
+      if(userData.energy >= energyLimiter()) {
+        clearInterval(energyRecoveryInterval);
+      }
     }, 1000);
+  } else {
+    clearInterval(energyRecoveryInterval);
   }
-  !energyRecoveryTrigger && clearInterval(energyRecoveryInterval);
-  energyRecoveryTrigger = false;
 }
 
 function energyRecovery() {
@@ -372,10 +372,21 @@ function inviteFriends() {
 inviteFriendBtn.addEventListener('click', inviteFriends);
 
 // --------------- MainClick-Start ---------------
+function setEnergyRecoveryTimeout(start) {
+  if(start) {
+    energyRecoveryTimeout = setTimeout(() => {
+      energyRecoveryLooper(true);
+    }, 1000);
+
+  } else {
+    clearTimeout(energyRecoveryTimeout);
+  }
+}
+
 btnMain.addEventListener('click', () => {
-  energyRecoveryTrigger = false;
-  energyRecoveryLooper();
   if(userData.energy > 0) {
+    setEnergyRecoveryTimeout(false);
+    energyRecoveryLooper(false)
     scoreCounter();
     energyCounter();
     scoreRenderer();
@@ -383,10 +394,7 @@ btnMain.addEventListener('click', () => {
     cummulativeIncomeCounter();
     saveUserData();
   }
-    setTimeout(() => {
-      energyRecoveryTrigger = true;
-      energyRecoveryLooper();
-    }, 1000);
+  setEnergyRecoveryTimeout(true);
 });
 // --------------- MainClick-End ---------------
 
@@ -411,8 +419,7 @@ window.onload = () => {
     }
   },  1000);
 
-  energyRecoveryTrigger = true;
-  energyRecoveryLooper();
+  energyRecoveryLooper(true);
   // if(window.Telegram.WebApp.initDataUnsafe.user.first_name !== undefined) {
   //   nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
   // }
