@@ -81,14 +81,16 @@ function passiveOfflineIncomeCounter(seconds) {
 // --------------- Income-End ---------------
 
 // --------------- Energy-Start ---------------
-function energyLimitator() {
+let energyRecoveryTrigger = false;
+
+function energyLimiter() {
   const currentEnergyLevel = energyUpgrade.levels.find(upgrade => upgrade.level === userData.activeUpgrades.find(upgrade => upgrade.id === 2).level);
   const currentEnergyLimit = currentEnergyLevel.energyLimit;
   return currentEnergyLimit;
 }
 
 function energyLimitRenderer() {
-  energyLimitField.textContent = energyLimitator();
+  energyLimitField.textContent = energyLimiter();
 }
 
 function energyRenderer() {
@@ -98,12 +100,26 @@ function energyRenderer() {
 function energyCounter() {
   userData.energy = userData.energy - userData.delta;
 }
+let energyRecoveryInterval;
+
+function energyRecoveryLooper() {
+  if(energyRecoveryTrigger) {
+    energyRecoveryInterval = setInterval(() => {
+    energyRecovery();
+    if(userData.energy >= energyLimiter()) {
+      clearInterval(energyRecoveryInterval);
+    }
+    }, 1000);
+  }
+  !energyRecoveryTrigger && clearInterval(energyRecoveryInterval);
+  energyRecoveryTrigger = false;
+}
 
 function energyRecovery() {
-  if(userData.energy < energyLimitator()) {
+  if(userData.energy < energyLimiter()) {
     userData.energy = userData.energy + 3;
-    if(userData.energy >= energyLimitator()) {
-      userData.energy = energyLimitator();
+    if(userData.energy >= energyLimiter()) {
+      userData.energy = energyLimiter();
     }
   }
   energyRenderer();
@@ -357,6 +373,8 @@ inviteFriendBtn.addEventListener('click', inviteFriends);
 
 // --------------- MainClick-Start ---------------
 btnMain.addEventListener('click', () => {
+  energyRecoveryTrigger = false;
+  energyRecoveryLooper();
   if(userData.energy > 0) {
     scoreCounter();
     energyCounter();
@@ -364,8 +382,11 @@ btnMain.addEventListener('click', () => {
     energyRenderer();
     cummulativeIncomeCounter();
     saveUserData();
-    // setTimeout(energyRecovery, 1000);
   }
+    setTimeout(() => {
+      energyRecoveryTrigger = true;
+      energyRecoveryLooper();
+    }, 1000);
 });
 // --------------- MainClick-End ---------------
 
@@ -376,7 +397,7 @@ window.onload = () => {
   passiveOfflineIncomeCounter(offlineTimeCounter());
   passiveOnlineIncomeCounter();
   energyRenderer();
-  energyLimitator();
+  energyLimiter();
   energyLimitRenderer();
   allUpgradesRenderer();
   tasksRenderer();
@@ -390,12 +411,8 @@ window.onload = () => {
     }
   },  1000);
 
-  let energyRecoveryTimer = setInterval(() => {
-    energyRecovery();
-    if(userData.energy >= energyLimitator()) {
-      clearInterval(energyRecoveryTimer);
-    }
-  },  1000);
+  energyRecoveryTrigger = true;
+  energyRecoveryLooper();
   // if(window.Telegram.WebApp.initDataUnsafe.user.first_name !== undefined) {
   //   nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
   // }
