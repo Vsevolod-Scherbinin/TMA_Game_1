@@ -1,13 +1,12 @@
 // ToDo
-// Passive Income
-  // Online -- Done
-  // Offline -- Done
-    // Limiter -- Done
-    // PopUp -- TG
 // Energy
+  // Usage
+  // Recovery
 // Level
-    // LevelUps
-    // PopUp -- TG
+  // LevelUps
+// PopUps -- TG
+  // PassiveOfflineIncome
+  // LevelUps
 // Unlocking Cards
 // Gathering rewards from cards
 
@@ -21,22 +20,6 @@ function scoreRenderer() {
 function passiveIncomeRenderer(income) {
   passiveIncomeScoreField.textContent = `+${income}`;
 }
-
-// --------------- Energy-Start ---------------
-function energyLimitator() {
-  const currentEnergyLevel = energyUpgrade.levels.find(upgrade => upgrade.level === userData.activeUpgrades.find(upgrade => upgrade.id === 2).level);
-  const currentEnergyLimit = currentEnergyLevel.energyLimit;
-  return currentEnergyLimit;
-}
-
-function energyLimitRenderer() {
-  energyLimitField.textContent = energyLimitator();
-}
-
-function energyRenderer() {
-  energyScoreField.textContent = userData.energy;
-}
-// --------------- Energy-End ---------------
 
 // --------------- Income-Start ---------------
 function passiveIncomeCounter() {
@@ -58,14 +41,7 @@ function cummulativeIncomeCounter() {
 
 function scoreCounter() {
   userData.score = userData.score + userData.delta;
-  scoreRenderer();
-  saveUserData();
 }
-btnMain.addEventListener('click', () => {
-  scoreCounter();
-  cummulativeIncomeCounter();
-});
-// btnMain.addEventListener('click', scoreCounter);
 
 let timer = 0;
 
@@ -104,6 +80,36 @@ function passiveOfflineIncomeCounter(seconds) {
 }
 // --------------- Income-End ---------------
 
+// --------------- Energy-Start ---------------
+function energyLimitator() {
+  const currentEnergyLevel = energyUpgrade.levels.find(upgrade => upgrade.level === userData.activeUpgrades.find(upgrade => upgrade.id === 2).level);
+  const currentEnergyLimit = currentEnergyLevel.energyLimit;
+  return currentEnergyLimit;
+}
+
+function energyLimitRenderer() {
+  energyLimitField.textContent = energyLimitator();
+}
+
+function energyRenderer() {
+  energyScoreField.textContent = userData.energy;
+}
+
+function energyCounter() {
+  userData.energy = userData.energy - userData.delta;
+}
+
+function energyRecovery() {
+  if(userData.energy < energyLimitator()) {
+    userData.energy = userData.energy + 3;
+    if(userData.energy >= energyLimitator()) {
+      userData.energy = energyLimitator();
+    }
+  }
+  energyRenderer();
+  saveUserData();
+}
+// --------------- Energy-End ---------------
 
 // --------------- Purchase-Start ---------------
 // function purchaseUpgrade(obj) {
@@ -153,7 +159,9 @@ function userDataLoad() {
       userData[key] = localUserData[key];
     })
   }
+  userData.passiveUpgrades[0].level = 1;
   scoreRenderer();
+  energyRenderer();
   passiveIncomeRenderer(passiveIncomeCounter());
   console.log(userData);
 }
@@ -194,13 +202,15 @@ function addUpgrade(evt, upgradesArray) {
     if(currentUpgradeLevel.income !== undefined) {
       console.log('income');
       // Fix counting
+      userUpgrade.level++;
       const passiveIncome = passiveIncomeCounter();
       passiveIncomeRenderer(passiveIncome);
     }
 
+    console.log(nextUpgrade);
 
     if(nextUpgrade) {
-      userUpgrade.level++;
+      // userUpgrade.level++;
       currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `lvl ${nextUpgrade.level}`;
       currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `${nextUpgrade.cost}`;
       if(nextUpgrade.income !== undefined) {
@@ -241,7 +251,9 @@ function createUpgradeCard(elem, upgradesArray) {
   });
   return upgradeCardElement;
 };
+// --------------- Upgrades-End ---------------
 
+// --------------- WideCards-End ---------------
 function createTaskCards(elem) {
   const taskCardElement = wideCardTemplate.cloneNode(true);
   taskCardElement.querySelector('.wideCard__title').textContent = elem.title;
@@ -258,10 +270,7 @@ function createWideCards(elem) {
   achievementCardElement.querySelector('.wideCard__effect').textContent = `+${elem.effect}`;
   return achievementCardElement;
 }
-
-function test() {
-}
-// --------------- Upgrades-End ---------------
+// --------------- WideCards-End ---------------
 
 // --------------- Navigation-Start ---------------
 function screenSwitcher() {
@@ -310,6 +319,7 @@ btnTasks.addEventListener('click', screenSwitcher);
 btnAchievements.addEventListener('click', screenSwitcher);
 // --------------- Navigation-End ---------------
 
+// --------------- CardsRenderer-Start ---------------
 function allUpgradesRenderer() {
   activeUpgrades.forEach((elem) => {
     activeUpgradesField.append(createUpgradeCard(elem, 'activeUpgrades'));
@@ -341,15 +351,31 @@ function inviteFriends() {
   window.Telegram.WebApp.sendData(JSON.stringify({url: url, text: text}));
   console.log('Invitation');
 }
+// --------------- CardsRenderer-End ---------------
 
 inviteFriendBtn.addEventListener('click', inviteFriends);
 
-window.onload = (event) => {
-  console.log("Page is loaded");
+// --------------- MainClick-Start ---------------
+btnMain.addEventListener('click', () => {
+  if(userData.energy > 0) {
+    scoreCounter();
+    energyCounter();
+    scoreRenderer();
+    energyRenderer();
+    cummulativeIncomeCounter();
+    saveUserData();
+    // setTimeout(energyRecovery, 1000);
+  }
+});
+// --------------- MainClick-End ---------------
+
+// --------------- Window-Start ---------------
+window.onload = () => {
   screenSwitcher();
   userDataLoad();
-  passiveOnlineIncomeCounter();
   passiveOfflineIncomeCounter(offlineTimeCounter());
+  passiveOnlineIncomeCounter();
+  energyRenderer();
   energyLimitator();
   energyLimitRenderer();
   allUpgradesRenderer();
@@ -365,9 +391,9 @@ window.onload = (event) => {
   },  1000);
 
   let energyRecoveryTimer = setInterval(() => {
-    // limiter
-    if(timer == onlinePassiveTimeLimit) {
-      clearInterval(passiveIncomeTimer);
+    energyRecovery();
+    if(userData.energy >= energyLimitator()) {
+      clearInterval(energyRecoveryTimer);
     }
   },  1000);
   // if(window.Telegram.WebApp.initDataUnsafe.user.first_name !== undefined) {
@@ -379,6 +405,7 @@ window.addEventListener('beforeunload', (evt) => {
   evt.preventDefault();
   localStorage.setItem('closureTime', new Date());
 });
+// --------------- Window-End ---------------
 
 // nameField.textContent = TMA.initDataUnsafe.user.first_name;
 // console.log(TMA);
