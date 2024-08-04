@@ -1,5 +1,4 @@
 // ToDo
-// Delta -- Done
 // CummulativeIncome
 // TotalClicks
 // Level
@@ -9,7 +8,9 @@
   // LevelUps
 // Unlocking Cards
 // Gathering rewards from cards
+
 // Friends!!
+// Updating Model Safe!!!
 
 const passiveOfflineIncomeHoursLimit = 3;
 const onlinePassiveTimeLimit = 3600 * passiveOfflineIncomeHoursLimit;
@@ -111,12 +112,16 @@ let energyRecoveryTimeout;
 function energyRecoveryLooper(start, type) {
   let cycleTime;
   type === 'normal' && (cycleTime = 1000);
-  type === 'fast' && (cycleTime = 50);
+  if(type === 'fast') {
+    cycleTime = 25;
+    btnMain.removeEventListener('click', mainClick);
+  }
   if(start) {
     energyRecoveryInterval = setInterval(() => {
       energyRecovery();
       if(userData.energy >= energyLimiter()) {
         clearInterval(energyRecoveryInterval);
+        type === 'fast' && btnMain.addEventListener('click', mainClick);
       }
     }, cycleTime);
   } else {
@@ -403,7 +408,7 @@ function setEnergyRecoveryTimeout(start) {
   }
 }
 
-btnMain.addEventListener('click', () => {
+function mainClick() {
   if(userData.energy > userData.delta) {
     setEnergyRecoveryTimeout(false);
     energyRecoveryLooper(false)
@@ -415,7 +420,9 @@ btnMain.addEventListener('click', () => {
     saveUserData();
   }
   setEnergyRecoveryTimeout(true);
-});
+}
+
+btnMain.addEventListener('click', mainClick);
 // --------------- MainClick-End ---------------
 
 // --------------- Window-Start ---------------
