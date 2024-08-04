@@ -3,6 +3,7 @@
   padding: 16px;
   box-sizing: border-box;
   width: 100vw;
+  max-width: 500px;
   height: 100vh;
   max-height: 800px;
   overflow: hidden;

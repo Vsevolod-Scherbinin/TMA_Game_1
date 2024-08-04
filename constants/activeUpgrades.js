@@ -4,6 +4,10 @@ const activeUpgrades = [
     title: "Delta up",
     levels: [
       {
+        level: 0,
+        delta: 1,
+      },
+      {
         level: 1,
         cost: 10,
         delta: 2,

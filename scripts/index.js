@@ -1,6 +1,5 @@
 // ToDo
 // CummulativeIncome
-// TotalClicks
 // Level
   // LevelUps
 // PopUps -- TG
@@ -28,7 +27,6 @@ function deltaCounter() {
   const currentDeltaLevel = deltaUpgrade.levels.find(upgrade => upgrade.level === userData.activeUpgrades.find(upgrade => upgrade.id === 1).level);
   const currentDelta = currentDeltaLevel.delta;
   userData.delta = currentDelta;
-
 }
 
 function passiveIncomeCounter() {
@@ -56,6 +54,7 @@ function passiveOnlineIncomeCounter() {
   if(timer < onlinePassiveTimeLimit) {
     const passiveIncome = passiveIncomeCounter();
     userData.score = userData.score + Math.round(passiveIncome / 3600);
+    userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600);
     scoreRenderer();
     saveUserData();
     timer++;
@@ -77,9 +76,11 @@ function passiveOfflineIncomeCounter(seconds) {
   const limit = 3600 * passiveOfflineIncomeHoursLimit;
   const passiveIncome = passiveIncomeCounter();
   if(seconds < limit) {
-    userData.score = userData.score + passiveIncome / 3600 * seconds;
+    userData.score = userData.score + Math.round(passiveIncome / 3600) * seconds;
+    userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600);
   } else {
-    userData.score = userData.score + passiveIncome / 3600 * limit;
+    userData.score = userData.score + Math.round(passiveIncome / 3600) * limit;
+    userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600);
   }
   saveUserData();
 }
@@ -174,10 +175,23 @@ function loadUserData() {
     console.log('Old User');
 
     Object.keys(userDataModel).forEach((key) => {
+      // userData[key] = userDataModel[key];
       userData[key] = localUserData[key];
       userData[key] === undefined && (userData[key] = userDataModel[key]);
       // console.log(userData);
     })
+    // activeUpgrades.forEach((upgrade) => {
+    //   userData.activeUpgrades.push({
+    //     id: upgrade.id,
+    //     level: 0,
+    //   });
+    // })
+    // passiveUpgrades.forEach((upgrade) => {
+    //   userData.passiveUpgrades.push({
+    //     id: upgrade.id,
+    //     level: 0,
+    //   })
+    // })
   }
   console.log(userData);
 }
@@ -201,7 +215,7 @@ function upgradeFinder(upgradesArray, name) {
 }
 
 function upgradePurchase(upgrade) {
-  if(userData.score > upgrade.cost) {
+  if(userData.score >= upgrade.cost) {
     userData.score = userData.score - upgrade.cost;
     scoreRenderer();
     if(upgrade.income !== undefined) {
@@ -231,7 +245,7 @@ function addUpgrade(evt, upgradesArray) {
   console.log('currentUpgradeLevel', currentUpgradeLevel);
 
   // Make function purchase() {}
-  if(userData.score > currentUpgradeLevel.cost) {
+  if(userData.score >= currentUpgradeLevel.cost) {
     userData.score = userData.score - currentUpgradeLevel.cost;
     scoreRenderer();
     if(currentUpgradeLevel.income !== undefined) {
