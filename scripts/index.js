@@ -3,6 +3,8 @@
   // Condition -- Done
   // Rendering
 // Level
+  // Automatic Infinite Level Counter -- Done
+  // ProgressBar -- Done
   // LevelUps
 // PopUps -- TG
   // PassiveOfflineIncome
