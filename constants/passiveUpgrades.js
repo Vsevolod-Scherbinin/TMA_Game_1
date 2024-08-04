@@ -32,6 +32,16 @@ const passiveUpgrades = [
         cost: 50,
         income: 18000,
       },
+      {
+        level: 6,
+        cost: 50,
+        income: 24000,
+      },
+      {
+        level: 7,
+        cost: 50,
+        income: 36000,
+      },
     ],
   },
   {

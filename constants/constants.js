@@ -34,6 +34,7 @@ const wideCardTemplate = document.querySelector('#wideCard').content;
 
 const currentUpgrades = [];
 
+const deltaUpgrade = activeUpgrades.find(upgrade => upgrade.id === 1);
 const energyUpgrade = activeUpgrades.find(upgrade => upgrade.id === 2);
 
 // let score = 0;  // make condition of loaded data

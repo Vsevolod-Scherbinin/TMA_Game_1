@@ -6,27 +6,27 @@ const activeUpgrades = [
       {
         level: 1,
         cost: 10,
-        delta: 15,
+        delta: 2,
       },
       {
         level: 2,
         cost: 20,
-        delta: 30,
+        delta: 3,
       },
       {
         level: 3,
         cost: 30,
-        delta: 45,
+        delta: 4,
       },
       {
         level: 4,
         cost: 40,
-        delta: 60,
+        delta: 5,
       },
       {
         level: 5,
         cost: 50,
-        delta: 100,
+        delta: 6,
       },
     ],
   },
@@ -40,27 +40,27 @@ const activeUpgrades = [
       },
       {
         level: 1,
-        cost: 12,
+        cost: 500,
         energyLimit: 750,
       },
       {
         level: 2,
-        cost: 20,
+        cost: 1000,
         energyLimit: 1000,
       },
       {
         level: 3,
-        cost: 30,
+        cost: 1500,
         energyLimit: 1250,
       },
       {
         level: 4,
-        cost: 40,
+        cost: 2000,
         energyLimit: 1500,
       },
       {
         level: 5,
-        cost: 50,
+        cost: 3000,
         energyLimit: 1750,
       },
       {
