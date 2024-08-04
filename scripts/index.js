@@ -1,5 +1,7 @@
 // ToDo
-// CummulativeIncome
+// UpgradeCard Top Level
+  // Condition -- Done
+  // Rendering
 // Level
   // LevelUps
 // PopUps -- TG
@@ -10,9 +12,6 @@
 
 // Friends!!
 // Updating Model Safe!!!
-
-const passiveOfflineIncomeHoursLimit = 3;
-const onlinePassiveTimeLimit = 3600 * passiveOfflineIncomeHoursLimit;
 
 function scoreRenderer() {
   scoreField.textContent = userData.score;
@@ -55,6 +54,7 @@ function passiveOnlineIncomeCounter() {
     const passiveIncome = passiveIncomeCounter();
     userData.score = userData.score + Math.round(passiveIncome / 3600);
     userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600);
+    levelProgressCounter();
     scoreRenderer();
     saveUserData();
     timer++;
@@ -143,8 +143,54 @@ function energyRecovery() {
 
 // --------------- Energy-End ---------------
 
+// --------------- Level-Start ---------------
+function levelRenderer() {
+  levelField.textContent = `${userData.level}`;
+}
+
+function progressBarRenderer(prevLimit, currentLimit) {
+  if(userData.cummulativeIncome > 0) {
+    if(userData.level === 1) {
+      prevLimit = 0;
+    }
+    const progress = (userData.cummulativeIncome - prevLimit) / (currentLimit - prevLimit) * 100;
+    console.log('progress', progress);
+    progressBar.style.width = `${progress}%`;
+  } else {
+    progressBar.style.width = `0%`;
+
+  }
+}
+
+function levelLimitCounter(level) {
+  const a = 20;
+  const c = 80;
+  const levelLimit = a * Math.pow(level, 2) + c;
+  return levelLimit;
+}
+
+function levelProgressCounter() {
+  // userData.level = 1;
+  const prevLimit = levelLimitCounter(userData.level-1);
+  const currentLimit = levelLimitCounter(userData.level);
+  console.log('prevLimit', prevLimit);
+  console.log('currentLimit', currentLimit);
+
+  (userData.cummulativeIncome >= currentLimit) && userData.level++;
+
+  console.log('userData.cummulativeIncome', userData.cummulativeIncome);
+  progressBarRenderer(prevLimit, currentLimit);
+  // console.log('prevLevelLimit', levelLimitCounter(userData.level-1));
+  // console.log('levelLimit', currentLimit);
+  // console.log('nextLevelLimit', levelLimitCounter(userData.level+1));
+  levelRenderer();
+}
+// --------------- Level-End ---------------
+
 // --------------- User-Start ---------------
 const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
+// const localUserData = null;
+// localStorage.clear();
 
 function saveUserData() {
   localStorage.setItem('TMAGameUserData', JSON.stringify(userData));
@@ -175,11 +221,12 @@ function loadUserData() {
     console.log('Old User');
 
     Object.keys(userDataModel).forEach((key) => {
-      // userData[key] = userDataModel[key];
+      // userData[key] = userDataModel[key]; // Для обнуления пользователя
       userData[key] = localUserData[key];
       userData[key] === undefined && (userData[key] = userDataModel[key]);
       // console.log(userData);
     })
+    // Для обнуления пользователя
     // activeUpgrades.forEach((upgrade) => {
     //   userData.activeUpgrades.push({
     //     id: upgrade.id,
@@ -241,45 +288,49 @@ function addUpgrade(evt, upgradesArray) {
 
   const userUpgrade = userData[upgradesArray][currentUpgrade.id-1];
   const currentUpgradeLevel = currentUpgrade.levels.find(level => level.level === userUpgrade.level+1);
-  const nextUpgradeLevel = currentUpgrade.levels.find(level => level.level === currentUpgradeLevel.level+1);
+
+  let nextUpgradeLevel;
+  (currentUpgradeLevel) && (nextUpgradeLevel = currentUpgrade.levels.find(level => level.level === currentUpgradeLevel.level+1));
   console.log('currentUpgradeLevel', currentUpgradeLevel);
 
   // Make function purchase() {}
-  if(userData.score >= currentUpgradeLevel.cost) {
-    userData.score = userData.score - currentUpgradeLevel.cost;
-    scoreRenderer();
-    if(currentUpgradeLevel.income !== undefined) {
-      console.log('Income');
-      userUpgrade.level++;
-      passiveIncomeRenderer(passiveIncomeCounter());
-    } else if (currentUpgradeLevel.delta !== undefined) {
-      console.log('Delta');
-      userUpgrade.level++;
-    } else {
-      console.log('Energy');
-      userUpgrade.level++;
-      energyLimitRenderer();
-      // userData.energy = energyLimiter();
-      energyRecoveryLooper(true, 'fast');
-    }
-
-    console.log('nextUpgradeLevel', nextUpgradeLevel);
-
-    if(nextUpgradeLevel) {
-      // userUpgrade.level++;
-      currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `lvl ${nextUpgradeLevel.level}`;
-      currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `${nextUpgradeLevel.cost}`;
-      if(nextUpgradeLevel.income !== undefined) {
-        currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.income}`;
-      } else if(nextUpgradeLevel.delta !== undefined) {
-        currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.delta}`;
+  if(currentUpgradeLevel) {
+    if(userData.score >= currentUpgradeLevel.cost) {
+      userData.score = userData.score - currentUpgradeLevel.cost;
+      scoreRenderer();
+      if(currentUpgradeLevel.income !== undefined) {
+        console.log('Income');
+        userUpgrade.level++;
+        passiveIncomeRenderer(passiveIncomeCounter());
+      } else if (currentUpgradeLevel.delta !== undefined) {
+        console.log('Delta');
+        userUpgrade.level++;
       } else {
-        currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.energyLimit}`;
+        console.log('Energy');
+        userUpgrade.level++;
+        energyLimitRenderer();
+        // userData.energy = energyLimiter();
+        energyRecoveryLooper(true, 'fast');
       }
+
+      console.log('nextUpgradeLevel', nextUpgradeLevel);
+
+      if(nextUpgradeLevel) {
+        // userUpgrade.level++;
+        currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `lvl ${nextUpgradeLevel.level}`;
+        currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `${nextUpgradeLevel.cost}`;
+        if(nextUpgradeLevel.income !== undefined) {
+          currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.income}`;
+        } else if(nextUpgradeLevel.delta !== undefined) {
+          currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.delta}`;
+        } else {
+          currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.energyLimit}`;
+        }
+      }
+      saveUserData();
+    } else {
+      console.log('Недостаточно средств');
     }
-    saveUserData();
-  } else {
-    console.log('Недостаточно средств');
   }
 }
 
@@ -427,8 +478,9 @@ function mainClick() {
     setEnergyRecoveryTimeout(false);
     energyRecoveryLooper(false)
     scoreCounter();
-    energyCounter();
     scoreRenderer();
+    levelProgressCounter();
+    energyCounter();
     energyRenderer();
     cummulativeIncomeCounter();
     saveUserData();
@@ -443,6 +495,8 @@ btnMain.addEventListener('click', mainClick);
 window.onload = () => {
   screenSwitcher();
   loadUserData();
+  levelRenderer();
+  levelProgressCounter();
   deltaCounter();
   saveUserData();
   scoreRenderer();
@@ -456,8 +510,8 @@ window.onload = () => {
   allUpgradesRenderer();
   tasksRenderer();
   achievementsRenderer();
-  console.log(userData);
 
+  // Make separate function as energy
   let passiveIncomeTimer = setInterval(() => {
     passiveOnlineIncomeCounter();
     if(timer == onlinePassiveTimeLimit) {

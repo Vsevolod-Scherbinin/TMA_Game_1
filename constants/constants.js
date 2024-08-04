@@ -1,5 +1,11 @@
 // const TMA = window.Telegram.WebApp;
+const passiveOfflineIncomeHoursLimit = 3;
+const onlinePassiveTimeLimit = 3600 * passiveOfflineIncomeHoursLimit;
+
 const nameField = document.querySelector('.userBar__userName');
+const levelField = document.querySelector('.userBar__levelScore');
+const progressBar = document.querySelector('.userBar__progressBarInner');
+
 const btnMain = document.querySelector('.mainScreen__button');
 const scoreField = document.querySelector('.scoreArea__score');
 
