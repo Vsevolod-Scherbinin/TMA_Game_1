@@ -1,11 +1,11 @@
 .page {
-  margin: 0;
+  margin: 0 auto;
   padding: 16px;
   box-sizing: border-box;
   width: 100vw;
   max-width: 500px;
   height: 100vh;
-  max-height: 800px;
+  max-height: 950px;
   overflow: hidden;
   color: #fff;
   font-family: 'Inter', Arial, sans-serif;

@@ -5,7 +5,9 @@
 // Level
   // Automatic Infinite Level Counter -- Done
   // ProgressBar -- Done
-  // LevelUps
+  // Offline
+    // CummulativeIncome
+  // LevelUps (Reward)
 // PopUps -- TG
   // PassiveOfflineIncome
   // LevelUps
@@ -75,15 +77,24 @@ function offlineTimeCounter() {
 }
 
 function passiveOfflineIncomeCounter(seconds) {
+  console.log('cummulativeIncome', userData.cummulativeIncome);
   const limit = 3600 * passiveOfflineIncomeHoursLimit;
   const passiveIncome = passiveIncomeCounter();
+  // let offlinePassiveIncome =
   if(seconds < limit) {
+    console.log('offlinePassive Seconds', Math.round(passiveIncome / 3600) * seconds);
     userData.score = userData.score + Math.round(passiveIncome / 3600) * seconds;
-    userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600);
+    userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600) * seconds;
+    console.log('score', userData.score);
+    console.log('cummulativeIncome', userData.cummulativeIncome);
   } else {
+    console.log('offlinePassive Limit', Math.round(passiveIncome / 3600) * limit);
     userData.score = userData.score + Math.round(passiveIncome / 3600) * limit;
-    userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600);
+    userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600) * limit;
+    console.log('score', userData.score);
+    console.log('cummulativeIncome', userData.cummulativeIncome);
   }
+
   saveUserData();
 }
 // --------------- Income-End ---------------
@@ -156,7 +167,6 @@ function progressBarRenderer(prevLimit, currentLimit) {
       prevLimit = 0;
     }
     const progress = (userData.cummulativeIncome - prevLimit) / (currentLimit - prevLimit) * 100;
-    console.log('progress', progress);
     progressBar.style.width = `${progress}%`;
   } else {
     progressBar.style.width = `0%`;
@@ -164,27 +174,22 @@ function progressBarRenderer(prevLimit, currentLimit) {
   }
 }
 
+const a = 20;
+const c = 80;
 function levelLimitCounter(level) {
-  const a = 20;
-  const c = 80;
   const levelLimit = a * Math.pow(level, 2) + c;
   return levelLimit;
 }
 
 function levelProgressCounter() {
   // userData.level = 1;
+  userData.level = Math.floor(Math.sqrt((userData.cummulativeIncome - c) / a)) + 1;
+
   const prevLimit = levelLimitCounter(userData.level-1);
   const currentLimit = levelLimitCounter(userData.level);
-  console.log('prevLimit', prevLimit);
-  console.log('currentLimit', currentLimit);
 
-  (userData.cummulativeIncome >= currentLimit) && userData.level++;
-
-  console.log('userData.cummulativeIncome', userData.cummulativeIncome);
+  // (userData.cummulativeIncome >= currentLimit) && userData.level++;
   progressBarRenderer(prevLimit, currentLimit);
-  // console.log('prevLevelLimit', levelLimitCounter(userData.level-1));
-  // console.log('levelLimit', currentLimit);
-  // console.log('nextLevelLimit', levelLimitCounter(userData.level+1));
   levelRenderer();
 }
 // --------------- Level-End ---------------
