@@ -1,16 +1,13 @@
 // ToDo
 // UpgradeCard Top Level
-  // Condition -- Done
   // Rendering
 // Level
-  // Automatic Infinite Level Counter -- Done
-  // ProgressBar -- Done
-  // Offline
-    // CummulativeIncome
   // LevelUps (Reward)
 // PopUps -- TG
   // PassiveOfflineIncome
   // LevelUps
+// TapCounter
+// ExpencesCounter
 // Unlocking Cards
 // Gathering rewards from cards
 
@@ -174,16 +171,20 @@ function progressBarRenderer(prevLimit, currentLimit) {
   }
 }
 
-const a = 20;
-const c = 80;
+const a = 30;
+const c = 70;
 function levelLimitCounter(level) {
   const levelLimit = a * Math.pow(level, 2) + c;
   return levelLimit;
 }
 
+function levelRewarder() {
+
+}
+
 function levelProgressCounter() {
   // userData.level = 1;
-  userData.level = Math.floor(Math.sqrt((userData.cummulativeIncome - c) / a)) + 1;
+  userData.level = Math.floor(Math.sqrt((userData.cummulativeIncome - c) / a)) + 1 || 1;
 
   const prevLimit = levelLimitCounter(userData.level-1);
   const currentLimit = levelLimitCounter(userData.level);
@@ -304,6 +305,7 @@ function addUpgrade(evt, upgradesArray) {
   if(currentUpgradeLevel) {
     if(userData.score >= currentUpgradeLevel.cost) {
       userData.score = userData.score - currentUpgradeLevel.cost;
+      userData.expences = userData.expences + currentUpgradeLevel.cost;
       scoreRenderer();
       if(currentUpgradeLevel.income !== undefined) {
         console.log('Income');
@@ -312,6 +314,7 @@ function addUpgrade(evt, upgradesArray) {
       } else if (currentUpgradeLevel.delta !== undefined) {
         console.log('Delta');
         userUpgrade.level++;
+        deltaCounter();
       } else {
         console.log('Energy');
         userUpgrade.level++;
@@ -482,6 +485,8 @@ function setEnergyRecoveryTimeout(start) {
 
 function mainClick() {
   if(userData.energy > userData.delta) {
+    userData.taps++;
+    userData.activeIncome = userData.activeIncome + userData.delta;
     setEnergyRecoveryTimeout(false);
     energyRecoveryLooper(false)
     scoreCounter();
@@ -498,10 +503,45 @@ function mainClick() {
 btnMain.addEventListener('click', mainClick);
 // --------------- MainClick-End ---------------
 
+// --------------- ServiceFunctions-End ---------------
+
+function totalExpencesCounter() {
+  let activeExpences = 0;
+  let passiveExpences = 0;
+  console.log(userData.activeUpgrades);
+
+  userData.activeUpgrades.forEach((upgrade) => {
+    console.log('upgrade.level', upgrade.level);
+
+    for(i = 1; i <= upgrade.level; i++) {
+      activeExpences = activeExpences + activeUpgrades[upgrade.id - 1].levels[i].cost;
+    };
+  })
+  console.log('activeExpences', activeExpences);
+
+  userData.passiveUpgrades.forEach((upgrade) => {
+    console.log('upgrade.level', upgrade.level);
+
+    for(i = 1; i <= upgrade.level; i++) {
+      passiveExpences = passiveExpences + passiveUpgrades[upgrade.id - 1].levels[i].cost;
+    };
+  })
+  console.log('passiveExpences', passiveExpences);
+
+  const totalExpences = activeExpences + passiveExpences;
+  console.log('totalExpences', totalExpences);
+  userData.expences = totalExpences;
+}
+// --------------- ServiceFunctions-End ---------------
+
+
 // --------------- Window-Start ---------------
 window.onload = () => {
   screenSwitcher();
   loadUserData();
+  // ServiceFunctions-Start
+    // totalExpencesCounter();
+  // ServiceFunctions-End
   levelRenderer();
   levelProgressCounter();
   deltaCounter();
