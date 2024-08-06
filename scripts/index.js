@@ -1,18 +1,15 @@
 // ToDo
-// UpgradeCard Top Level
-  // Rendering
 // Level
   // LevelUps (Reward)
 // PopUps -- TG
   // PassiveOfflineIncome
   // LevelUps
-// TapCounter
-// ExpencesCounter
 // Unlocking Cards
 // Gathering rewards from cards
 
 // Friends!!
 // Updating Model Safe!!!
+// DataBase??
 
 function scoreRenderer() {
   scoreField.textContent = userData.score;
@@ -336,6 +333,15 @@ function addUpgrade(evt, upgradesArray) {
         } else {
           currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.energyLimit}`;
         }
+      } else {
+        currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `lvl Max`;
+        currentUpgradeCard.querySelector('.upgradeCard__costArea').remove();
+
+        // style
+        currentUpgradeCard.querySelector.add('.upgradeCard_inactive');
+        currentUpgradeCard.removeEventListener('click', (evt) => {
+          addUpgrade(evt, upgradesArray);
+        });
       }
       saveUserData();
     } else {
@@ -350,21 +356,35 @@ function createUpgradeCard(elem, upgradesArray) {
   const userUpgradesArray = userData[upgradesArray].find(upgrade => upgrade.id === elem.id);
 
   const currentUpgrade = elem.levels.find(level => level.level === userUpgradesArray.level+1);
+  const previousUpgrade = elem.levels.find(level => level.level === userUpgradesArray.level);
 
   if(currentUpgrade) {
+    upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', (evt) => {
+      addUpgrade(evt, upgradesArray);
+    });
+
     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${currentUpgrade.level}`;
     upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `${currentUpgrade.cost}`;
 
     // upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`;
     currentUpgrade.income !== undefined
-    ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`
-    : currentUpgrade.delta !== undefined ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.delta}`
-    : upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `${currentUpgrade.energyLimit}`;
+      ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`
+      : currentUpgrade.delta !== undefined
+        ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.delta}`
+        : upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `${currentUpgrade.energyLimit}`;
+  } else {
+    upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl Max`;
+    upgradeCardElement.querySelector('.upgradeCard__costArea').remove();
+
+    // upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`;
+    previousUpgrade.income !== undefined
+      ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${previousUpgrade.income}`
+      : previousUpgrade.delta !== undefined
+        ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${previousUpgrade.delta}`
+        : upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `${previousUpgrade.energyLimit}`;
   }
 
-  upgradeCardElement.querySelector('.upgradeCard').addEventListener('click', (evt) => {
-    addUpgrade(evt, upgradesArray);
-  });
+
   return upgradeCardElement;
 };
 // --------------- Upgrades-End ---------------
@@ -504,6 +524,9 @@ btnMain.addEventListener('click', mainClick);
 // --------------- MainClick-End ---------------
 
 // --------------- ServiceFunctions-End ---------------
+function renewUser() {
+
+}
 
 function totalExpencesCounter() {
   let activeExpences = 0;
