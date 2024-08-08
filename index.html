@@ -70,7 +70,7 @@
         <span class="navigation__btnName navigation__btnName_active">Игра</span>
       </label>
       <label class="navigation__button">
-        <input class="navigation__input navigation__button_type_upgrades" type="radio" id="upgrades" name="screen" value="upgrades" checked/>
+        <input class="navigation__input navigation__button_type_upgrades" type="radio" id="upgrades" name="screen" value="upgrades" />
         <img src="./images/upgrade-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_upgrades">
         <span class="navigation__btnName">Апгрейды</span>
       </label>
@@ -80,7 +80,7 @@
         <span class="navigation__btnName">Задания</span>
       </label>
       <label class="navigation__button">
-        <input class="navigation__input navigation__button_type_achievement" type="radio" id="achievement" name="screen" value="achievement" />
+        <input class="navigation__input navigation__button_type_achievement" type="radio" id="achievement" name="screen" value="achievement" checked/>
         <img src="./images/achievements-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_achievements">
         <span class="navigation__btnName">Награды</span>
       </label>
@@ -119,8 +119,20 @@
         <p class="wideCard__effect"></p>
       </div>
     </div>
-    </div>
   </template>
+  <!-- <template id="popup"> -->
+  <div class="popup popup_inactive">
+    <div class="popup__overlay"></div>
+    <div class="popup__card">
+      <h2 class="popup__title">Очень важный заголовок</h2>
+      <p class="popup__message">Повседневная практика показывает, что консультация с широки активом</p>
+      <img src="./images/achievement-icon-hours-gold.png" alt="" class="popup__image">
+      <div class="popup__button">
+        <p class="popup__buttonText">Принять неизбежное</p>
+      </div>
+    </div>
+  </div>
+  <!-- </template> -->
   <script src="./constants/userDataModel.js"></script>
   <script src="./constants/activeUpgrades.js"></script>
   <script src="./constants/passiveUpgrades.js"></script>

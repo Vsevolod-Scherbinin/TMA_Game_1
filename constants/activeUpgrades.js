@@ -57,6 +57,11 @@ const activeUpgrades = [
         cost: 1000,
         delta: 15,
       },
+      {
+        level: 11,
+        cost: 100000,
+        delta: 100,
+      },
     ],
   },
   {

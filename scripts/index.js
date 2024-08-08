@@ -1,15 +1,32 @@
 // ToDo
 // Level
-  // LevelUps (Reward)
+  // LevelUps (Reward) -- in achievements
 // PopUps -- TG
+  // Layout -- improve
   // PassiveOfflineIncome
   // LevelUps
 // Unlocking Cards
+  // GrayOverlay, not background
 // Gathering rewards from cards
+// Icons
 
 // Friends!!
 // Updating Model Safe!!!
 // DataBase??
+
+function checkUpgradeAvailable() {
+  const upgradeCards = document.querySelectorAll('.upgradeCard');
+  upgradeCards.forEach((card) => {
+    const costArea = card.querySelector('.upgradeCard__cost');
+    if(costArea) {
+
+      const cost = card.querySelector('.upgradeCard__cost').textContent;
+      userData.score < cost
+      ? card.classList.add('upgradeCard_inactive')
+      : card.classList.remove('upgradeCard_inactive');
+    }
+  });
+}
 
 function scoreRenderer() {
   scoreField.textContent = userData.score;
@@ -164,8 +181,8 @@ function progressBarRenderer(prevLimit, currentLimit) {
     progressBar.style.width = `${progress}%`;
   } else {
     progressBar.style.width = `0%`;
-
   }
+
 }
 
 const a = 30;
@@ -175,14 +192,23 @@ function levelLimitCounter(level) {
   return levelLimit;
 }
 
-function levelRewarder() {
+// function levelRewarder(prevLevel, currentLevel) {
+//   const levelDelta = currentLevel - prevLevel;
+//   const rewardMultiplier = 10;
+//   let reward;
+//   for(i=prevLevel; i<currentLevel; i++) {
+//     console.log(i);
 
-}
+//     reward = reward + (i+1)*rewardMultiplier;
+//   }
+//   console.log('reward', reward);
+// }
 
 function levelProgressCounter() {
-  // userData.level = 1;
+  // const prevLevel = userData.level;
+  // console.log('prevLevel', prevLevel);
   userData.level = Math.floor(Math.sqrt((userData.cummulativeIncome - c) / a)) + 1 || 1;
-
+  // levelRewarder(prevLevel, userData.level);
   const prevLimit = levelLimitCounter(userData.level-1);
   const currentLimit = levelLimitCounter(userData.level);
 
@@ -231,19 +257,6 @@ function loadUserData() {
       userData[key] === undefined && (userData[key] = userDataModel[key]);
       // console.log(userData);
     })
-    // Для обнуления пользователя
-    // activeUpgrades.forEach((upgrade) => {
-    //   userData.activeUpgrades.push({
-    //     id: upgrade.id,
-    //     level: 0,
-    //   });
-    // })
-    // passiveUpgrades.forEach((upgrade) => {
-    //   userData.passiveUpgrades.push({
-    //     id: upgrade.id,
-    //     level: 0,
-    //   })
-    // })
   }
   console.log(userData);
 }
@@ -398,13 +411,13 @@ function createTaskCards(elem) {
 
 function createWideCards(elem) {
   // function createAchievementCards(elem) {
-  const achievementCardElement = wideCardTemplate.cloneNode(true);
-  achievementCardElement.querySelector('.wideCard__icon').src = elem.mainIcon;
-  achievementCardElement.querySelector('.wideCard__title').textContent = elem.title;
-  achievementCardElement.querySelector('.wideCard__description').textContent = elem.description;
-  achievementCardElement.querySelector('.wideCard__effectIcon').src = elem.effectIcon;
-  achievementCardElement.querySelector('.wideCard__effect').textContent = `+${elem.effect}`;
-  return achievementCardElement;
+  const wideCardElement = wideCardTemplate.cloneNode(true);
+  wideCardElement.querySelector('.wideCard__icon').src = elem.mainIcon;
+  wideCardElement.querySelector('.wideCard__title').textContent = elem.title;
+  wideCardElement.querySelector('.wideCard__description').textContent = elem.description;
+  wideCardElement.querySelector('.wideCard__effectIcon').src = elem.effectIcon;
+  wideCardElement.querySelector('.wideCard__effect').textContent = `+${elem.effect}`;
+  return wideCardElement;
 }
 // --------------- WideCards-End ---------------
 
@@ -455,6 +468,13 @@ btnTasks.addEventListener('click', screenSwitcher);
 btnAchievements.addEventListener('click', screenSwitcher);
 // --------------- Navigation-End ---------------
 
+// --------------- Popup-Start ---------------
+function popupOpener(card) {
+
+}
+// --------------- Popup-End ---------------
+
+
 // --------------- CardsRenderer-Start ---------------
 function allUpgradesRenderer() {
   activeUpgrades.forEach((elem) => {
@@ -474,7 +494,11 @@ function tasksRenderer() {
 
 function achievementsRenderer() {
   achievements.forEach((elem) => {
-    achievementCardsField.append(createWideCards(elem));
+    const card = createWideCards(elem)
+    achievementCardsField.append(card);
+    card.addEventListener('click', () => {
+      popupOpener(card);
+    });
     // achievementCardsField.append(createAchievementCards(elem));
   });
 }
@@ -515,6 +539,7 @@ function mainClick() {
     energyCounter();
     energyRenderer();
     cummulativeIncomeCounter();
+    checkUpgradeAvailable();
     saveUserData();
   }
   setEnergyRecoveryTimeout(true);
@@ -565,6 +590,7 @@ window.onload = () => {
   // ServiceFunctions-Start
     // totalExpencesCounter();
   // ServiceFunctions-End
+  checkUpgradeAvailable();
   levelRenderer();
   levelProgressCounter();
   deltaCounter();
@@ -584,6 +610,7 @@ window.onload = () => {
   // Make separate function as energy
   let passiveIncomeTimer = setInterval(() => {
     passiveOnlineIncomeCounter();
+    checkUpgradeAvailable();
     if(timer == onlinePassiveTimeLimit) {
       clearInterval(passiveIncomeTimer);
     }
