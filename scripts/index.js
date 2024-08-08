@@ -1,4 +1,9 @@
 // ToDo
+// Achievements
+  // Conditions
+    // TapsRenderer
+    // Others
+  // Rewards
 // Level
   // LevelUps (Reward) -- in achievements
 // PopUps -- TG
@@ -218,6 +223,23 @@ function levelProgressCounter() {
 }
 // --------------- Level-End ---------------
 
+// --------------- Achievements-Start ---------------
+function achievementsCheckTaps() {
+  achievements[0].levels.forEach((level) => {
+    if(level.limit) {
+      if(userData.taps >= level.limit) {
+        const newLevel = achievements[0].levels.find(obj => obj.limit === level.limit).level;
+        console.log(newLevel);
+
+        userData.achievements[0].level = newLevel + 1;
+      }
+    }
+  });
+  achievementsRenderer();
+  console.log(userData.achievements[0]);
+};
+// --------------- Achievements-End ---------------
+
 // --------------- User-Start ---------------
 const localUserData = JSON.parse(localStorage.getItem('TMAGameUserData'));
 // const localUserData = null;
@@ -246,6 +268,14 @@ function loadUserData() {
         level: 0,
       })
     })
+
+    achievements.forEach((achievement) => {
+      userData.achievements.push({
+        id: achievement.id,
+        level: 0,
+      })
+    })
+
     localStorage.setItem('TMAGameUserData', JSON.stringify(userData));
     console.log('New User Made');
   } else {
@@ -257,6 +287,17 @@ function loadUserData() {
       userData[key] === undefined && (userData[key] = userDataModel[key]);
       // console.log(userData);
     })
+    // userData Additions-Start
+
+    // achievements.forEach((achievement) => {
+    //   userData.achievements.push({
+    //     id: achievement.id,
+    //     level: 0,
+    //   })
+    // })
+
+    // userData Additions-End
+
   }
   console.log(userData);
 }
@@ -419,6 +460,18 @@ function createWideCards(elem) {
   wideCardElement.querySelector('.wideCard__effect').textContent = `+${elem.effect}`;
   return wideCardElement;
 }
+
+function createAchievementsCards(elem, level) {
+  const levelData = elem.levels.find(obj => obj.level === level);
+  // function createAchievementCards(elem) {
+  const achievementCardElement = wideCardTemplate.cloneNode(true);
+  achievementCardElement.querySelector('.wideCard__icon').src = levelData.mainIcon;
+  achievementCardElement.querySelector('.wideCard__title').textContent = elem.title;
+  achievementCardElement.querySelector('.wideCard__description').textContent = levelData.description;
+  achievementCardElement.querySelector('.wideCard__effectIcon').src = elem.effectIcon;
+  achievementCardElement.querySelector('.wideCard__effect').textContent = `+${levelData.effect}`;
+  return achievementCardElement;
+}
 // --------------- WideCards-End ---------------
 
 // --------------- Navigation-Start ---------------
@@ -451,6 +504,7 @@ function screenSwitcher() {
     btnTasks.parentElement.querySelector('.navigation__btnName').classList.add('navigation__btnName_active');
     tasksScreen.classList.add('screen_active');
   } else if (btnAchievements.checked) {
+    achievementsRenderer();
     document.querySelector('.screen_active').classList.remove('screen_active');
     document.querySelector('.navigation__btnName_active').classList.remove('navigation__btnName_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
@@ -469,9 +523,13 @@ btnAchievements.addEventListener('click', screenSwitcher);
 // --------------- Navigation-End ---------------
 
 // --------------- Popup-Start ---------------
-function popupOpener(card) {
-
+function popupOpener(object) {
+  popupTitle.textContent = object.title;
+  popupMessage.textContent = object.description;
+  popupImage.src = object.levels.mainIcon;
+  popup.classList.remove('popup_inactive');
 }
+
 // --------------- Popup-End ---------------
 
 
@@ -494,12 +552,9 @@ function tasksRenderer() {
 
 function achievementsRenderer() {
   achievements.forEach((elem) => {
-    const card = createWideCards(elem)
-    achievementCardsField.append(card);
-    card.addEventListener('click', () => {
-      popupOpener(card);
-    });
-    // achievementCardsField.append(createAchievementCards(elem));
+    const userLevel = userData.achievements.find(obj => obj.id === elem.id).level;
+      const card = createAchievementsCards(elem, userLevel);
+      achievementCardsField.append(card);
   });
 }
 
@@ -540,6 +595,9 @@ function mainClick() {
     energyRenderer();
     cummulativeIncomeCounter();
     checkUpgradeAvailable();
+    achievementsCheckTaps();
+    console.log('taps', userData.taps);
+
     saveUserData();
   }
   setEnergyRecoveryTimeout(true);
@@ -585,9 +643,9 @@ function totalExpencesCounter() {
 
 // --------------- Window-Start ---------------
 window.onload = () => {
-  screenSwitcher();
   loadUserData();
   // ServiceFunctions-Start
+  screenSwitcher();
     // totalExpencesCounter();
   // ServiceFunctions-End
   checkUpgradeAvailable();
@@ -611,6 +669,7 @@ window.onload = () => {
   let passiveIncomeTimer = setInterval(() => {
     passiveOnlineIncomeCounter();
     checkUpgradeAvailable();
+
     if(timer == onlinePassiveTimeLimit) {
       clearInterval(passiveIncomeTimer);
     }

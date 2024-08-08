@@ -31,10 +31,13 @@ const inviteFriendBtn = document.querySelector('.tasksScreen__inviteBtn');
 const achievementsScreen = document.querySelector('.achievementsScreen');
 const achievementCardsField = document.querySelector('.achievementsScreen__cardField');
 
-
-const testBtn = document.querySelector('.test');
 const upgradeCardTemplate = document.querySelector('#upgradeCard').content;
 const wideCardTemplate = document.querySelector('#wideCard').content;
+
+const popup = document.querySelector('.popup');
+const popupTitle = document.querySelector('.popup__title');
+const popupMessage = document.querySelector('.popup__message');
+const popupImage = document.querySelector('.popup__image');
 // const taskCardTemplate = document.querySelector('#wideCard').content;
 // const achievementCardTemplate = document.querySelector('#wideCard').content;
 
