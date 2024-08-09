@@ -14,6 +14,8 @@
   // GrayOverlay, not background
 // Gathering rewards from cards
 // Icons
+  // Renew
+  // Change nav icons colours from white
 
 // Friends!!
 // Updating Model Safe!!!
@@ -41,13 +43,31 @@ function passiveIncomeRenderer(income) {
   passiveIncomeScoreField.textContent = `+${income}`;
 }
 
-function achievementsRenderer() {
+// Divide cardsRender and contentRender
+function achievementsCardsRenderer() {
   console.log('achievements', userData.achievements[0]);
 
   achievements.forEach((elem) => {
     const userLevel = userData.achievements.find(obj => obj.id === elem.id).level;
-      const card = createAchievementsCards(elem, userLevel);
-      achievementCardsField.append(card);
+    const card = createAchievementsCard(elem, userLevel);
+    achievementCardsField.append(card);
+  });
+}
+
+function achievementsContentRenderer() {
+  const cards = document.querySelectorAll('.wideCard__title');
+
+  cards.forEach((card) => {
+    const cardObj = achievements.find(obj => obj.title === card.textContent);
+    if(cardObj) {
+      const userAchLevel = userData.achievements.find(obj => obj.id === cardObj.id).level;
+      const cardIcon = cardObj.levels.find(obj => obj.level === userAchLevel).mainIcon;
+      card.closest('.wideCard').querySelector('.wideCard__icon').src = cardIcon;
+    }
+  });
+
+  userData.achievements.forEach((userAch) => {
+      const found = achievements.find(obj => obj.id === userAch);
   });
 }
 
@@ -84,9 +104,7 @@ function passiveOnlineIncomeCounter() {
     const passiveIncome = passiveIncomeCounter();
     userData.score = userData.score + Math.round(passiveIncome / 3600);
     userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600);
-    levelProgressCounter();
-    scoreRenderer();
-    saveUserData();
+
     timer++;
   }
 }
@@ -235,22 +253,19 @@ function levelProgressCounter() {
 
 // --------------- Achievements-Start ---------------
 function achievementsCheckTaps() {
-  console.log('taps', userData.taps);
+  // console.log('taps', userData.taps);
   const lessArray = achievements[0].levels.filter(obj => obj.limit <= userData.taps);
   const lessLimits = [];
   lessArray.forEach((obj) => {
     lessLimits.push(obj.limit);
   });
-  console.log('lessLimits', lessLimits);
-  console.log('lessArray', lessArray);
-
-  const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
-  console.log('level', level);
-
-  userData.achievements[0].level = level + 1;
-
-  saveUserData();
-  achievementsRenderer();
+  // console.log('lessLimits', lessLimits);
+  // console.log('lessArray', lessArray);
+  if(lessArray.length) {
+    const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
+    // console.log('level', level);
+    userData.achievements[0].level = level + 1;
+  }
   console.log(userData.achievements[0]);
 };
 // --------------- Achievements-End ---------------
@@ -476,7 +491,7 @@ function createWideCards(elem) {
   return wideCardElement;
 }
 
-function createAchievementsCards(elem, level) {
+function createAchievementsCard(elem, level) {
   const levelData = elem.levels.find(obj => obj.level === level);
   // function createAchievementCards(elem) {
   const achievementCardElement = wideCardTemplate.cloneNode(true);
@@ -519,7 +534,7 @@ function screenSwitcher() {
     btnTasks.parentElement.querySelector('.navigation__btnName').classList.add('navigation__btnName_active');
     tasksScreen.classList.add('screen_active');
   } else if (btnAchievements.checked) {
-    achievementsRenderer();
+    // Review if next function is needed.
     document.querySelector('.screen_active').classList.remove('screen_active');
     document.querySelector('.navigation__btnName_active').classList.remove('navigation__btnName_active');
     btnMainScreen.parentElement.querySelector('.navigation__buttonIcon').src = './images/mainscreen-button-icon-inactive.png';
@@ -603,9 +618,8 @@ function mainClick() {
     cummulativeIncomeCounter();
     checkUpgradeAvailable();
     achievementsCheckTaps();
-    achievementsRenderer();
-    console.log('taps', userData.taps);
-
+    achievementsContentRenderer();
+    // console.log('taps', userData.taps);
     saveUserData();
   }
   setEnergyRecoveryTimeout(true);
@@ -672,12 +686,19 @@ window.onload = () => {
   allUpgradesRenderer();
   tasksRenderer();
   achievementsCheckTaps();
-  achievementsRenderer();
+  achievementsCardsRenderer();
+  achievementsContentRenderer();
+  saveUserData();
+
+
 
   // Make separate function as energy
   let passiveIncomeTimer = setInterval(() => {
     passiveOnlineIncomeCounter();
+    levelProgressCounter();
+    scoreRenderer();
     checkUpgradeAvailable();
+    saveUserData();
 
     if(timer == onlinePassiveTimeLimit) {
       clearInterval(passiveIncomeTimer);
