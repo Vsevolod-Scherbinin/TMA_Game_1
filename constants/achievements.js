@@ -8,21 +8,21 @@ const achievements = [
         level: 0,
         mainIcon: "./images/achievement-icon-tap-blank.png",
         description: "Совершите 1000 тапов",
-        limit: 120,
+        limit: 100,
         effect: 10000,
       },
       {
         level: 1,
         mainIcon: "./images/achievement-icon-tap-bronze.png",
         description: "Совершите 5000 тапов",
-        limit: 122,
+        limit: 5000,
         effect: 100000,
       },
       {
         level: 2,
         mainIcon: "./images/achievement-icon-tap-silver.png",
         description: "Совершите 10000 тапов",
-        limit: 125,
+        limit: 10000,
         effect: 500000,
       },
       {
@@ -36,7 +36,7 @@ const achievements = [
   {
     id: 2,
     title: "Автоматизатор",
-    effectIcon: "./images/coin.png",
+    effectIcon: "./images/passive-income-icon.png",
 
     levels: [
       {

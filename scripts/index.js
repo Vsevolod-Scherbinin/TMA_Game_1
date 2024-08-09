@@ -1,7 +1,6 @@
 // ToDo
 // Achievements
   // Conditions
-    // TapsRenderer
     // Others
   // Rewards
 // Level
@@ -35,6 +34,7 @@ function checkUpgradeAvailable() {
   });
 }
 
+// --------------- Renderers-Start ---------------
 function scoreRenderer() {
   scoreField.textContent = userData.score;
 }
@@ -43,7 +43,6 @@ function passiveIncomeRenderer(income) {
   passiveIncomeScoreField.textContent = `+${income}`;
 }
 
-// Divide cardsRender and contentRender
 function achievementsCardsRenderer() {
   console.log('achievements', userData.achievements[0]);
 
@@ -61,8 +60,10 @@ function achievementsContentRenderer() {
     const cardObj = achievements.find(obj => obj.title === card.textContent);
     if(cardObj) {
       const userAchLevel = userData.achievements.find(obj => obj.id === cardObj.id).level;
-      const cardIcon = cardObj.levels.find(obj => obj.level === userAchLevel).mainIcon;
-      card.closest('.wideCard').querySelector('.wideCard__icon').src = cardIcon;
+      const cardLevel = cardObj.levels.find(obj => obj.level === userAchLevel);
+      card.closest('.wideCard').querySelector('.wideCard__icon').src = cardLevel.mainIcon;
+      card.closest('.wideCard').querySelector('.wideCard__description').textContent = cardLevel.description;
+      card.closest('.wideCard').querySelector('.wideCard__effect').textContent = cardLevel.effect;
     }
   });
 
@@ -70,6 +71,7 @@ function achievementsContentRenderer() {
       const found = achievements.find(obj => obj.id === userAch);
   });
 }
+// --------------- Renderers-End ---------------
 
 // --------------- Income-Start ---------------
 function deltaCounter() {
@@ -268,6 +270,10 @@ function achievementsCheckTaps() {
   }
   console.log(userData.achievements[0]);
 };
+
+// Choose Single Function vs Optimisation (not to enumerate array)
+
+
 // --------------- Achievements-End ---------------
 
 // --------------- User-Start ---------------
