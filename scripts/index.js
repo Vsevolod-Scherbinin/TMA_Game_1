@@ -39,8 +39,8 @@ function scoreRenderer() {
   scoreField.textContent = userData.score;
 }
 
-function passiveIncomeRenderer(income) {
-  passiveIncomeScoreField.textContent = `+${income}`;
+function passiveIncomeRenderer() {
+  passiveIncomeScoreField.textContent = `+${userData.passiveIncome}`;
 }
 
 function achievementsCardsRenderer() {
@@ -85,6 +85,8 @@ function passiveIncomeCounter() {
   userData.passiveUpgrades.forEach((item) => {
     const upgradeFromConstant = passiveUpgrades.find(upgrade => upgrade.id === item.id);
     const upgradeFromConstantLevel = upgradeFromConstant.levels.find(upgrade => upgrade.level === item.level);
+    console.log(upgradeFromConstantLevel.income);
+
     passiveIncome = passiveIncome + upgradeFromConstantLevel.income;
   })
   return passiveIncome;
@@ -267,8 +269,29 @@ function achievementsCheckTaps() {
     const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
     // console.log('level', level);
     userData.achievements[0].level = level + 1;
+  } else {
+    userData.achievements[1].level = 0;
   }
   console.log(userData.achievements[0]);
+};
+
+function achievementsCheckPassiveIncome() {
+  console.log('passiveIncome', userData.passiveIncome);
+  const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData.passiveIncome);
+  const lessLimits = [];
+  lessArray.forEach((obj) => {
+    lessLimits.push(obj.limit);
+  });
+  console.log('lessLimits', lessLimits);
+  console.log('lessArray', lessArray);
+  if(lessArray.length) {
+    const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
+    // console.log('level', level);
+    userData.achievements[1].level = level + 1;
+  } else {
+    userData.achievements[1].level = 0;
+  }
+  console.log(userData.achievements);
 };
 
 // Choose Single Function vs Optimisation (not to enumerate array)
@@ -356,22 +379,23 @@ function upgradeFinder(upgradesArray, name) {
   return currentUpgrade;
 }
 
-function upgradePurchase(upgrade) {
-  if(userData.score >= upgrade.cost) {
-    userData.score = userData.score - upgrade.cost;
-    scoreRenderer();
-    if(upgrade.income !== undefined) {
-      console.log('Income');
-      userUpgrade.level++;
-      const passiveIncome = passiveIncomeCounter();
-      passiveIncomeRenderer(passiveIncome);
-    } else if (upgrade.delta !== undefined) {
-      console.log('Delta');
-    } else {
-      console.log('Energy');
-    }
-  }
-}
+// Review and Use if reasonable
+// function upgradePurchase(upgrade) {
+//   if(userData.score >= upgrade.cost) {
+//     userData.score = userData.score - upgrade.cost;
+//     scoreRenderer();
+//     if(upgrade.income !== undefined) {
+//       console.log('Income');
+//       userUpgrade.level++;
+//       const passiveIncome = passiveIncomeCounter();
+//       passiveIncomeRenderer();
+//     } else if (upgrade.delta !== undefined) {
+//       console.log('Delta');
+//     } else {
+//       console.log('Energy');
+//     }
+//   }
+// }
 
 function addUpgrade(evt, upgradesArray) {
   console.log(evt.target);
@@ -397,7 +421,8 @@ function addUpgrade(evt, upgradesArray) {
       if(currentUpgradeLevel.income !== undefined) {
         console.log('Income');
         userUpgrade.level++;
-        passiveIncomeRenderer(passiveIncomeCounter());
+        userData.passiveIncome = passiveIncomeCounter();
+        passiveIncomeRenderer();
       } else if (currentUpgradeLevel.delta !== undefined) {
         console.log('Delta');
         userUpgrade.level++;
@@ -428,7 +453,7 @@ function addUpgrade(evt, upgradesArray) {
         currentUpgradeCard.querySelector('.upgradeCard__costArea').remove();
 
         // style
-        currentUpgradeCard.querySelector.add('.upgradeCard_inactive');
+        currentUpgradeCard.classList.add('.upgradeCard_inactive');
         currentUpgradeCard.removeEventListener('click', (evt) => {
           addUpgrade(evt, upgradesArray);
         });
@@ -673,9 +698,10 @@ function totalExpencesCounter() {
 window.onload = () => {
   loadUserData();
   // ServiceFunctions-Start
-  screenSwitcher();
+  saveUserData();
     // totalExpencesCounter();
   // ServiceFunctions-End
+  screenSwitcher();
   checkUpgradeAvailable();
   levelRenderer();
   levelProgressCounter();
@@ -683,7 +709,8 @@ window.onload = () => {
   saveUserData();
   scoreRenderer();
   energyRenderer();
-  passiveIncomeRenderer(passiveIncomeCounter());
+  passiveIncomeCounter();
+  passiveIncomeRenderer();
   passiveOfflineIncomeCounter(offlineTimeCounter());
   passiveOnlineIncomeCounter();
   energyRenderer();
@@ -704,6 +731,9 @@ window.onload = () => {
     levelProgressCounter();
     scoreRenderer();
     checkUpgradeAvailable();
+    achievementsCheckPassiveIncome();
+    achievementsContentRenderer();
+
     saveUserData();
 
     if(timer == onlinePassiveTimeLimit) {

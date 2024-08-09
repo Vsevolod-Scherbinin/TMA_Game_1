@@ -37,24 +37,26 @@ const achievements = [
     id: 2,
     title: "Автоматизатор",
     effectIcon: "./images/passive-income-icon.png",
-
     levels: [
       {
         level: 0,
         mainIcon: "./images/achievement-icon-passive-blank.png",
         description: "Прокачайте пассивный доход до $1000/час",
+        limit: 1000,
         effect: 1000,
       },
       {
         level: 1,
         mainIcon: "./images/achievement-icon-passive-bronze.png",
         description: "Прокачайте  пассивный доход до $10000/час",
+        limit: 10000,
         effect: 10000,
       },
       {
         level: 2,
         mainIcon: "./images/achievement-icon-passive-silver.png",
         description: "Прокачайте  пассивный доход до $100000/час",
+        limit: 100000,
         effect: 100000,
       },
       {

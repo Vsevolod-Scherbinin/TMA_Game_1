@@ -42,6 +42,11 @@ const passiveUpgrades = [
         cost: 50,
         income: 36000,
       },
+      {
+        level: 8,
+        cost: 50,
+        income: 72000,
+      },
     ],
   },
   {
@@ -54,28 +59,43 @@ const passiveUpgrades = [
       },
       {
         level: 1,
-        cost: 12,
-        income: 16,
+        cost: 10,
+        income: 3600,
       },
       {
         level: 2,
         cost: 20,
-        income: 30,
+        income: 7200,
       },
       {
         level: 3,
         cost: 30,
-        income: 45,
+        income: 10800,
       },
       {
         level: 4,
         cost: 40,
-        income: 60,
+        income: 14400,
       },
       {
         level: 5,
         cost: 50,
-        income: 100,
+        income: 18000,
+      },
+      {
+        level: 6,
+        cost: 50,
+        income: 24000,
+      },
+      {
+        level: 7,
+        cost: 50,
+        income: 36000,
+      },
+      {
+        level: 8,
+        cost: 50,
+        income: 72000,
       },
     ],
   },
