@@ -41,6 +41,16 @@ function passiveIncomeRenderer(income) {
   passiveIncomeScoreField.textContent = `+${income}`;
 }
 
+function achievementsRenderer() {
+  console.log('achievements', userData.achievements[0]);
+
+  achievements.forEach((elem) => {
+    const userLevel = userData.achievements.find(obj => obj.id === elem.id).level;
+      const card = createAchievementsCards(elem, userLevel);
+      achievementCardsField.append(card);
+  });
+}
+
 // --------------- Income-Start ---------------
 function deltaCounter() {
   const currentDeltaLevel = deltaUpgrade.levels.find(upgrade => upgrade.level === userData.activeUpgrades.find(upgrade => upgrade.id === 1).level);
@@ -225,16 +235,21 @@ function levelProgressCounter() {
 
 // --------------- Achievements-Start ---------------
 function achievementsCheckTaps() {
-  achievements[0].levels.forEach((level) => {
-    if(level.limit) {
-      if(userData.taps >= level.limit) {
-        const newLevel = achievements[0].levels.find(obj => obj.limit === level.limit).level;
-        console.log(newLevel);
-
-        userData.achievements[0].level = newLevel + 1;
-      }
-    }
+  console.log('taps', userData.taps);
+  const lessArray = achievements[0].levels.filter(obj => obj.limit <= userData.taps);
+  const lessLimits = [];
+  lessArray.forEach((obj) => {
+    lessLimits.push(obj.limit);
   });
+  console.log('lessLimits', lessLimits);
+  console.log('lessArray', lessArray);
+
+  const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
+  console.log('level', level);
+
+  userData.achievements[0].level = level + 1;
+
+  saveUserData();
   achievementsRenderer();
   console.log(userData.achievements[0]);
 };
@@ -550,14 +565,6 @@ function tasksRenderer() {
   });
 }
 
-function achievementsRenderer() {
-  achievements.forEach((elem) => {
-    const userLevel = userData.achievements.find(obj => obj.id === elem.id).level;
-      const card = createAchievementsCards(elem, userLevel);
-      achievementCardsField.append(card);
-  });
-}
-
 function inviteFriends() {
   const url = 'https://t.me/FirstTGTest_bot';
   const text = 'Привет! Я нашел этот классный канал/бота и хочу, чтобы ты тоже его посмотрел!';
@@ -596,6 +603,7 @@ function mainClick() {
     cummulativeIncomeCounter();
     checkUpgradeAvailable();
     achievementsCheckTaps();
+    achievementsRenderer();
     console.log('taps', userData.taps);
 
     saveUserData();
@@ -663,6 +671,7 @@ window.onload = () => {
   energyLimitRenderer();
   allUpgradesRenderer();
   tasksRenderer();
+  achievementsCheckTaps();
   achievementsRenderer();
 
   // Make separate function as energy
