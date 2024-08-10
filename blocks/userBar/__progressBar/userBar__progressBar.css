@@ -6,4 +6,5 @@
   border-radius: 8px;
   border: 1.5px solid #F5F3F4;
   background-color: #000;
+  overflow: hidden;
 }

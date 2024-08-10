@@ -23,6 +23,7 @@
           <p class="userBar__levelScore"></p>
         </div>
         <div class="userBar__progressBar">
+          <!-- <div class="userBar__progressBarFrame"></div> -->
           <div class="userBar__progressBarInner"></div>
         </div>
       </div>
@@ -32,7 +33,7 @@
       <div class="scoreArea__score"></div>
     </div>
     <div class="passiveIncome">
-      <p class="passiveIncome__text">Income/hour</p>
+      <p class="passiveIncome__text">Доход в час</p>
       <img src="./images/passive-income-icon.png" alt="Coin" class="passiveIncome__icon">
       <div class="passiveIncome__score"></div>
     </div>
@@ -71,30 +72,31 @@
         <span class="navigation__btnName navigation__btnName_active">Игра</span>
       </label>
       <label class="navigation__button">
-        <input class="navigation__input navigation__button_type_upgrades" type="radio" id="upgrades" name="screen" value="upgrades" />
+        <input class="navigation__input navigation__button_type_upgrades" type="radio" id="upgrades" name="screen" value="upgrades" checked />
         <img src="./images/upgrade-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_upgrades">
         <span class="navigation__btnName">Апгрейды</span>
       </label>
       <label class="navigation__button">
         <input class="navigation__input navigation__button_type_tasks" type="radio" id="tasks" name="screen" value="tasks" />
         <img src="./images/friends-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_tasks">
-        <span class="navigation__btnName">Задания</span>
+        <span class="navigation__btnName">Друзья</span>
       </label>
       <label class="navigation__button">
-        <input class="navigation__input navigation__button_type_achievement" type="radio" id="achievement" name="screen" value="achievement" checked/>
+        <input class="navigation__input navigation__button_type_achievement" type="radio" id="achievement" name="screen" value="achievement" />
         <img src="./images/achievements-button-icon-inactive.png" alt="Icon" class="navigation__buttonIcon navigation__buttonIcon_type_achievements">
         <span class="navigation__btnName">Награды</span>
       </label>
     </section>
   <template id="upgradeCard">
     <div class="upgradeCard">
+      <div class="upgradeCard__overlay"></div>
       <div class="upgradeCard__topArea">
         <img src="" alt="icon" class="upgradeCard__icon">
         <div class="upgradeCard__info">
           <h3 class="upgradeCard__title"></h3>
           <p class="upgradeCard__text">Effect</p>
           <div class="upgradeCard__effectArea">
-            <img src="./images/passive-income-icon.png" alt="icon" class="upgradeCard__effectIcon">
+            <img src="" alt="icon" class="upgradeCard__effectIcon">
             <p class="upgradeCard__effect"></p>
           </div>
         </div>

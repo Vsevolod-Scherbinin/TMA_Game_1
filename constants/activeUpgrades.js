@@ -2,6 +2,8 @@ const activeUpgrades = [
   {
     id: 1,
     title: "Delta up",
+    mainIcon: './images/coin.png',
+    effectIcon: './images/coin.png',
     levels: [
       {
         level: 0,
@@ -24,7 +26,7 @@ const activeUpgrades = [
       },
       {
         level: 4,
-        cost: 100,
+        cost: 1000000,
         delta: 5,
       },
       {
@@ -67,6 +69,8 @@ const activeUpgrades = [
   {
     id: 2,
     title: "Energy up",
+    mainIcon: './images/energy-icon.png',
+    effectIcon: './images/energy-icon.png',
     levels: [
       {
         level: 0,

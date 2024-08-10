@@ -9,4 +9,6 @@
   flex-direction: column;
   justify-content: space-between;
   background: #F4F3F480;
+  position: relative;
+  overflow: hidden;
 }

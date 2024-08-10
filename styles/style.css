@@ -3,6 +3,28 @@
 
 @import url(../blocks/page/page.css);
 
+@import url(../blocks/userBar/userBar.css);
+@import url(../blocks/userBar/__progressBar/userBar__progressBar.css);
+@import url(../blocks/userBar/__progressBarInner/userBar__progressBarInner.css);
+@import url(../blocks/userBar/__userLevel/userBar__userLevel.css);
+@import url(../blocks/userBar/__userLevelScoreArea/userBar__userLevelScoreArea.css);
+@import url(../blocks/userBar/__levelScore/userBar__levelScore.css);
+@import url(../blocks/userBar/__userStatus/userBar__userStatus.css);
+@import url(../blocks/userBar/__userName/userBar__userName.css);
+@import url(../blocks/userBar/__userAvatar/userBar__userAvatar.css);
+@import url(../blocks/userBar/__userProfile/userBar__userProfile.css);
+@import url(../blocks/userBar/__levelTitle/userBar__levelTitle.css);
+@import url(../blocks/userBar/__text/userBar__text.css);
+
+@import url(../blocks/scoreArea/scoreArea.css);
+@import url(../blocks/scoreArea/__icon/scoreArea__icon.css);
+@import url(../blocks/scoreArea/__score/scoreArea__score.css);
+
+@import url(../blocks/passiveIncome/passiveIncome.css);
+@import url(../blocks/passiveIncome/__text/passiveIncome__text.css);
+@import url(../blocks/passiveIncome/__icon/passiveIncome__icon.css);
+@import url(../blocks/passiveIncome/__score/passiveIncome__score.css);
+
 @import url(../blocks/screen/screen.css);
 @import url(../blocks/screen/_active/screen_active.css);
 @import url(../blocks/screen/__title/screen__title.css);
@@ -10,6 +32,12 @@
 @import url(../blocks/mainScreen/mainScreen.css);
 @import url(../blocks/mainScreen/__score/mainScreen__score.css);
 @import url(../blocks/mainScreen/__button/mainScreen__button.css);
+
+@import url(../blocks/energyArea/energyArea.css);
+@import url(../blocks/energyArea/__icon/energyArea__icon.css);
+@import url(../blocks/energyArea/__score/energyArea__score.css);
+@import url(../blocks/energyArea/__slash/energyArea__slash.css);
+@import url(../blocks/energyArea/__limit/energyArea__limit.css);
 
 @import url(../blocks/upgradesScreen/upgradesScreen.css);
 @import url(../blocks/upgradesScreen/__title/upgradesScreen__title.css);
@@ -37,7 +65,8 @@
 @import url(../blocks/navigation/__btnName/_active/navigation__btnName_active.css);
 
 @import url(../blocks/upgradeCard/upgradeCard.css);
-@import url(../blocks/upgradeCard/_inactive/upgradeCard_inactive.css);
+@import url(../blocks/upgradeCard/__overlay/upgradeCard__overlay.css);
+@import url(../blocks/upgradeCard/__overlay/_inactive/upgradeCard__overlay_inactive.css);
 @import url(../blocks/upgradeCard/__topArea/upgradeCard__topArea.css);
 @import url(../blocks/upgradeCard/__icon/upgradeCard__icon.css);
 @import url(../blocks/upgradeCard/__info/upgradeCard__info.css);
@@ -51,34 +80,6 @@
 @import url(../blocks/upgradeCard/__costArea/upgradeCard__costArea.css);
 @import url(../blocks/upgradeCard/__coinIcon/upgradeCard__coinIcon.css);
 @import url(../blocks/upgradeCard/__cost/upgradeCard__cost.css);
-
-@import url(../blocks/userBar/userBar.css);
-@import url(../blocks/userBar/__progressBar/userBar__progressBar.css);
-@import url(../blocks/userBar/__progressBarInner/userBar__progressBarInner.css);
-@import url(../blocks/userBar/__userLevel/userBar__userLevel.css);
-@import url(../blocks/userBar/__userLevelScoreArea/userBar__userLevelScoreArea.css);
-@import url(../blocks/userBar/__levelScore/userBar__levelScore.css);
-@import url(../blocks/userBar/__userStatus/userBar__userStatus.css);
-@import url(../blocks/userBar/__userName/userBar__userName.css);
-@import url(../blocks/userBar/__userAvatar/userBar__userAvatar.css);
-@import url(../blocks/userBar/__userProfile/userBar__userProfile.css);
-@import url(../blocks/userBar/__levelTitle/userBar__levelTitle.css);
-@import url(../blocks/userBar/__text/userBar__text.css);
-
-@import url(../blocks/scoreArea/scoreArea.css);
-@import url(../blocks/scoreArea/__icon/scoreArea__icon.css);
-@import url(../blocks/scoreArea/__score/scoreArea__score.css);
-
-@import url(../blocks/passiveIncome/passiveIncome.css);
-@import url(../blocks/passiveIncome/__text/passiveIncome__text.css);
-@import url(../blocks/passiveIncome/__icon/passiveIncome__icon.css);
-@import url(../blocks/passiveIncome/__score/passiveIncome__score.css);
-
-@import url(../blocks/energyArea/energyArea.css);
-@import url(../blocks/energyArea/__icon/energyArea__icon.css);
-@import url(../blocks/energyArea/__score/energyArea__score.css);
-@import url(../blocks/energyArea/__slash/energyArea__slash.css);
-@import url(../blocks/energyArea/__limit/energyArea__limit.css);
 
 @import url(../blocks/wideCard/__effectArea/wideCard__effectArea.css);
 @import url(../blocks/wideCard/__effect/wideCard__effect.css);

@@ -1,45 +1,19 @@
 // ToDo
 // Achievements
-  // Text
-  // Conditions
-    // 1 - Done
-    // 2 - Done
-    // 3 Score
-    // 4 Time
-    // 5 friends
-    // 6 Lvl
-  // Rewards
-// Level
-  // LevelUps (Reward) -- in achievements
-// PopUps -- TG
+  // Rewards and Stopper
+    // GatheredAchievements Array
+// PopUps
   // Layout -- improve
   // PassiveOfflineIncome
-  // LevelUps
-// Unlocking Cards
-  // GrayOverlay, not background
+
 // Gathering rewards from cards
-// Icons
+// Icons - Sunday
   // Renew
   // Change nav icons colours from white
-// ProgressBar
 
 // Friends!!
 // Updating Model Safe!!!
 // DataBase??
-
-function checkUpgradeAvailable() {
-  const upgradeCards = document.querySelectorAll('.upgradeCard');
-  upgradeCards.forEach((card) => {
-    const costArea = card.querySelector('.upgradeCard__cost');
-    if(costArea) {
-
-      const cost = card.querySelector('.upgradeCard__cost').textContent;
-      userData.score < cost
-      ? card.classList.add('upgradeCard_inactive')
-      : card.classList.remove('upgradeCard_inactive');
-    }
-  });
-}
 
 // --------------- Renderers-Start ---------------
 function scoreRenderer() {
@@ -54,9 +28,11 @@ function achievementsCardsRenderer() {
   // console.log('achievements', userData.achievements[0]);
 
   achievements.forEach((elem) => {
-    const userLevel = userData.achievements.find(obj => obj.id === elem.id).level;
-    const card = createAchievementsCard(elem, userLevel);
-    achievementCardsField.append(card);
+    if(elem.id !== 5) {
+      const userLevel = userData.achievements.find(obj => obj.id === elem.id).level;
+      const card = createAchievementsCard(elem, userLevel);
+      achievementCardsField.append(card);
+    }
   });
 }
 
@@ -394,6 +370,20 @@ function loadUserData() {
 // --------------- User-End ---------------
 
 // --------------- Upgrades-Start ---------------
+function checkUpgradeAvailable() {
+  const upgradeCards = document.querySelectorAll('.upgradeCard');
+  upgradeCards.forEach((card) => {
+    const costArea = card.querySelector('.upgradeCard__cost');
+    const overlay = card.querySelector('.upgradeCard__overlay');
+    if(costArea) {
+      const cost = card.querySelector('.upgradeCard__cost').textContent;
+      userData.score < cost
+        ? overlay.classList.add('upgradeCard__overlay_inactive')
+        : overlay.classList.remove('upgradeCard__overlay_inactive');
+    }
+  });
+}
+
 function upgradeFinder(upgradesArray, name) {
   let foundUpgrade;
   if(upgradesArray == 'activeUpgrades') {
@@ -499,6 +489,8 @@ function addUpgrade(evt, upgradesArray) {
 function createUpgradeCard(elem, upgradesArray) {
   const upgradeCardElement = upgradeCardTemplate.cloneNode(true);
   upgradeCardElement.querySelector('.upgradeCard__title').textContent = elem.title;
+  upgradeCardElement.querySelector('.upgradeCard__icon').src = elem.mainIcon;
+  upgradeCardElement.querySelector('.upgradeCard__effectIcon').src = elem.effectIcon;
   const userUpgradesArray = userData[upgradesArray].find(upgrade => upgrade.id === elem.id);
 
   const currentUpgrade = elem.levels.find(level => level.level === userUpgradesArray.level+1);
@@ -690,7 +682,7 @@ function mainClick() {
 btnMain.addEventListener('click', mainClick);
 // --------------- MainClick-End ---------------
 
-// --------------- ServiceFunctions-End ---------------
+// --------------- ServiceFunctions-Start ---------------
 
 function totalExpencesCounter() {
   let activeExpences = 0;
