@@ -15,17 +15,28 @@
 // Updating Model Safe!!!
 // DataBase??
 
-function achievementGathering(obj) {
+function achievementGathering(obj, level) {
+  console.log(obj);
+
   const newAchievement = {
     id: obj.id,
-    level: obj.level,
+    level: level,
   };
+  console.log('newAchievement', newAchievement);
+
   const isObjectPresent = userData.gatheredAchievements.some(obj => obj.id === newAchievement.id);
+  console.log(isObjectPresent);
+
   if(isObjectPresent) {
-    const gatheredLevel = userData.gatheredAchievements.find(obj => obj.id === newAchievement.id).level;
-    if(gatheredLevel < newAchievement.level) {
-      userData.gatheredAchievements.push(newAchievement)
+    const gatheredAchievement = userData.gatheredAchievements.find(obj => obj.id === newAchievement.id);
+    console.log('gatheredAchievement', gatheredAchievement);
+
+    if(gatheredAchievement.level < newAchievement.level) {
+      userData.gatheredAchievements.splice(userData.gatheredAchievements.indexOf(gatheredAchievement), 1);
+      userData.gatheredAchievements.push(newAchievement);
     }
+  } else {
+    userData.gatheredAchievements.push(newAchievement);
   }
 }
 
@@ -35,6 +46,11 @@ function popupClose() {
 }
 
 function popupOpen(obj, level) {
+  console.log('popupOpen');
+
+  console.log('obj', obj);
+  console.log('level', level);
+
   const objLevel = obj.levels.find(obj => obj.level === level);
   popup.classList.remove('popup_inactive');
   popup.querySelector('.popup__title').textContent = obj.title;
@@ -42,7 +58,7 @@ function popupOpen(obj, level) {
   popup.querySelector('.popup__message').textContent = objLevel.description;
   popup.querySelector('.popup__image').src = objLevel.mainIcon;
   popup.querySelector('.popup__button').addEventListener('click', () => {
-    achievementGathering(obj);
+    achievementGathering(obj, level);
     const card = document.querySelector(`.wideCard_id_${obj.id}`);
     card.removeEventListener('click', popupOpen);
     popupClose();
@@ -298,7 +314,8 @@ function achievementsLevelCheck() {
   // console.log('passiveIncome', userData.passiveIncome);
   achievements.forEach((object) => {
     const isGathered = userData.gatheredAchievements.some(obj => obj.id === object.id);
-    // console.log(isGathered);
+    // console.log('isGathered', isGathered);
+    // console.log('object', object);
 
     const lessArray = object.levels.filter(obj => obj.limit <= userData[object.metric]);
     // const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData.passiveIncome);
@@ -313,16 +330,22 @@ function achievementsLevelCheck() {
       const card = document.querySelector(`.wideCard_id_${object.id}`);
       if(!isGathered) {
         userAch.level = 1;
+        console.log(card.hasAttribute('listener'));
+
         !card.hasAttribute('listener') && card.addEventListener('click', () => {
           popupOpen(object, userAch.level);
         });
         card.setAttribute('listener', 'true');
       } else {
         const gatheredLevel = userData.gatheredAchievements.find(obj => obj.id === object.id).level;
-        // console.log(gatheredLevel);
-        const availableLevel = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
+        // console.log('gatheredLevel', gatheredLevel);
+        const availableLevel = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level + 1;
+        // console.log('availableLevel', availableLevel);
+
         if(gatheredLevel < availableLevel) {
           userAch.level = gatheredLevel + 1;
+          console.log(card.hasAttribute('listener'));
+
           !card.hasAttribute('listener') && card.addEventListener('click', () => {
             popupOpen(object, userAch.level);
           });
