@@ -8,6 +8,7 @@ const userDataModel = {
   activeIncome: 0,
   passiveIncome: 0,
   level: 1,
+  timeOnline: 0, //seconds
   activeUpgrades: [],
   passiveUpgrades: [],
   tasks: [],

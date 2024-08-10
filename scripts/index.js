@@ -1,7 +1,13 @@
 // ToDo
 // Achievements
+  // Text
   // Conditions
-    // Others
+    // 1 - Done
+    // 2 - Done
+    // 3 Score
+    // 4 Time
+    // 5 friends
+    // 6 Lvl
   // Rewards
 // Level
   // LevelUps (Reward) -- in achievements
@@ -15,6 +21,7 @@
 // Icons
   // Renew
   // Change nav icons colours from white
+// ProgressBar
 
 // Friends!!
 // Updating Model Safe!!!
@@ -44,7 +51,7 @@ function passiveIncomeRenderer() {
 }
 
 function achievementsCardsRenderer() {
-  console.log('achievements', userData.achievements[0]);
+  // console.log('achievements', userData.achievements[0]);
 
   achievements.forEach((elem) => {
     const userLevel = userData.achievements.find(obj => obj.id === elem.id).level;
@@ -85,7 +92,7 @@ function passiveIncomeCounter() {
   userData.passiveUpgrades.forEach((item) => {
     const upgradeFromConstant = passiveUpgrades.find(upgrade => upgrade.id === item.id);
     const upgradeFromConstantLevel = upgradeFromConstant.levels.find(upgrade => upgrade.level === item.level);
-    console.log(upgradeFromConstantLevel.income);
+    // console.log(upgradeFromConstantLevel.income);
 
     passiveIncome = passiveIncome + upgradeFromConstantLevel.income;
   })
@@ -113,6 +120,7 @@ function passiveOnlineIncomeCounter() {
   }
 }
 
+
 function offlineTimeCounter() {
   const closureDate = localStorage.getItem('closureTime');
   if(closureDate) {
@@ -125,22 +133,22 @@ function offlineTimeCounter() {
 }
 
 function passiveOfflineIncomeCounter(seconds) {
-  console.log('cummulativeIncome', userData.cummulativeIncome);
+  // console.log('cummulativeIncome', userData.cummulativeIncome);
   const limit = 3600 * passiveOfflineIncomeHoursLimit;
   const passiveIncome = passiveIncomeCounter();
   // let offlinePassiveIncome =
   if(seconds < limit) {
-    console.log('offlinePassive Seconds', Math.round(passiveIncome / 3600) * seconds);
+    // console.log('offlinePassive Seconds', Math.round(passiveIncome / 3600) * seconds);
     userData.score = userData.score + Math.round(passiveIncome / 3600) * seconds;
     userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600) * seconds;
-    console.log('score', userData.score);
-    console.log('cummulativeIncome', userData.cummulativeIncome);
+    // console.log('score', userData.score);
+    // console.log('cummulativeIncome', userData.cummulativeIncome);
   } else {
-    console.log('offlinePassive Limit', Math.round(passiveIncome / 3600) * limit);
+    // console.log('offlinePassive Limit', Math.round(passiveIncome / 3600) * limit);
     userData.score = userData.score + Math.round(passiveIncome / 3600) * limit;
     userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600) * limit;
-    console.log('score', userData.score);
-    console.log('cummulativeIncome', userData.cummulativeIncome);
+    // console.log('score', userData.score);
+    // console.log('cummulativeIncome', userData.cummulativeIncome);
   }
 
   saveUserData();
@@ -258,7 +266,8 @@ function levelProgressCounter() {
 // --------------- Achievements-Start ---------------
 function achievementsCheckTaps() {
   // console.log('taps', userData.taps);
-  const lessArray = achievements[0].levels.filter(obj => obj.limit <= userData.taps);
+  const lessArray = achievements[0].levels.filter(obj => obj.limit <= userData[achievements[0].metric]);
+  // const lessArray = achievements[0].levels.filter(obj => obj.limit <= userData.taps);
   const lessLimits = [];
   lessArray.forEach((obj) => {
     lessLimits.push(obj.limit);
@@ -272,29 +281,51 @@ function achievementsCheckTaps() {
   } else {
     userData.achievements[1].level = 0;
   }
-  console.log(userData.achievements[0]);
+  // console.log(userData.achievements[0]);
 };
+
+// function achievementsCheckPassiveIncome() {
+//   // console.log('passiveIncome', userData.passiveIncome);
+//   const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData[achievements[1].metric]);
+//   // const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData.passiveIncome);
+//   const lessLimits = [];
+//   lessArray.forEach((obj) => {
+//     lessLimits.push(obj.limit);
+//   });
+//   // console.log('lessLimits', lessLimits);
+//   // console.log('lessArray', lessArray);
+//   if(lessArray.length) {
+//     const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
+//     // console.log('level', level);
+//     userData.achievements[1].level = level + 1;
+//   } else {
+//     userData.achievements[1].level = 0;
+//   }
+//   // console.log(userData.achievements);
+// };
 
 function achievementsCheckPassiveIncome() {
-  console.log('passiveIncome', userData.passiveIncome);
-  const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData.passiveIncome);
-  const lessLimits = [];
-  lessArray.forEach((obj) => {
-    lessLimits.push(obj.limit);
+  // console.log('passiveIncome', userData.passiveIncome);
+  passiveAchievements.forEach((object) => {
+    const lessArray = object.levels.filter(obj => obj.limit <= userData[object.metric]);
+    // const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData.passiveIncome);
+    const lessLimits = [];
+    lessArray.forEach((obj) => {
+      lessLimits.push(obj.limit);
+    });
+    // console.log('lessLimits', lessLimits);
+    // console.log('lessArray', lessArray);
+    const userAch = userData.achievements.find(obj => obj.id === object.id);
+    if(lessArray.length) {
+      const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
+      // console.log('level', level);
+      userAch.level = level + 1;
+    } else {
+      userAch.level = 0;
+    }
   });
-  console.log('lessLimits', lessLimits);
-  console.log('lessArray', lessArray);
-  if(lessArray.length) {
-    const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
-    // console.log('level', level);
-    userData.achievements[1].level = level + 1;
-  } else {
-    userData.achievements[1].level = 0;
-  }
-  console.log(userData.achievements);
+  // console.log(userData.achievements);
 };
-
-// Choose Single Function vs Optimisation (not to enumerate array)
 
 
 // --------------- Achievements-End ---------------
@@ -660,9 +691,6 @@ btnMain.addEventListener('click', mainClick);
 // --------------- MainClick-End ---------------
 
 // --------------- ServiceFunctions-End ---------------
-function renewUser() {
-
-}
 
 function totalExpencesCounter() {
   let activeExpences = 0;
@@ -691,6 +719,7 @@ function totalExpencesCounter() {
   console.log('totalExpences', totalExpences);
   userData.expences = totalExpences;
 }
+
 // --------------- ServiceFunctions-End ---------------
 
 
@@ -727,6 +756,7 @@ window.onload = () => {
 
   // Make separate function as energy
   let passiveIncomeTimer = setInterval(() => {
+    // Move unlimited functions to userOnlineTimer
     passiveOnlineIncomeCounter();
     levelProgressCounter();
     scoreRenderer();
@@ -739,6 +769,11 @@ window.onload = () => {
     if(timer == onlinePassiveTimeLimit) {
       clearInterval(passiveIncomeTimer);
     }
+  },  1000);
+
+  let userOnlineTimer = setInterval(() => {
+    userData.timeOnline++;
+    saveUserData();
   },  1000);
 
   energyRecoveryLooper(true, 'normal');
