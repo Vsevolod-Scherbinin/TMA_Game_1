@@ -15,6 +15,41 @@
 // Updating Model Safe!!!
 // DataBase??
 
+function achievementGathering(obj) {
+  const newAchievement = {
+    id: obj.id,
+    level: obj.level,
+  };
+  const isObjectPresent = userData.gatheredAchievements.some(obj => obj.id === newAchievement.id);
+  if(isObjectPresent) {
+    const gatheredLevel = userData.gatheredAchievements.find(obj => obj.id === newAchievement.id).level;
+    if(gatheredLevel < newAchievement.level) {
+      userData.gatheredAchievements.push(newAchievement)
+    }
+  }
+}
+
+// --------------- Popup-Start ---------------
+function popupClose() {
+  popup.classList.add('popup_inactive');
+}
+
+function popupOpen(obj, level) {
+  const objLevel = obj.levels.find(obj => obj.level === level);
+  popup.classList.remove('popup_inactive');
+  popup.querySelector('.popup__title').textContent = obj.title;
+  // Add messages to objects
+  popup.querySelector('.popup__message').textContent = objLevel.description;
+  popup.querySelector('.popup__image').src = objLevel.mainIcon;
+  popup.querySelector('.popup__button').addEventListener('click', () => {
+    achievementGathering(obj);
+    const card = document.querySelector(`.wideCard_id_${obj.id}`);
+    card.removeEventListener('click', popupOpen);
+    popupClose();
+  });
+}
+// --------------- Popup-End ---------------
+
 // --------------- Renderers-Start ---------------
 function scoreRenderer() {
   scoreField.textContent = userData.score;
@@ -274,10 +309,27 @@ function achievementsLevelCheck() {
     // console.log('lessLimits', lessLimits);
     // console.log('lessArray', lessArray);
     const userAch = userData.achievements.find(obj => obj.id === object.id);
-    if(lessArray.length && isGathered) {
-      const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
-      // console.log('level', level);
-      userAch.level = level + 1;
+    if(lessArray.length) {
+      const card = document.querySelector(`.wideCard_id_${object.id}`);
+      if(!isGathered) {
+        userAch.level = 1;
+        !card.hasAttribute('listener') && card.addEventListener('click', () => {
+          popupOpen(object, userAch.level);
+        });
+        card.setAttribute('listener', 'true');
+      } else {
+        const gatheredLevel = userData.gatheredAchievements.find(obj => obj.id === object.id).level;
+        // console.log(gatheredLevel);
+        const availableLevel = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
+        if(gatheredLevel < availableLevel) {
+          userAch.level = gatheredLevel + 1;
+          !card.hasAttribute('listener') && card.addEventListener('click', () => {
+            popupOpen(object, userAch.level);
+          });
+          card.setAttribute('listener', 'true');
+        }
+        // console.log('level', level);
+      }
     } else {
       userAch.level = 0;
     }
@@ -499,7 +551,6 @@ function createTaskCards(elem) {
 }
 
 function createWideCards(elem) {
-  // function createAchievementCards(elem) {
   const wideCardElement = wideCardTemplate.cloneNode(true);
   wideCardElement.querySelector('.wideCard__icon').src = elem.mainIcon;
   wideCardElement.querySelector('.wideCard__title').textContent = elem.title;
@@ -511,8 +562,8 @@ function createWideCards(elem) {
 
 function createAchievementsCard(elem, level) {
   const levelData = elem.levels.find(obj => obj.level === level);
-  // function createAchievementCards(elem) {
   const achievementCardElement = wideCardTemplate.cloneNode(true);
+  achievementCardElement.querySelector('.wideCard').classList.add(`wideCard_id_${elem.id}`);
   achievementCardElement.querySelector('.wideCard__icon').src = levelData.mainIcon;
   achievementCardElement.querySelector('.wideCard__title').textContent = elem.title;
   achievementCardElement.querySelector('.wideCard__description').textContent = levelData.description;
@@ -569,17 +620,6 @@ btnUpgrades.addEventListener('click', screenSwitcher);
 btnTasks.addEventListener('click', screenSwitcher);
 btnAchievements.addEventListener('click', screenSwitcher);
 // --------------- Navigation-End ---------------
-
-// --------------- Popup-Start ---------------
-function popupOpener(object) {
-  popupTitle.textContent = object.title;
-  popupMessage.textContent = object.description;
-  popupImage.src = object.levels.mainIcon;
-  popup.classList.remove('popup_inactive');
-}
-
-// --------------- Popup-End ---------------
-
 
 // --------------- CardsRenderer-Start ---------------
 function allUpgradesRenderer() {
@@ -703,10 +743,11 @@ window.onload = () => {
   energyLimitRenderer();
   allUpgradesRenderer();
   tasksRenderer();
-  // achievementsCheckTaps();
-  achievementsCardsRenderer();
-  achievementsContentRenderer();
+  // userData.gatheredAchievements = [];
   saveUserData();
+  achievementsCardsRenderer();
+  achievementsLevelCheck();
+  achievementsContentRenderer();
 
 
 
