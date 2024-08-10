@@ -13,6 +13,7 @@ const userDataModel = {
   passiveUpgrades: [],
   tasks: [],
   achievements: [],
+  gatheredAchievements: [],
 };
 
 const userData = {};

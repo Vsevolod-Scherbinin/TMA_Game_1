@@ -8,7 +8,7 @@
 
 // Gathering rewards from cards
 // Icons - Sunday
-  // Renew
+  // Rene
   // Change nav icons colours from white
 
 // Friends!!
@@ -240,30 +240,9 @@ function levelProgressCounter() {
 // --------------- Level-End ---------------
 
 // --------------- Achievements-Start ---------------
-function achievementsCheckTaps() {
-  // console.log('taps', userData.taps);
-  const lessArray = achievements[0].levels.filter(obj => obj.limit <= userData[achievements[0].metric]);
-  // const lessArray = achievements[0].levels.filter(obj => obj.limit <= userData.taps);
-  const lessLimits = [];
-  lessArray.forEach((obj) => {
-    lessLimits.push(obj.limit);
-  });
-  // console.log('lessLimits', lessLimits);
-  // console.log('lessArray', lessArray);
-  if(lessArray.length) {
-    const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
-    // console.log('level', level);
-    userData.achievements[0].level = level + 1;
-  } else {
-    userData.achievements[1].level = 0;
-  }
-  // console.log(userData.achievements[0]);
-};
-
-// function achievementsCheckPassiveIncome() {
-//   // console.log('passiveIncome', userData.passiveIncome);
-//   const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData[achievements[1].metric]);
-//   // const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData.passiveIncome);
+// function achievementsCheckTaps() {
+//   // console.log('taps', userData.taps);
+//   const lessArray = achievements[0].levels.filter(obj => obj.limit <= userData[achievements[0].metric]);
 //   const lessLimits = [];
 //   lessArray.forEach((obj) => {
 //     lessLimits.push(obj.limit);
@@ -273,16 +252,19 @@ function achievementsCheckTaps() {
 //   if(lessArray.length) {
 //     const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
 //     // console.log('level', level);
-//     userData.achievements[1].level = level + 1;
+//     userData.achievements[0].level = level + 1;
 //   } else {
-//     userData.achievements[1].level = 0;
+//     userData.achievements[0].level = 0;
 //   }
-//   // console.log(userData.achievements);
+//   // console.log(userData.achievements[0]);
 // };
 
-function achievementsCheckPassiveIncome() {
+function achievementsLevelCheck() {
   // console.log('passiveIncome', userData.passiveIncome);
-  passiveAchievements.forEach((object) => {
+  achievements.forEach((object) => {
+    const isGathered = userData.gatheredAchievements.some(obj => obj.id === object.id);
+    // console.log(isGathered);
+
     const lessArray = object.levels.filter(obj => obj.limit <= userData[object.metric]);
     // const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData.passiveIncome);
     const lessLimits = [];
@@ -292,7 +274,7 @@ function achievementsCheckPassiveIncome() {
     // console.log('lessLimits', lessLimits);
     // console.log('lessArray', lessArray);
     const userAch = userData.achievements.find(obj => obj.id === object.id);
-    if(lessArray.length) {
+    if(lessArray.length && isGathered) {
       const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
       // console.log('level', level);
       userAch.level = level + 1;
@@ -399,24 +381,6 @@ function upgradeFinder(upgradesArray, name) {
 
   return currentUpgrade;
 }
-
-// Review and Use if reasonable
-// function upgradePurchase(upgrade) {
-//   if(userData.score >= upgrade.cost) {
-//     userData.score = userData.score - upgrade.cost;
-//     scoreRenderer();
-//     if(upgrade.income !== undefined) {
-//       console.log('Income');
-//       userUpgrade.level++;
-//       const passiveIncome = passiveIncomeCounter();
-//       passiveIncomeRenderer();
-//     } else if (upgrade.delta !== undefined) {
-//       console.log('Delta');
-//     } else {
-//       console.log('Energy');
-//     }
-//   }
-// }
 
 function addUpgrade(evt, upgradesArray) {
   console.log(evt.target);
@@ -671,7 +635,7 @@ function mainClick() {
     energyRenderer();
     cummulativeIncomeCounter();
     checkUpgradeAvailable();
-    achievementsCheckTaps();
+    // achievementsCheckTaps();
     achievementsContentRenderer();
     // console.log('taps', userData.taps);
     saveUserData();
@@ -739,7 +703,7 @@ window.onload = () => {
   energyLimitRenderer();
   allUpgradesRenderer();
   tasksRenderer();
-  achievementsCheckTaps();
+  // achievementsCheckTaps();
   achievementsCardsRenderer();
   achievementsContentRenderer();
   saveUserData();
@@ -753,7 +717,7 @@ window.onload = () => {
     levelProgressCounter();
     scoreRenderer();
     checkUpgradeAvailable();
-    achievementsCheckPassiveIncome();
+    achievementsLevelCheck();
     achievementsContentRenderer();
 
     saveUserData();

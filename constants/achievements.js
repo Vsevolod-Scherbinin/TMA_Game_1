@@ -24,7 +24,7 @@ const achievements = [
         level: 2,
         mainIcon: './images/achievement-icon-tap-silver.png',
         description: 'Совершите 10000 тапов',
-        limit: 10000,
+        limit: 180,
         effect: 500000,
       },
       {
