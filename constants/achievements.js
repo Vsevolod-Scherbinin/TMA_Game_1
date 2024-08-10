@@ -73,7 +73,7 @@ const achievements = [
   },
   {
     id: 3,
-    title: 'Экономный',
+    title: 'Капиталист',
     type: 'passive',
     metric: 'score',
     effectIcon: './images/coin.png',
@@ -89,12 +89,14 @@ const achievements = [
         level: 1,
         mainIcon: './images/achievement-icon-score-bronze.png',
         description: 'Достигните состояния в $100000 на счёте',
+        limit: 100000,
         effect: 100000,
       },
       {
         level: 2,
         mainIcon: './images/achievement-icon-score-silver.png',
         description: 'Достигните состояния в $1000000 на счёте',
+        limit: 1000000,
         effect: 250000,
       },
       {
