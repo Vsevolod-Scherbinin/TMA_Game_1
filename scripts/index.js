@@ -1,19 +1,24 @@
 // ToDo
 // Achievements
-  // Rewards and Stopper
-    // GatheredAchievements Array
+  // Rewards
+
 // PopUps
-  // Layout -- improve
-  // PassiveOfflineIncome
+  // Message
+  // PassiveOfflineIncome -- Sunday
 
 // Gathering rewards from cards
 // Icons - Sunday
-  // Rene
-  // Change nav icons colours from white
+  // Renew
 
 // Friends!!
 // Updating Model Safe!!!
 // DataBase??
+
+const removeAttributes = (element) => {
+  while (element.attributes.length > 0) {
+      element.removeAttribute(element.attributes[0].name);
+  }
+};
 
 function achievementGathering(obj, level) {
   // console.log(obj);
@@ -62,6 +67,12 @@ function popupOpen(obj, level) {
     const card = document.querySelector(`.wideCard_id_${obj.id}`);
     // card.removeEventListener('click', popupOpen);
     card.replaceWith(card.cloneNode(true));
+    removeAttributes(card);
+    // card.removeAttribute('listener', 'true');
+    // card.setAttribute('listener', 'false');
+    console.log('card', card);
+    console.log('hasAtt', card.hasAttribute('listener'));
+
     popupClose();
 
   });
@@ -331,9 +342,11 @@ function achievementsLevelCheck() {
     }
     if(lessArray.length) {
       const card = document.querySelector(`.wideCard_id_${object.id}`);
+      card.hasAttribute('listener') && card.removeAttribute('listener');
+      // console.log('card', card);
+      // console.log(card.hasAttribute('listener'));
       if(!isGathered) {
         userAch.level = 1;
-        // console.log(card.hasAttribute('listener'));
         !card.hasAttribute('listener') && card.addEventListener('click', handlePopupOpen);
         card.setAttribute('listener', 'true');
       } else {
@@ -342,10 +355,10 @@ function achievementsLevelCheck() {
         const availableLevel = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level + 1;
         // console.log('availableLevel', availableLevel);
         userAch.level = gatheredLevel;
+        // removeAttributes(card);
         if(gatheredLevel < availableLevel) {
           userAch.level = gatheredLevel + 1;
           // console.log(card.hasAttribute('listener'));
-
           // card.setAttribute('listener', 'true');
           !card.hasAttribute('listener') && card.addEventListener('click', handlePopupOpen);
           card.setAttribute('listener', 'true');
@@ -745,7 +758,7 @@ window.onload = () => {
   loadUserData();
   // ServiceFunctions-Start
     // totalExpencesCounter();
-    userData.gatheredAchievements[3].level = 2;
+    // userData.gatheredAchievements = [];
     saveUserData();
   // ServiceFunctions-End
   screenSwitcher();
