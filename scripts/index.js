@@ -60,8 +60,10 @@ function popupOpen(obj, level) {
   popup.querySelector('.popup__button').addEventListener('click', () => {
     achievementGathering(obj, level);
     const card = document.querySelector(`.wideCard_id_${obj.id}`);
-    card.removeEventListener('click', popupOpen);
+    // card.removeEventListener('click', popupOpen);
+    card.replaceWith(card.cloneNode(true));
     popupClose();
+
   });
 }
 // --------------- Popup-End ---------------
@@ -311,47 +313,50 @@ function levelProgressCounter() {
 // };
 
 function achievementsLevelCheck() {
-  // console.log('passiveIncome', userData.passiveIncome);
   achievements.forEach((object) => {
     const isGathered = userData.gatheredAchievements.some(obj => obj.id === object.id);
-    // console.log('isGathered', isGathered);
-    // console.log('object', object);
+    console.log('isGathered', isGathered);
+    console.log('object', object);
 
     const lessArray = object.levels.filter(obj => obj.limit <= userData[object.metric]);
-    // const lessArray = achievements[1].levels.filter(obj => obj.limit <= userData.passiveIncome);
     const lessLimits = [];
     lessArray.forEach((obj) => {
       lessLimits.push(obj.limit);
     });
-    // console.log('lessLimits', lessLimits);
-    // console.log('lessArray', lessArray);
+    console.log('lessLimits', lessLimits);
+    console.log('lessArray', lessArray);
     const userAch = userData.achievements.find(obj => obj.id === object.id);
+    const handlePopupOpen = () => {
+      popupOpen(object, userAch.level);
+    }
     if(lessArray.length) {
       const card = document.querySelector(`.wideCard_id_${object.id}`);
       if(!isGathered) {
         userAch.level = 1;
-        console.log(card.hasAttribute('listener'));
+        // console.log(card.hasAttribute('listener'));
 
-        !card.hasAttribute('listener') && card.addEventListener('click', () => {
-          popupOpen(object, userAch.level);
-        });
+        // !card.hasAttribute('listener') && card.addEventListener('click', () => {
+        //   popupOpen(object, userAch.level);
+        // });
+        !card.hasAttribute('listener') && card.addEventListener('click', handlePopupOpen);
         card.setAttribute('listener', 'true');
       } else {
         const gatheredLevel = userData.gatheredAchievements.find(obj => obj.id === object.id).level;
-        // console.log('gatheredLevel', gatheredLevel);
+        console.log('gatheredLevel', gatheredLevel);
         const availableLevel = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level + 1;
-        // console.log('availableLevel', availableLevel);
-
+        console.log('availableLevel', availableLevel);
+        userAch.level = gatheredLevel;
         if(gatheredLevel < availableLevel) {
           userAch.level = gatheredLevel + 1;
-          console.log(card.hasAttribute('listener'));
+          // console.log(card.hasAttribute('listener'));
 
-          !card.hasAttribute('listener') && card.addEventListener('click', () => {
-            popupOpen(object, userAch.level);
-          });
+          // !card.hasAttribute('listener') && card.addEventListener('click', () => {
+            // popupOpen(object, userAch.level);
+          // });
+          // card.setAttribute('listener', 'true');
+          !card.hasAttribute('listener') && card.addEventListener('click', handlePopupOpen);
           card.setAttribute('listener', 'true');
         }
-        // console.log('level', level);
       }
     } else {
       userAch.level = 0;
@@ -746,8 +751,9 @@ function totalExpencesCounter() {
 window.onload = () => {
   loadUserData();
   // ServiceFunctions-Start
-  saveUserData();
     // totalExpencesCounter();
+    // userData.gatheredAchievements[3].level = 2;
+    saveUserData();
   // ServiceFunctions-End
   screenSwitcher();
   checkUpgradeAvailable();
@@ -771,8 +777,6 @@ window.onload = () => {
   achievementsCardsRenderer();
   achievementsLevelCheck();
   achievementsContentRenderer();
-
-
 
   // Make separate function as energy
   let passiveIncomeTimer = setInterval(() => {
