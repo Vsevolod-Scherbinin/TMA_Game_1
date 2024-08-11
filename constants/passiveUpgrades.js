@@ -2,7 +2,7 @@ const passiveUpgrades = [
   {
     id: 1,
     title: "Upgrade 1",
-    mainIcon: './images/passive-income-icon.png',
+    mainIcon: './images/passive-income-upgrade-icon.png',
     effectIcon: './images/passive-income-icon.png',
     levels: [
       {
@@ -54,7 +54,7 @@ const passiveUpgrades = [
   {
     id: 2,
     title: "Upgrade 2",
-    mainIcon: './images/passive-income-icon.png',
+    mainIcon: './images/passive-income-upgrade-icon.png',
     effectIcon: './images/passive-income-icon.png',
     levels: [
       {
@@ -106,7 +106,7 @@ const passiveUpgrades = [
   {
     id: 3,
     title: "Upgrade 3",
-    mainIcon: './images/passive-income-icon.png',
+    mainIcon: './images/passive-income-upgrade-icon.png',
     effectIcon: './images/passive-income-icon.png',
     levels: [
       {
@@ -143,7 +143,7 @@ const passiveUpgrades = [
   {
     id: 4,
     title: "Upgrade 4",
-    mainIcon: './images/passive-income-icon.png',
+    mainIcon: './images/passive-income-upgrade-icon.png',
     effectIcon: './images/passive-income-icon.png',
     levels: [
       {
@@ -180,7 +180,7 @@ const passiveUpgrades = [
   {
     id: 5,
     title: "Upgrade 5",
-    mainIcon: './images/passive-income-icon.png',
+    mainIcon: './images/passive-income-upgrade-icon.png',
     effectIcon: './images/passive-income-icon.png',
     levels: [
       {

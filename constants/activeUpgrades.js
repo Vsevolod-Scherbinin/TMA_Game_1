@@ -2,7 +2,7 @@ const activeUpgrades = [
   {
     id: 1,
     title: "Delta up",
-    mainIcon: './images/coin.png',
+    mainIcon: './images/delta-upgrade-icon.png',
     effectIcon: './images/coin.png',
     levels: [
       {
@@ -69,7 +69,7 @@ const activeUpgrades = [
   {
     id: 2,
     title: "Energy up",
-    mainIcon: './images/energy-icon.png',
+    mainIcon: './images/energy-upgrade-icon.png',
     effectIcon: './images/energy-icon.png',
     levels: [
       {

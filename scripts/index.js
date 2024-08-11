@@ -1,12 +1,6 @@
 // ToDo
-// Achievements
-  // Rewards and Popups
-
 // PopUps
   // PassiveOfflineIncome -- Sunday
-
-// Icons - Sunday
-  // Renew
 
 // Animation
   // Tap
@@ -71,7 +65,9 @@ function popupOpen(obj, level) {
   const card = document.querySelector(`.wideCard_id_${obj.id}`);
   const submit = () => {
     achievementGathering(obj, level);
-    userData.score = userData.score + objLevel.effect;
+    obj.metric === 'energyLimit'
+      ? userData.energyLimit = userData.energyLimit + objLevel.effect
+      : userData.score = userData.score + objLevel.effect;
     cardReplacer();
     achievementsLevelCheck();
     scoreRenderer();
@@ -103,11 +99,9 @@ function achievementsCardsRenderer() {
   // console.log('achievements', userData.achievements[0]);
 
   achievements.forEach((elem) => {
-    if(elem.id !== 5) {
       const userLevel = userData.achievements.find(obj => obj.id === elem.id).level;
       const card = createAchievementsCard(elem, userLevel);
       achievementCardsField.append(card);
-    }
   });
 }
 
@@ -315,34 +309,6 @@ function levelProgressCounter() {
 // --------------- Level-End ---------------
 
 // --------------- Achievements-Start ---------------
-// function achievementsCheckTaps() {
-//   // console.log('taps', userData.taps);
-//   const lessArray = achievements[0].levels.filter(obj => obj.limit <= userData[achievements[0].metric]);
-//   const lessLimits = [];
-//   lessArray.forEach((obj) => {
-//     lessLimits.push(obj.limit);
-//   });
-//   // console.log('lessLimits', lessLimits);
-//   // console.log('lessArray', lessArray);
-//   if(lessArray.length) {
-//     const level = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level;
-//     // console.log('level', level);
-//     userData.achievements[0].level = level + 1;
-//   } else {
-//     userData.achievements[0].level = 0;
-//   }
-//   // console.log(userData.achievements[0]);
-// };
-// function attributeSetter() {
-//   achievements.forEach((object) => {
-//     const card = document.querySelector(`.wideCard_id_${object.id}`);
-//     const hasAttrListener = card.hasAttribute('cardhaslistener');
-//     !hasAttrListener && card.setAttribute('cardhaslistener', 'false');
-//     const isClicked = card.hasAttribute('isClicked');
-//     !isClicked && card.setAttribute('isClicked', 'false');
-//   })
-// }
-
 function achievementsLevelCheck() {
   achievements.forEach((object) => {
     const isGathered = userData.gatheredAchievements.some(obj => obj.id === object.id);
@@ -353,40 +319,21 @@ function achievementsLevelCheck() {
       lessLimits.push(obj.limit);
     });
     const userAch = userData.achievements.find(obj => obj.id === object.id);
-
     const card = document.querySelector(`.wideCard_id_${object.id}`);
-    // let listenerAttr = !card.getAttributeNode('cardhaslistener').value;
-    console.log(card.querySelector('.wideCard__title').textContent);
-    // console.log('listenerAttr', listenerAttr);
-    console.log(typeof listenerAttr);
-
     const handlePopupOpen = () => {
       popupOpen(object, userAch.level);
     }
-
     if(lessArray.length) {
       if(!isGathered) {
-        console.log('isGathered', isGathered);
-
         userAch.level = 1;
-        // if(listenerAttr === false) {
-          card.addEventListener('click', handlePopupOpen);
-          // card.getAttributeNode('cardhaslistener').value = true;
-        // }
+        card.addEventListener('click', handlePopupOpen);
       } else {
-        console.log('isGathered', isGathered);
-
         const gatheredLevel = userData.gatheredAchievements.find(obj => obj.id === object.id).level;
-        // console.log('gatheredLevel', gatheredLevel);
         const availableLevel = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level + 1;
-        // console.log('availableLevel', availableLevel);
         userAch.level = gatheredLevel;
         if(gatheredLevel < availableLevel) {
           userAch.level = gatheredLevel + 1;
-          // if(!listenerAttr) {
-            card.addEventListener('click', handlePopupOpen);
-            // card.getAttributeNode('cardhaslistener').value = true;
-          // }
+          card.addEventListener('click', handlePopupOpen);
         }
       }
     } else {
@@ -782,8 +729,8 @@ window.onload = () => {
   loadUserData();
   // ServiceFunctions-Start
     // totalExpencesCounter();
-    userData.score = 60000000;
-    userData.gatheredAchievements = [];
+    // userData.score = 60000000;
+    // userData.gatheredAchievements = [];
     saveUserData();
   // ServiceFunctions-End
   screenSwitcher();
