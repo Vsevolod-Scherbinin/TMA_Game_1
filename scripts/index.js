@@ -60,32 +60,46 @@ function popupOpen(obj, level) {
   popup.classList.remove('popup_inactive');
   popup.querySelector('.popup__title').textContent = obj.title;
   // Add messages to objects
-  popup.querySelector('.popup__message').textContent = objLevel.description;
+  popup.querySelector('.popup__message').textContent = `${objLevel.description} и получите $${formatNumberWithSpaces(objLevel.effect)}`;
   popup.querySelector('.popup__image').src = objLevel.mainIcon;
+  console.log(objLevel.effect);
+  const card = document.querySelector(`.wideCard_id_${obj.id}`);
+  const attrValue = card.getAttributeNode('cardhaslistener').value
+  console.log('attrValue', attrValue);
   popup.querySelector('.popup__button').addEventListener('click', () => {
     achievementGathering(obj, level);
-    const card = document.querySelector(`.wideCard_id_${obj.id}`);
-    // card.removeEventListener('click', popupOpen);
+    userData.score = userData.score + objLevel.effect;
+    // const card = document.querySelector(`.wideCard_id_${obj.id}`);
+    // console.log(card.getAttributeNode('cardhaslistener').value);
+
     card.replaceWith(card.cloneNode(true));
-    removeAttributes(card);
-    // card.removeAttribute('listener', 'true');
-    // card.setAttribute('listener', 'false');
-    console.log('card', card);
-    console.log('hasAtt', card.hasAttribute('listener'));
+    card.setAttribute('cardhaslistener', 'false');
+    console.log('attrValue', card.getAttributeNode('cardhaslistener').value);
+
+    // console.log('card', card);
+    // console.log('hasAtt', card.hasAttribute('cardhaslistener'));
 
     popupClose();
-
   });
 }
 // --------------- Popup-End ---------------
 
 // --------------- Renderers-Start ---------------
+const formatNumberWithSpaces = (number) => {
+  return new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+      useGrouping: true,
+  }).format(number).replace(/,/g, ' ');
+};
+
 function scoreRenderer() {
-  scoreField.textContent = userData.score;
+  scoreField.textContent = formatNumberWithSpaces(userData.score);
+
 }
 
 function passiveIncomeRenderer() {
-  passiveIncomeScoreField.textContent = `+${userData.passiveIncome}`;
+  passiveIncomeScoreField.textContent = `+${formatNumberWithSpaces(userData.passiveIncome)}`;
 }
 
 function achievementsCardsRenderer() {
@@ -110,7 +124,7 @@ function achievementsContentRenderer() {
       const cardLevel = cardObj.levels.find(obj => obj.level === userAchLevel);
       card.closest('.wideCard').querySelector('.wideCard__icon').src = cardLevel.mainIcon;
       card.closest('.wideCard').querySelector('.wideCard__description').textContent = cardLevel.description;
-      card.closest('.wideCard').querySelector('.wideCard__effect').textContent = cardLevel.effect;
+      card.closest('.wideCard').querySelector('.wideCard__effect').textContent = formatNumberWithSpaces(cardLevel.effect);
     }
   });
 
@@ -203,11 +217,11 @@ function energyLimiter() {
 }
 
 function energyLimitRenderer() {
-  energyLimitField.textContent = energyLimiter();
+  energyLimitField.textContent = formatNumberWithSpaces(energyLimiter());
 }
 
 function energyRenderer() {
-  energyScoreField.textContent = userData.energy;
+  energyScoreField.textContent = formatNumberWithSpaces(userData.energy);
 }
 
 function energyCounter() {
@@ -254,7 +268,7 @@ function energyRecovery() {
 
 // --------------- Level-Start ---------------
 function levelRenderer() {
-  levelField.textContent = `${userData.level}`;
+  levelField.textContent = `${formatNumberWithSpaces(userData.level)}`;
 }
 
 function progressBarRenderer(prevLimit, currentLimit) {
@@ -337,18 +351,28 @@ function achievementsLevelCheck() {
     // console.log('lessLimits', lessLimits);
     // console.log('lessArray', lessArray);
     const userAch = userData.achievements.find(obj => obj.id === object.id);
+
+    const card = document.querySelector(`.wideCard_id_${object.id}`);
+    // removeAttributes(card);
+    // card.hasAttribute('cardhaslistener', 'true') && card.removeAttribute('cardhaslistener');
+    let listenerAttr = false;
+    if(card.hasAttribute('cardhaslistener')) {
+      listenerAttr = card.getAttributeNode('cardhaslistener').value;
+    }
     const handlePopupOpen = () => {
+      // card.setAttribute('cardhaslistener', 'false');
       popupOpen(object, userAch.level);
     }
+    console.log(card.querySelector('.wideCard__title').textContent);
+    console.log('listenerAttr', listenerAttr);
+
     if(lessArray.length) {
-      const card = document.querySelector(`.wideCard_id_${object.id}`);
-      card.hasAttribute('listener') && card.removeAttribute('listener');
-      // console.log('card', card);
-      // console.log(card.hasAttribute('listener'));
       if(!isGathered) {
         userAch.level = 1;
-        !card.hasAttribute('listener') && card.addEventListener('click', handlePopupOpen);
-        card.setAttribute('listener', 'true');
+        if(!listenerAttr) {
+          card.addEventListener('click', handlePopupOpen);
+          card.setAttribute('cardhaslistener', 'true');
+        }
       } else {
         const gatheredLevel = userData.gatheredAchievements.find(obj => obj.id === object.id).level;
         // console.log('gatheredLevel', gatheredLevel);
@@ -358,10 +382,12 @@ function achievementsLevelCheck() {
         // removeAttributes(card);
         if(gatheredLevel < availableLevel) {
           userAch.level = gatheredLevel + 1;
-          // console.log(card.hasAttribute('listener'));
-          // card.setAttribute('listener', 'true');
-          !card.hasAttribute('listener') && card.addEventListener('click', handlePopupOpen);
-          card.setAttribute('listener', 'true');
+          // console.log(card.hasAttribute('cardhaslistener'));
+          // card.setAttribute('cardhaslistener', 'true');
+          if(!listenerAttr) {
+            card.addEventListener('click', handlePopupOpen);
+            card.setAttribute('cardhaslistener', 'true');
+          }
         }
       }
     } else {
@@ -397,7 +423,8 @@ function loadUserData() {
     })
 
     passiveUpgrades.forEach((upgrade) => {
-      userData.passiveUpgrades.push({
+      const isUpgradePresent = passiveUpgrades.some(obj => obj.id === upgrade.id);
+      !isUpgradePresent && userData.passiveUpgrades.push({
         id: upgrade.id,
         level: 0,
       })
@@ -511,13 +538,13 @@ function addUpgrade(evt, upgradesArray) {
       if(nextUpgradeLevel) {
         // userUpgrade.level++;
         currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `lvl ${nextUpgradeLevel.level}`;
-        currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `${nextUpgradeLevel.cost}`;
+        currentUpgradeCard.querySelector('.upgradeCard__cost').textContent = `${formatNumberWithSpaces(nextUpgradeLevel.cost)}`;
         if(nextUpgradeLevel.income !== undefined) {
-          currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.income}`;
+          currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${formatNumberWithSpaces(nextUpgradeLevel.income)}`;
         } else if(nextUpgradeLevel.delta !== undefined) {
-          currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.delta}`;
+          currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${formatNumberWithSpaces(nextUpgradeLevel.delta)}`;
         } else {
-          currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${nextUpgradeLevel.energyLimit}`;
+          currentUpgradeCard.querySelector('.upgradeCard__effect').textContent = `+${formatNumberWithSpaces(nextUpgradeLevel.energyLimit)}`;
         }
       } else {
         currentUpgradeCard.querySelector('.upgradeCard__level').textContent = `lvl Max`;
@@ -552,24 +579,22 @@ function createUpgradeCard(elem, upgradesArray) {
     });
 
     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl ${currentUpgrade.level}`;
-    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `${currentUpgrade.cost}`;
+    upgradeCardElement.querySelector('.upgradeCard__cost').textContent = `${formatNumberWithSpaces(currentUpgrade.cost)}`;
 
-    // upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`;
     currentUpgrade.income !== undefined
-      ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`
+      ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${formatNumberWithSpaces(currentUpgrade.income)}`
       : currentUpgrade.delta !== undefined
-        ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.delta}`
-        : upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `${currentUpgrade.energyLimit}`;
+        ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${formatNumberWithSpaces(currentUpgrade.delta)}`
+        : upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `${formatNumberWithSpaces(currentUpgrade.energyLimit)}`;
   } else {
     upgradeCardElement.querySelector('.upgradeCard__level').textContent = `lvl Max`;
     upgradeCardElement.querySelector('.upgradeCard__costArea').remove();
 
-    // upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${currentUpgrade.income}`;
     previousUpgrade.income !== undefined
-      ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${previousUpgrade.income}`
+      ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${formatNumberWithSpaces(previousUpgrade.income)}`
       : previousUpgrade.delta !== undefined
-        ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${previousUpgrade.delta}`
-        : upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `${previousUpgrade.energyLimit}`;
+        ? upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `+${formatNumberWithSpaces(previousUpgrade.delta)}`
+        : upgradeCardElement.querySelector('.upgradeCard__effect').textContent = `${formatNumberWithSpaces(previousUpgrade.energyLimit)}`;
   }
 
 
@@ -590,7 +615,7 @@ function createWideCards(elem) {
   wideCardElement.querySelector('.wideCard__title').textContent = elem.title;
   wideCardElement.querySelector('.wideCard__description').textContent = elem.description;
   wideCardElement.querySelector('.wideCard__effectIcon').src = elem.effectIcon;
-  wideCardElement.querySelector('.wideCard__effect').textContent = `+${elem.effect}`;
+  wideCardElement.querySelector('.wideCard__effect').textContent = `+${formatNumberWithSpaces(elem.effect)}`;
   return wideCardElement;
 }
 
@@ -602,7 +627,7 @@ function createAchievementsCard(elem, level) {
   achievementCardElement.querySelector('.wideCard__title').textContent = elem.title;
   achievementCardElement.querySelector('.wideCard__description').textContent = levelData.description;
   achievementCardElement.querySelector('.wideCard__effectIcon').src = elem.effectIcon;
-  achievementCardElement.querySelector('.wideCard__effect').textContent = `+${levelData.effect}`;
+  achievementCardElement.querySelector('.wideCard__effect').textContent = `+${formatNumberWithSpaces(levelData.effect)}`;
   return achievementCardElement;
 }
 // --------------- WideCards-End ---------------
@@ -758,7 +783,7 @@ window.onload = () => {
   loadUserData();
   // ServiceFunctions-Start
     // totalExpencesCounter();
-    // userData.gatheredAchievements = [];
+    userData.gatheredAchievements = [];
     saveUserData();
   // ServiceFunctions-End
   screenSwitcher();
@@ -778,7 +803,6 @@ window.onload = () => {
   energyLimitRenderer();
   allUpgradesRenderer();
   tasksRenderer();
-  // userData.gatheredAchievements = [];
   saveUserData();
   achievementsCardsRenderer();
   achievementsLevelCheck();

@@ -1,6 +1,7 @@
 .popup__message {
   margin: 0;
   padding: 0;
+  width: 90%;
   font-family: Inter;
   font-size: 16px;
   font-weight: 500;
