@@ -1,6 +1,4 @@
 // ToDo
-// PopUps
-  // PassiveOfflineIncome -- Sunday
 
 // Animation
   // Tap
@@ -54,8 +52,6 @@ function cardReplacer() {
 }
 
 function popupOpen(obj, level) {
-  console.log('obj', obj);
-  console.log('level', level);
   const objLevel = obj.levels.find(obj => obj.level === level);
   popup.classList.remove('popup_inactive');
   popup.querySelector('.popup__title').textContent = obj.title;
@@ -99,9 +95,11 @@ function achievementsCardsRenderer() {
   // console.log('achievements', userData.achievements[0]);
 
   achievements.forEach((elem) => {
+    if(elem.id !== 5) {
       const userLevel = userData.achievements.find(obj => obj.id === elem.id).level;
       const card = createAchievementsCard(elem, userLevel);
       achievementCardsField.append(card);
+    }
   });
 }
 
@@ -109,6 +107,8 @@ function achievementsContentRenderer() {
   const cards = document.querySelectorAll('.wideCard__title');
 
   cards.forEach((card) => {
+    // console.log(card);
+
     const cardObj = achievements.find(obj => obj.title === card.textContent);
     if(cardObj) {
       const userAchLevel = userData.achievements.find(obj => obj.id === cardObj.id).level;
@@ -177,38 +177,61 @@ function offlineTimeCounter() {
   }
 }
 
+// function passiveOfflineIncomeCounter(seconds) {
+//   const limit = 3600 * passiveOfflineIncomeHoursLimit;
+//   const passiveIncome = passiveIncomeCounter();
+//   if(seconds < limit) {
+//     userData.score = userData.score + Math.round(passiveIncome / 3600) * seconds;
+//     userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600) * seconds;
+//   } else {
+//     userData.score = userData.score + Math.round(passiveIncome / 3600) * limit;
+//     userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600) * limit;
+//   }
+
+//   saveUserData();
+// }
+
 function passiveOfflineIncomeCounter(seconds) {
-  // console.log('cummulativeIncome', userData.cummulativeIncome);
   const limit = 3600 * passiveOfflineIncomeHoursLimit;
   const passiveIncome = passiveIncomeCounter();
-  // let offlinePassiveIncome =
   if(seconds < limit) {
-    // console.log('offlinePassive Seconds', Math.round(passiveIncome / 3600) * seconds);
-    userData.score = userData.score + Math.round(passiveIncome / 3600) * seconds;
-    userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600) * seconds;
-    // console.log('score', userData.score);
-    // console.log('cummulativeIncome', userData.cummulativeIncome);
+    return Math.round(passiveIncome / 3600) * seconds;
   } else {
-    // console.log('offlinePassive Limit', Math.round(passiveIncome / 3600) * limit);
-    userData.score = userData.score + Math.round(passiveIncome / 3600) * limit;
-    userData.cummulativeIncome = userData.cummulativeIncome + Math.round(passiveIncome / 3600) * limit;
-    // console.log('score', userData.score);
-    // console.log('cummulativeIncome', userData.cummulativeIncome);
+    return Math.round(passiveIncome / 3600) * limit;
   }
-
-  saveUserData();
 }
+
 // --------------- Income-End ---------------
 
 // --------------- Energy-Start ---------------
-function energyLimiter() {
+function energyUpgradeLimiter() {
   const currentEnergyLevel = energyUpgrade.levels.find(upgrade => upgrade.level === userData.activeUpgrades.find(upgrade => upgrade.id === 2).level);
   const currentEnergyLimit = currentEnergyLevel.energyLimit;
   return currentEnergyLimit;
 }
 
+function energyAchievementLimiter() {
+  const energyAchievement = achievements.find(obj => obj.id === 5);
+  const userAchGathered = userData.gatheredAchievements.find(obj => obj.id === energyAchievement.id);
+  if(userAchGathered) {
+    const currentEnergyAchievementLimit = energyAchievement.levels.find(obj => obj.level = userAchGathered.level).effect;
+    console.log(currentEnergyAchievementLimit);
+    return currentEnergyAchievementLimit;
+  }
+}
+
+function energyLimiterTotal() {
+  let total;
+  // energyAchievementLimiter()
+  //   ? total = energyUpgradeLimiter() + energyAchievementLimiter()
+    // : total = energyUpgradeLimiter();
+    total = energyUpgradeLimiter();
+  return total;
+}
+
+
 function energyLimitRenderer() {
-  energyLimitField.textContent = formatNumberWithSpaces(energyLimiter());
+  energyLimitField.textContent = formatNumberWithSpaces(energyLimiterTotal());
 }
 
 function energyRenderer() {
@@ -234,7 +257,7 @@ function energyRecoveryLooper(start, type) {
   if(start) {
     energyRecoveryInterval = setInterval(() => {
       energyRecovery();
-      if(userData.energy >= energyLimiter()) {
+      if(userData.energy >= energyUpgradeLimiter()) {
         clearInterval(energyRecoveryInterval);
         type === 'fast' && btnMain.addEventListener('click', mainClick);
       }
@@ -245,10 +268,10 @@ function energyRecoveryLooper(start, type) {
 }
 
 function energyRecovery() {
-  if(userData.energy < energyLimiter()) {
+  if(userData.energy < energyUpgradeLimiter()) {
     userData.energy = userData.energy + 3;
-    if(userData.energy >= energyLimiter()) {
-      userData.energy = energyLimiter();
+    if(userData.energy >= energyUpgradeLimiter()) {
+      userData.energy = energyUpgradeLimiter();
     }
   }
   energyRenderer();
@@ -310,10 +333,17 @@ function levelProgressCounter() {
 
 // --------------- Achievements-Start ---------------
 function achievementsLevelCheck() {
+  // energyAchievementLimiter();
   achievements.forEach((object) => {
     const isGathered = userData.gatheredAchievements.some(obj => obj.id === object.id);
 
-    const lessArray = object.levels.filter(obj => obj.limit <= userData[object.metric]);
+    // console.log(energyLimiterTotal());
+
+    let lessArray;
+
+    object.metric === 'energyLimit'
+      ? lessArray = object.levels.filter(obj => obj.limit <= energyLimiterTotal())
+      : lessArray = object.levels.filter(obj => obj.limit <= userData[object.metric]);
     const lessLimits = [];
     lessArray.forEach((obj) => {
       lessLimits.push(obj.limit);
@@ -356,6 +386,8 @@ function saveUserData() {
 
 function loadUserData() {
   if(localUserData === null) {
+    console.log('New User');
+
     Object.keys(userDataModel).forEach((key) => {
       userData[key] = userDataModel[key];
     })
@@ -368,7 +400,7 @@ function loadUserData() {
     })
 
     passiveUpgrades.forEach((upgrade) => {
-      const isUpgradePresent = passiveUpgrades.some(obj => obj.id === upgrade.id);
+      const isUpgradePresent = userData.passiveUpgrades.some(obj => obj.id === upgrade.id);
       !isUpgradePresent && userData.passiveUpgrades.push({
         id: upgrade.id,
         level: 0,
@@ -474,7 +506,7 @@ function addUpgrade(evt, upgradesArray) {
         // console.log('Energy');
         userUpgrade.level++;
         energyLimitRenderer();
-        // userData.energy = energyLimiter();
+        // userData.energy = energyUpgradeLimiter();
         energyRecoveryLooper(true, 'fast');
       }
 
@@ -725,14 +757,32 @@ function totalExpencesCounter() {
 
 
 // --------------- Window-Start ---------------
+function offlineIncomePopupOpen(offlinePassiveIncome) {
+  popup.classList.remove('popup_inactive');
+  popup.querySelector('.popup__title').textContent = 'Ваш заработок!';
+  popup.querySelector('.popup__message').textContent = `Поздравляем! Вы заработали $${formatNumberWithSpaces(offlinePassiveIncome)}`;
+  popup.querySelector('.popup__image').src = './images/offline-passive-income-icon.png';
+  const submit = () => {
+    userData.score = userData.score + offlinePassiveIncome;
+    userData.cummulativeIncome = userData.cummulativeIncome + offlinePassiveIncome;
+    saveUserData();
+    scoreRenderer();
+    popupClose();
+  }
+  popup.querySelector('.popup__button').addEventListener('click', submit, { once: true });
+}
+
 window.onload = () => {
   loadUserData();
   // ServiceFunctions-Start
     // totalExpencesCounter();
     // userData.score = 60000000;
     // userData.gatheredAchievements = [];
+    // userData.achievements[4].level = 0;
     saveUserData();
   // ServiceFunctions-End
+  const offlinePassiveIncome = passiveOfflineIncomeCounter(offlineTimeCounter());
+  offlinePassiveIncome > 0 && offlineIncomePopupOpen(passiveOfflineIncomeCounter(offlineTimeCounter()));
   screenSwitcher();
   checkUpgradeAvailable();
   levelRenderer();
@@ -743,10 +793,10 @@ window.onload = () => {
   energyRenderer();
   passiveIncomeCounter();
   passiveIncomeRenderer();
-  passiveOfflineIncomeCounter(offlineTimeCounter());
+  // passiveOfflineIncomeCounter(offlineTimeCounter());
   passiveOnlineIncomeCounter();
   energyRenderer();
-  energyLimiter();
+  energyUpgradeLimiter();
   energyLimitRenderer();
   allUpgradesRenderer();
   tasksRenderer();
