@@ -16,20 +16,20 @@
 // DataBase??
 
 function achievementGathering(obj, level) {
-  console.log(obj);
+  // console.log(obj);
 
   const newAchievement = {
     id: obj.id,
     level: level,
   };
-  console.log('newAchievement', newAchievement);
+  // console.log('newAchievement', newAchievement);
 
   const isObjectPresent = userData.gatheredAchievements.some(obj => obj.id === newAchievement.id);
-  console.log(isObjectPresent);
+  // console.log(isObjectPresent);
 
   if(isObjectPresent) {
     const gatheredAchievement = userData.gatheredAchievements.find(obj => obj.id === newAchievement.id);
-    console.log('gatheredAchievement', gatheredAchievement);
+    // console.log('gatheredAchievement', gatheredAchievement);
 
     if(gatheredAchievement.level < newAchievement.level) {
       userData.gatheredAchievements.splice(userData.gatheredAchievements.indexOf(gatheredAchievement), 1);
@@ -46,10 +46,10 @@ function popupClose() {
 }
 
 function popupOpen(obj, level) {
-  console.log('popupOpen');
+  // console.log('popupOpen');
 
-  console.log('obj', obj);
-  console.log('level', level);
+  // console.log('obj', obj);
+  // console.log('level', level);
 
   const objLevel = obj.levels.find(obj => obj.level === level);
   popup.classList.remove('popup_inactive');
@@ -271,11 +271,11 @@ function levelLimitCounter(level) {
 //   const rewardMultiplier = 10;
 //   let reward;
 //   for(i=prevLevel; i<currentLevel; i++) {
-//     console.log(i);
+//     // console.log(i);
 
 //     reward = reward + (i+1)*rewardMultiplier;
 //   }
-//   console.log('reward', reward);
+//   // console.log('reward', reward);
 // }
 
 function levelProgressCounter() {
@@ -315,16 +315,16 @@ function levelProgressCounter() {
 function achievementsLevelCheck() {
   achievements.forEach((object) => {
     const isGathered = userData.gatheredAchievements.some(obj => obj.id === object.id);
-    console.log('isGathered', isGathered);
-    console.log('object', object);
+    // console.log('isGathered', isGathered);
+    // console.log('object', object);
 
     const lessArray = object.levels.filter(obj => obj.limit <= userData[object.metric]);
     const lessLimits = [];
     lessArray.forEach((obj) => {
       lessLimits.push(obj.limit);
     });
-    console.log('lessLimits', lessLimits);
-    console.log('lessArray', lessArray);
+    // console.log('lessLimits', lessLimits);
+    // console.log('lessArray', lessArray);
     const userAch = userData.achievements.find(obj => obj.id === object.id);
     const handlePopupOpen = () => {
       popupOpen(object, userAch.level);
@@ -334,25 +334,18 @@ function achievementsLevelCheck() {
       if(!isGathered) {
         userAch.level = 1;
         // console.log(card.hasAttribute('listener'));
-
-        // !card.hasAttribute('listener') && card.addEventListener('click', () => {
-        //   popupOpen(object, userAch.level);
-        // });
         !card.hasAttribute('listener') && card.addEventListener('click', handlePopupOpen);
         card.setAttribute('listener', 'true');
       } else {
         const gatheredLevel = userData.gatheredAchievements.find(obj => obj.id === object.id).level;
-        console.log('gatheredLevel', gatheredLevel);
+        // console.log('gatheredLevel', gatheredLevel);
         const availableLevel = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level + 1;
-        console.log('availableLevel', availableLevel);
+        // console.log('availableLevel', availableLevel);
         userAch.level = gatheredLevel;
         if(gatheredLevel < availableLevel) {
           userAch.level = gatheredLevel + 1;
           // console.log(card.hasAttribute('listener'));
 
-          // !card.hasAttribute('listener') && card.addEventListener('click', () => {
-            // popupOpen(object, userAch.level);
-          // });
           // card.setAttribute('listener', 'true');
           !card.hasAttribute('listener') && card.addEventListener('click', handlePopupOpen);
           card.setAttribute('listener', 'true');
@@ -405,7 +398,7 @@ function loadUserData() {
     })
 
     localStorage.setItem('TMAGameUserData', JSON.stringify(userData));
-    console.log('New User Made');
+    // console.log('New User Made');
   } else {
     console.log('Old User');
 
@@ -457,25 +450,25 @@ function upgradeFinder(upgradesArray, name) {
     id: foundUpgrade.id,
     levels: foundUpgrade.levels,
   }
-  console.log(currentUpgrade);
+  // console.log(currentUpgrade);
 
   return currentUpgrade;
 }
 
 function addUpgrade(evt, upgradesArray) {
-  console.log(evt.target);
+  // console.log(evt.target);
   const currentUpgradeCard = evt.target.closest('.upgradeCard');
   const currentUpgradeName = currentUpgradeCard.querySelector('.upgradeCard__title').textContent;
 
   const currentUpgrade = upgradeFinder(upgradesArray, currentUpgradeName);
-  console.log('currentUpgrade', currentUpgrade);
+  // console.log('currentUpgrade', currentUpgrade);
 
   const userUpgrade = userData[upgradesArray][currentUpgrade.id-1];
   const currentUpgradeLevel = currentUpgrade.levels.find(level => level.level === userUpgrade.level+1);
 
   let nextUpgradeLevel;
   (currentUpgradeLevel) && (nextUpgradeLevel = currentUpgrade.levels.find(level => level.level === currentUpgradeLevel.level+1));
-  console.log('currentUpgradeLevel', currentUpgradeLevel);
+  // console.log('currentUpgradeLevel', currentUpgradeLevel);
 
   // Make function purchase() {}
   if(currentUpgradeLevel) {
@@ -484,23 +477,23 @@ function addUpgrade(evt, upgradesArray) {
       userData.expences = userData.expences + currentUpgradeLevel.cost;
       scoreRenderer();
       if(currentUpgradeLevel.income !== undefined) {
-        console.log('Income');
+        // console.log('Income');
         userUpgrade.level++;
         userData.passiveIncome = passiveIncomeCounter();
         passiveIncomeRenderer();
       } else if (currentUpgradeLevel.delta !== undefined) {
-        console.log('Delta');
+        // console.log('Delta');
         userUpgrade.level++;
         deltaCounter();
       } else {
-        console.log('Energy');
+        // console.log('Energy');
         userUpgrade.level++;
         energyLimitRenderer();
         // userData.energy = energyLimiter();
         energyRecoveryLooper(true, 'fast');
       }
 
-      console.log('nextUpgradeLevel', nextUpgradeLevel);
+      // console.log('nextUpgradeLevel', nextUpgradeLevel);
 
       if(nextUpgradeLevel) {
         // userUpgrade.level++;
@@ -525,7 +518,7 @@ function addUpgrade(evt, upgradesArray) {
       }
       saveUserData();
     } else {
-      console.log('Недостаточно средств');
+      // console.log('Недостаточно средств');
     }
   }
 }
@@ -672,7 +665,7 @@ function inviteFriends() {
 
   // Используем Telegram Web Apps API для открытия ссылки
   window.Telegram.WebApp.sendData(JSON.stringify({url: url, text: text}));
-  console.log('Invitation');
+  // console.log('Invitation');
 }
 // --------------- CardsRenderer-End ---------------
 
@@ -719,28 +712,28 @@ btnMain.addEventListener('click', mainClick);
 function totalExpencesCounter() {
   let activeExpences = 0;
   let passiveExpences = 0;
-  console.log(userData.activeUpgrades);
+  // console.log(userData.activeUpgrades);
 
   userData.activeUpgrades.forEach((upgrade) => {
-    console.log('upgrade.level', upgrade.level);
+    // console.log('upgrade.level', upgrade.level);
 
     for(i = 1; i <= upgrade.level; i++) {
       activeExpences = activeExpences + activeUpgrades[upgrade.id - 1].levels[i].cost;
     };
   })
-  console.log('activeExpences', activeExpences);
+  // console.log('activeExpences', activeExpences);
 
   userData.passiveUpgrades.forEach((upgrade) => {
-    console.log('upgrade.level', upgrade.level);
+    // console.log('upgrade.level', upgrade.level);
 
     for(i = 1; i <= upgrade.level; i++) {
       passiveExpences = passiveExpences + passiveUpgrades[upgrade.id - 1].levels[i].cost;
     };
   })
-  console.log('passiveExpences', passiveExpences);
+  // console.log('passiveExpences', passiveExpences);
 
   const totalExpences = activeExpences + passiveExpences;
-  console.log('totalExpences', totalExpences);
+  // console.log('totalExpences', totalExpences);
   userData.expences = totalExpences;
 }
 
@@ -752,7 +745,7 @@ window.onload = () => {
   loadUserData();
   // ServiceFunctions-Start
     // totalExpencesCounter();
-    // userData.gatheredAchievements[3].level = 2;
+    userData.gatheredAchievements[3].level = 2;
     saveUserData();
   // ServiceFunctions-End
   screenSwitcher();
