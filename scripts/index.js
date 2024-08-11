@@ -1,15 +1,17 @@
 // ToDo
 // Achievements
-  // Rewards
+  // Rewards and Popups
 
 // PopUps
-  // Message
   // PassiveOfflineIncome -- Sunday
 
-// Gathering rewards from cards
 // Icons - Sunday
   // Renew
 
+// Animation
+  // Tap
+
+// Later
 // Friends!!
 // Updating Model Safe!!!
 // DataBase??
@@ -50,37 +52,37 @@ function popupClose() {
   popup.classList.add('popup_inactive');
 }
 
+function cardReplacer() {
+  const cards = document.querySelectorAll('.wideCard_type_achievement');
+  cards.forEach((card) => {
+    card.replaceWith(card.cloneNode(true));
+  });
+}
+
 function popupOpen(obj, level) {
-  // console.log('popupOpen');
-
-  // console.log('obj', obj);
-  // console.log('level', level);
-
+  console.log('obj', obj);
+  console.log('level', level);
   const objLevel = obj.levels.find(obj => obj.level === level);
   popup.classList.remove('popup_inactive');
   popup.querySelector('.popup__title').textContent = obj.title;
-  // Add messages to objects
   popup.querySelector('.popup__message').textContent = `${objLevel.description} и получите $${formatNumberWithSpaces(objLevel.effect)}`;
   popup.querySelector('.popup__image').src = objLevel.mainIcon;
   console.log(objLevel.effect);
   const card = document.querySelector(`.wideCard_id_${obj.id}`);
-  const attrValue = card.getAttributeNode('cardhaslistener').value
-  console.log('attrValue', attrValue);
-  popup.querySelector('.popup__button').addEventListener('click', () => {
+  // const listenerAttr = card.getAttributeNode('cardhaslistener').value
+  // console.log('listenerAttr', listenerAttr);
+  const submit = () => {
     achievementGathering(obj, level);
     userData.score = userData.score + objLevel.effect;
-    // const card = document.querySelector(`.wideCard_id_${obj.id}`);
-    // console.log(card.getAttributeNode('cardhaslistener').value);
-
-    card.replaceWith(card.cloneNode(true));
-    card.setAttribute('cardhaslistener', 'false');
-    console.log('attrValue', card.getAttributeNode('cardhaslistener').value);
-
-    // console.log('card', card);
-    // console.log('hasAtt', card.hasAttribute('cardhaslistener'));
-
+    // card.replaceWith(card.cloneNode(true));
+    cardReplacer();
+    // card.getAttributeNode('cardhaslistener').value = false;
+    achievementsLevelCheck();
+    // console.log('attrValue', card.getAttributeNode('cardhaslistener').value);
+    scoreRenderer();
     popupClose();
-  });
+  }
+  popup.querySelector('.popup__button').addEventListener('click', submit, { once: true });
 }
 // --------------- Popup-End ---------------
 
@@ -336,65 +338,66 @@ function levelProgressCounter() {
 //   }
 //   // console.log(userData.achievements[0]);
 // };
+// function attributeSetter() {
+//   achievements.forEach((object) => {
+//     const card = document.querySelector(`.wideCard_id_${object.id}`);
+//     const hasAttrListener = card.hasAttribute('cardhaslistener');
+//     !hasAttrListener && card.setAttribute('cardhaslistener', 'false');
+//     const isClicked = card.hasAttribute('isClicked');
+//     !isClicked && card.setAttribute('isClicked', 'false');
+//   })
+// }
 
 function achievementsLevelCheck() {
   achievements.forEach((object) => {
     const isGathered = userData.gatheredAchievements.some(obj => obj.id === object.id);
-    // console.log('isGathered', isGathered);
-    // console.log('object', object);
 
     const lessArray = object.levels.filter(obj => obj.limit <= userData[object.metric]);
     const lessLimits = [];
     lessArray.forEach((obj) => {
       lessLimits.push(obj.limit);
     });
-    // console.log('lessLimits', lessLimits);
-    // console.log('lessArray', lessArray);
     const userAch = userData.achievements.find(obj => obj.id === object.id);
 
     const card = document.querySelector(`.wideCard_id_${object.id}`);
-    // removeAttributes(card);
-    // card.hasAttribute('cardhaslistener', 'true') && card.removeAttribute('cardhaslistener');
-    let listenerAttr = false;
-    if(card.hasAttribute('cardhaslistener')) {
-      listenerAttr = card.getAttributeNode('cardhaslistener').value;
-    }
+    // let listenerAttr = !card.getAttributeNode('cardhaslistener').value;
+    console.log(card.querySelector('.wideCard__title').textContent);
+    // console.log('listenerAttr', listenerAttr);
+    console.log(typeof listenerAttr);
+
     const handlePopupOpen = () => {
-      // card.setAttribute('cardhaslistener', 'false');
       popupOpen(object, userAch.level);
     }
-    console.log(card.querySelector('.wideCard__title').textContent);
-    console.log('listenerAttr', listenerAttr);
 
     if(lessArray.length) {
       if(!isGathered) {
+        console.log('isGathered', isGathered);
+
         userAch.level = 1;
-        if(!listenerAttr) {
+        // if(listenerAttr === false) {
           card.addEventListener('click', handlePopupOpen);
-          card.setAttribute('cardhaslistener', 'true');
-        }
+          // card.getAttributeNode('cardhaslistener').value = true;
+        // }
       } else {
+        console.log('isGathered', isGathered);
+
         const gatheredLevel = userData.gatheredAchievements.find(obj => obj.id === object.id).level;
         // console.log('gatheredLevel', gatheredLevel);
         const availableLevel = lessArray.find(obj => obj.limit === Math.max(...lessLimits)).level + 1;
         // console.log('availableLevel', availableLevel);
         userAch.level = gatheredLevel;
-        // removeAttributes(card);
         if(gatheredLevel < availableLevel) {
           userAch.level = gatheredLevel + 1;
-          // console.log(card.hasAttribute('cardhaslistener'));
-          // card.setAttribute('cardhaslistener', 'true');
-          if(!listenerAttr) {
+          // if(!listenerAttr) {
             card.addEventListener('click', handlePopupOpen);
-            card.setAttribute('cardhaslistener', 'true');
-          }
+            // card.getAttributeNode('cardhaslistener').value = true;
+          // }
         }
       }
     } else {
       userAch.level = 0;
     }
   });
-  // console.log(userData.achievements);
 };
 
 
@@ -622,6 +625,7 @@ function createWideCards(elem) {
 function createAchievementsCard(elem, level) {
   const levelData = elem.levels.find(obj => obj.level === level);
   const achievementCardElement = wideCardTemplate.cloneNode(true);
+  achievementCardElement.querySelector('.wideCard').classList.add(`wideCard_type_achievement`);
   achievementCardElement.querySelector('.wideCard').classList.add(`wideCard_id_${elem.id}`);
   achievementCardElement.querySelector('.wideCard__icon').src = levelData.mainIcon;
   achievementCardElement.querySelector('.wideCard__title').textContent = elem.title;
@@ -783,6 +787,7 @@ window.onload = () => {
   loadUserData();
   // ServiceFunctions-Start
     // totalExpencesCounter();
+    userData.score = 60000000;
     userData.gatheredAchievements = [];
     saveUserData();
   // ServiceFunctions-End
@@ -805,6 +810,7 @@ window.onload = () => {
   tasksRenderer();
   saveUserData();
   achievementsCardsRenderer();
+  // attributeSetter();
   achievementsLevelCheck();
   achievementsContentRenderer();
 
@@ -815,7 +821,7 @@ window.onload = () => {
     levelProgressCounter();
     scoreRenderer();
     checkUpgradeAvailable();
-    achievementsLevelCheck();
+    // achievementsLevelCheck();
     achievementsContentRenderer();
 
     saveUserData();
