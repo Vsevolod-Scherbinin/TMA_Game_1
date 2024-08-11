@@ -69,16 +69,11 @@ function popupOpen(obj, level) {
   popup.querySelector('.popup__image').src = objLevel.mainIcon;
   console.log(objLevel.effect);
   const card = document.querySelector(`.wideCard_id_${obj.id}`);
-  // const listenerAttr = card.getAttributeNode('cardhaslistener').value
-  // console.log('listenerAttr', listenerAttr);
   const submit = () => {
     achievementGathering(obj, level);
     userData.score = userData.score + objLevel.effect;
-    // card.replaceWith(card.cloneNode(true));
     cardReplacer();
-    // card.getAttributeNode('cardhaslistener').value = false;
     achievementsLevelCheck();
-    // console.log('attrValue', card.getAttributeNode('cardhaslistener').value);
     scoreRenderer();
     popupClose();
   }
