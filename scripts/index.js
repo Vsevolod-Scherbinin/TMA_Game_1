@@ -1,8 +1,5 @@
 // ToDo
 
-// Animation
-  // Tap
-
 // Later
 // Friends!!
 // Updating Model Safe!!!
@@ -829,9 +826,9 @@ window.onload = () => {
   },  1000);
 
   energyRecoveryLooper(true, 'normal');
-  // if(window.Telegram.WebApp.initDataUnsafe.user.first_name !== undefined) {
-  //   nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
-  // }
+  if(window.Telegram.WebApp.initDataUnsafe.user.first_name !== undefined) {
+    nameField.textContent = window.Telegram.WebApp.initDataUnsafe.user.first_name;
+  }
 };
 
 window.addEventListener('beforeunload', (evt) => {
